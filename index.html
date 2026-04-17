@@ -7,110 +7,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="story">
-        <!--
-        Base HTML Template for every path
-        <section id="pathName" class="menuC">
-            <p>Example Text</p>
-            <img src="#" alt="if we want an image add it here">
-            <div class="btnArrangement">
-            <button class="pathName1">Option 1</button>
-            <button class="pathName2">Optoin 2</button>
-            <button class="pathName3">Option 3</button>
-            </div>
-        </section>
-        -->
-        <input type="name">Please enter name</input>
-        <section id="start" class="menuC">
-            <p>You are a peasant, walking around the town square. You live a relatively normal life, with your main focus mainly getting by. However, little do you know, one misstep is about to change that.</p>
-            <p>In the middle of your daily walk to work, you come across a vase. Tired of your boring life, you decide to kick it down. The vase shatters with a loud CLASH, breaking it into an uncountable amount of clay pieces</p>
-            <p>A very furious man sees what you've done and comes to you, shouting. He reveals himself to be Bill Gatesford III, the richest man in the world. He angrily informs you that the vase you had "kicked down like a peasant" was worth one million Talons.</p>
-            <p>The very next day, you are confronted by some shady men. They are the debt collectors, and tell you that you have one week before you have to pay the full million you owe.</p>
-            <img src="#" alt="if we want an image add it here">
-            <div class="btnArrangement">
-            <button class="hardMode">Negotiate with the collectors</button>
-            <button class="oldEncounter">Accept your fate and head outside to make some money</button>
-            <button class="dimensionSwordEnd">Slay the collectors with your dimension sword</button>
-            </div>
-        </section>
-
-        <section id="hardMode" class="menuC">
-            <p>You plead with the collectors. You tell them, "I can't bring a million to you in a week. Please, can you lower the amount - or at least extend the time?"</p>
-            <p>The Collectors do not care. They start adding intrest to your debt. You now owe 1.2 million Talons</p>
-            <p>It would not be wise to plead further</p>
-            <img src="#" alt="if we want an image add it here">
-            <div class="btnArrangement">
-            <button class="oldEncounter">Accept your fate and head outside to make some money</button>
-            </div>
-        </section>
-
-        <section id="oldEncounter" class="menuC">
-            <p>You come across three old men, each of which look very different vibes.</p>
-            <p>The first man seems to be very prideful, and seems well-built. On his belt is a sword, which seems to be ready to strike at any moment.</p>
-            <p>The second man is very sketchy, and is the first to notice you before you even have the opportunity to notice him.</p>
-            <p>The third man seems very unruly. He is not very well-dressed, and has a passionate look in his eyes.</p>
-            <p>The three men seemed to be talking about something so you decide to approach them</p>
-            <p>You tell these men about your predicament. They all listen to your tale and say that they can offer a solution.</p>
-            <p>Who's idea should you consider?</p>
-            <img src="#" alt="if we want an image add it here">
-            <div class="btnArrangement">
-            <button class="prideyMan">Talk to the prideful man</button>
-            <button class="susMan">Talk to the suspicious man</button>
-            <button class="drugAddict">Talk to the passionate man</button>
-            </div>
-        </section>
-
-        <section id="susMan" class="menuC">
-            <p>Example Text</p>
-            <img src="#" alt="if we want an image add it here">
-            <div class="btnArrangement">
-            <button class="embarkCrime">Succumb to greed</button>
-            <button class="prideyMan">talk to the prideful man</button>
-            <button class="drugAddict">Talk to the passionate man</button>
-            </div>
-            <section id="TIMEFORCRIME" class="MenuD">
-                <p>the suspicous man leads you to an abandoned building here inside rest many of goons who look like they could kill you with a looks</p>
-                <p>You get lead to a room that is dripped out in gold and diamonds making it look glorious and then a desk with a chair that's turned around</p>
-                <p>The boss speaks "Welcome to our crew, I hear you need help paying off your debt" he spins around, the man is dressed luxuriously "I can help you but to do so you have to do some questionable things, i hope you are okay with this"</p>
-                <p>you hesitantly </p>
-            </section>
-
-        </section>
-
-        <section id="drugAddict" class="menuC">
-            <p>Example Text</p>
-            <img src="#" alt="if we want an image add it here">
-            <div class="btnArrangement">
-            <button class="emabrkGambling">LETS GO GAMBLING</button>
-            <button class="susMan">Talk to suspicious man</button>
-            <button class="prideyMan">Talk to prideful man</button>
-            </div>
-            <section id="LETSGOGAMBLING" class="MenuE">
-                <p>You head off to the casino not knowing what is yet to come</p>
-                <p>when you enter you greeted by the sight of machines and tables, its noisy, and smells like cigarettes but it'll have to do</p>
-                <p>You walk through the building trying to find where to play when you come across a table that looks like god is shining upon it</p>
-                <p>"its so beautiful" you mutter, it sounds like angels are singing and then you sit down</p>
-                <p>and so the game begins</p>
-                <button class="hit">Hit</button>
-                <button class="double">Double</button>
-                <button class="stand">Stand</button>
-            </section>
-        </section>
-
-
-        <section id="prideyMan" class="menuC">
-            <p>The old man gives you some advice: If you want to make some money fast, head over to the Colusseum over at Nexdor, the neighboring town. The reward? Any wish that you want granted.</p>
-            <p>However risky you think it'll be, it may be one of your only chances to clear your debt.</p>
-            <p>Should you commit to a path of glory?</p>
-            <img src="#" alt="if we want an image add it here">
-            <div class="btnArrangement">
-            <button class="emabrkTournament">Commit to Glory</button>
-            <button class="susMan">Talk to the suspicous man</button>
-            <button class="drugAddict">Talk to the passionate man</button>
-            </div>
-
-            <section id="emabrkTournament" class="menuC">
-                <p>You take the sword from the old man, grateful</p>
+    <div id="section1">
+    <div id="stats">
+        <div id="healhCount">
+            <p>Health: <span class="health"></span><progress class="healthBar"></progress></p>
+        </div>
+        <div id="energyCount">
+            <p>Energy: <span class="energy"></span><progress class="energyBar"></progress></p>
+        </div>
+        <div id="talonCount">
+            <p>Talons: ᛤ<span class="talons"></span></p>
+        </div>
+    </div>
+        <div id="story">
+            <!--
+            Base HTML Template for every path
+            <section id="pathName" class="menuC">
+                <p>Example Text</p>
                 <img src="#" alt="if we want an image add it here">
                 <div class="btnArrangement">
                 <button class="pathName1">Option 1</button>
@@ -118,16 +31,251 @@
                 <button class="pathName3">Option 3</button>
                 </div>
             </section>
-
-
-            <section id="ITSBATTLETIME" class="MenuB"> <!--Use JS to add a class using the current battle context. Make sure to remove the class when its done-->
-                <p>What will <span class="name">you</span> do?</p>
-                <button class="attack red">Attack</button>
-                <button class="defend blue">Defend</button>
-                <button class="heal green">Heal (<span id="Ecost"></span> energy)</button>
+            -->
+            <input type="name">Please enter name</input>
+            <section id="start" class="menuC">
+                <p>You are a peasant, walking around the town square. You live a relatively normal life, with your main focus mainly getting by. However, little do you know, one misstep is about to change that.</p>
+                <p>In the middle of your daily walk to work, you come across a vase. Tired of your boring life, you decide to kick it down. The vase shatters with a loud CLASH, breaking it into an uncountable amount of clay pieces</p>
+                <p>A very furious man sees what you've done and comes to you, shouting. He reveals himself to be Bill Gatesford III, the richest man in the world. He angrily informs you that the vase you had "kicked down like a peasant" was worth one million Talons.</p>
+                <p>The very next day, you are confronted by some shady men. They are the debt collectors, and tell you that you have one week before you have to pay the full million you owe.</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="hardMode">Negotiate with the collectors</button>
+                <button class="oldEncounter">Accept your fate and head outside to make some money</button>
+                <button class="dimensionSwordEnd">Slay the collectors with your dimension sword</button>
+                </div>
             </section>
-        </section>
-    <button class="log">View Log</button></div>
+
+            <section id="hardMode" class="menuC">
+                <p>You plead with the collectors. You tell them, "I can't bring a million to you in a week. Please, can you lower the amount - or at least extend the time?"</p>
+                <p>The Collectors do not care. They start adding intrest to your debt. You now owe 1.2 million Talons</p>
+                <p>It would not be wise to plead further</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="oldEncounter">Accept your fate and head outside to make some money</button>
+                </div>
+            </section>
+
+            <section id="oldEncounter" class="menuC">
+                <p>You come across three old men, each of which look very different vibes.</p>
+                <p>The first man seems to be very prideful, and seems well-built. On his belt is a sword, which seems to be ready to strike at any moment.</p>
+                <p>The second man is very sketchy, and is the first to notice you before you even have the opportunity to notice him.</p>
+                <p>The third man seems very unruly. He is not very well-dressed, and has a passionate look in his eyes.</p>
+                <p>The three men seemed to be talking about something so you decide to approach them</p>
+                <p>You tell these men about your predicament. They all listen to your tale and say that they can offer a solution.</p>
+                <p>Who's idea should you consider?</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="prideyMan">Talk to the prideful man</button>
+                <button class="susMan">Talk to the suspicious man</button>
+                <button class="drugAddict">Talk to the passionate man</button>
+                </div>
+            </section>
+
+            <section id="susMan" class="menuC">
+                <p>Example Text</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="embarkCrime">Succumb to greed</button>
+                <button class="prideyMan">talk to the prideful man</button>
+                <button class="drugAddict">Talk to the passionate man</button>
+                </div>
+                <section id="TIMEFORCRIME" class="MenuD">
+                    <p>the suspicous man leads you to an abandoned building here inside rest many of goons who look like they could kill you with a looks</p>
+                    <p>You get lead to a room that is dripped out in gold and diamonds making it look glorious and then a desk with a chair that's turned around</p>
+                    <p>The boss speaks "Welcome to our crew, I hear you need help paying off your debt" he spins around, the man is dressed luxuriously "I can help you but to do so you have to do some questionable things, i hope you are okay with this"</p>
+                    <p>you hesitantly </p>
+                </section>
+
+            </section>
+
+            <section id="drugAddict" class="menuC">
+                <p>Example Text</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="emabrkGambling">LETS GO GAMBLING</button>
+                <button class="susMan">Talk to suspicious man</button>
+                <button class="prideyMan">Talk to prideful man</button>
+                </div>
+                <section id="LETSGOGAMBLING" class="MenuE">
+                    <p>You head off to the casino not knowing what is yet to come</p>
+                    <p>when you enter you greeted by the sight of machines and tables, its noisy, and smells like cigarettes but it'll have to do</p>
+                    <p>You walk through the building trying to find where to play when you come across a table that looks like god is shining upon it</p>
+                    <p>"its so beautiful" you mutter, it sounds like angels are singing and then you sit down</p>
+                    <p>and so the game begins</p>
+                    <button class="hit">Hit</button>
+                    <button class="double">Double</button>
+                    <button class="stand">Stand</button>
+                </section>
+            </section>
+
+
+            <section id="prideyMan" class="menuC">
+                <p>The old man gives you some advice: If you want to make some money fast, head over to the Colusseum over at Nexdor, the neighboring town. The reward? Any wish that you want granted.</p>
+                <p>However risky you think it'll be, it may be one of your only chances to clear your debt.</p>
+                <p>Should you commit to a path of glory?</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="emabrkTournament">Commit to Glory</button>
+                <button class="susMan">Talk to the suspicous man</button>
+                <button class="drugAddict">Talk to the passionate man</button>
+                </div>
+
+                <section id="emabrkTournament" class="menuC">
+                    <p>You take the sword from the old man, grateful for his assistance. You embark on your journey, eager to fight away your debt.</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="pathNexdor">Next</button>
+                    </div>
+                </section>
+
+                <section id="pathNexdor" class="menuC">
+                    <p>On your path, you encounter a very shady figure. He wears a hood, and keeps his head low to avoid attention.</p>
+                    <p>Suddenly, the suspicous man attacks! You are taken aback, but you now have a weapon to defend yourself.</p>
+                    <p>You ready yourself. If you can't defeat this street punk, then how can you be ready to win the tournament?</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="ITSBATTLETIME" id="banditNexdor">Fight!</button>
+                    </div>
+                </section>
+
+                <section id="banditNexdorWin" class="menuC">
+                    <p>The bandit, scared for his life, flees from the scene as fast as he can.</p>
+                    <p>In his escape, he left some "borrowed" goods behind.</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="banditNexdorTake">"Borrow" his goods</button>
+                    </div>
+                </section> 
+
+                <section id="banditNexdorTake" class="menuC">
+                    <p>You take what wasn't yours, but it also wasn't his to begin with, so it balances you.</p>
+                    <p>You recieved 500 talons and a worn chestplate.</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="nexdorWelcome">Finish your trip to Nexdor</button>
+                    </div>
+                </section>
+
+                <section id="nexdorWelcome" class="menuC">
+                    <p>After a somewhat rough trip to Nexdor, you've made it.</p>
+                    <p>The gates swing open, and you are greeted with people who are busily bustling around.</p>
+                    <p>You don't have much time to absorb the atmosphere. It's almost sundown, and you need to find an inn to properly rest for the tournament tommorow.</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="innList">Look into your options</button>
+                    </div>
+                </section>
+
+                <section id="innList" class="menuC">
+                    <p>After looking around, you find 3 inns of note and varying quality.</p>
+                    <p>The first inn is ShodInn, an inn that is suffering from severe rodent problems. The price is dirt cheap, but it won't gurentee a good night of sleep</p>
+                    <p>The second inn, InnInn, seems pretty basic, but it doseen't cost a whole lot to stay there.</p>
+                    <p>The third inn, Luxre-Inn, is renouned for it's luxury. It'll cost you everything you have, but it would be well worth the price.</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="shodInn">Sleep at ShodInn (20 talons)</button>
+                    <button class="innInn">Sleep at InnInn (150 talons)</button>
+                    <button class="luxuryInn">Sleep at ShodInn (500 talons)</button>
+                    </div>
+                </section>
+
+                <section id="shodInn" class="menuC">
+                    <p>The floors of your room are moldy and rotten. The leak on the ceiling distracts you from the familily of rats scattering about.</p>
+                    <p>The rats seem harmless if you don't bother them, but it's still hard to sleep with them scattering about.</p>
+                    <p>Exterminate the rats?</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="ITSBATTLETIME" id="rats">EXTERMINATE</button>
+                    <button class="sleepShod">I don't get paid enough for this</button>
+                    </div>
+                </section>
+
+                <section id="ratsWin" class="menuC">
+                    <p>The rats have been exterminated. You have earned your victory nap.</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="sleepGooderShod">Claim your well-earned rest on the solid mattress</button>
+                    </div>
+                </section>
+
+                <section id="sleepShod" class="menuC">
+                    <p>You go to bed, constantly being tormented by the small squeaks and shuffles across the floor.</p>
+                    <p>They never physically harm you, but you feel thier presence mentally.</p>
+                    <p>You wake up in the most unstable mental state you've ever been in (-15 health).</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="tournReception">Head over to the tournament</button>
+                    </div>
+                </section>
+
+                <section id="innInn" class="menuC">
+                    <p>Your room is suprisingly comftorable, with your bed being soft on your back. Before you can fall asleep, someone knocks on your door. It's the room service.</p>
+                    <p>They came up to check if everything was alright, and after confirming, offer you the option for breakfast in the morning. For a mere 100 talons, you can have a high-protien meal.</p>
+                    <p>Eating some good food before battle would definitely be a good idea. Do you buy next morning's breakfast?</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="innBreakfast">Buy Breakfast (-100 talons)</button>
+                    <button class="innSleep">Reject the offer and go to bed</button>
+                    </div>
+                </section>
+
+                <section id="innBreakfast" class="menuC">
+                    <p>You wake up to the sound of knocking at your door. It's room service, with your hearty protien rich breakfast, scrabled eggs with a side of a 30-pound steak.</p>
+                    <p>It takes around 7 minutes to eat it all. Once you take your last bite, you are ready to head out.</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="tournReception">Fight for a protien-filled future</button>
+                    </div>
+                </section>
+
+                <section id="pathName" class="menuC">
+                    <p>Example Text</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="pathName1">Option 1</button>
+                    <button class="pathName2">Optoin 2</button>
+                    <button class="pathName3">Option 3</button>
+                    </div>
+                </section>
+
+
+                <section id="luxuryInn" class="menuC">
+                    <p>The </p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="pathName1">Option 1</button>
+                    <button class="pathName2">Optoin 2</button>
+                    <button class="pathName3">Option 3</button>
+                    </div>
+                </section>
+
+                <!-- IMPORTANT: WHEN YOU WANT TO TRANSITION FROM A BATTLE TO A SCENE, MAKE THE SCENE NAME (buttonIdWin) -->
+                <section id="ITSBATTLETIME" class="MenuC"> <!--Use JS to add a class using the current battle context. Make sure to remove the class when its done-->
+                    <div id="textStuff">
+                        <span class="commentary"></span>
+                        <span class="commentary2"></span>
+                        <p>What will <span class="name">you</span> do?</p>
+                    </div> 
+                    <div id="actions">
+                        <button class="attack red">Attack</button>
+                        <button class="defend blue">Defend</button>
+                        <button class="heal green">Heal (<span id="Ecost"></span> energy)</button>
+                    </div>
+                <div id="yu">
+                    <span class="name"></span>
+                    <img src="#" alt="It's you!"> <!--DO NOT FORGET TO REPLACE THIS IMAGE-->
+                    <p>Health: <span class="health"></span><progress class="healthBar"></progress></p>
+                    <p>Energy: <span class="health"></span><progress class="energyBar"></progress></p>
+                </div>
+                <div id="theenemy!">
+                    <!-- use javascript to fill this section in  -->
+                </div>
+                </section>
+            </section>
+        <button class="log">View Log</button>
+        </div>
+    </div>
 <script src="pathchoices.js"></script>
 </body>
 </html>
