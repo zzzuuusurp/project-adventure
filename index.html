@@ -222,6 +222,7 @@
 
                 <section id="innBreakfast" class="menuC">
                     <p>You wake up to the sound of knocking at your door. It's room service, with your hearty protien rich breakfast, scrabled eggs with a side of a 30-pound steak.</p>
+		    <p>Suprisingly, it was one of the best things you have ever had. (+10 hp and energy)</p>
                     <p>It takes around 7 minutes to eat it all. Once you take your last bite, you are ready to head out.</p>
                     <img src="#" alt="if we want an image add it here">
                     <div class="btnArrangement">
@@ -229,26 +230,125 @@
                     </div>
                 </section>
 
-                <section id="pathName" class="menuC">
-                    <p>Example Text</p>
+                <section id="innSleep" class="menuC">
+                    <p>You wake up, feeling somewhat refreshed. Although hungry, you can always just get food later.</p>
+		            <p>All that's left now is to just go to the colosseum where they'll hold the tourney</p>
                     <img src="#" alt="if we want an image add it here">
                     <div class="btnArrangement">
-                    <button class="pathName1">Option 1</button>
-                    <button class="pathName2">Optoin 2</button>
-                    <button class="pathName3">Option 3</button>
+                    <button class="tournReception">Head over to the Colosseum</button>
                     </div>
                 </section>
 
 
                 <section id="luxuryInn" class="menuC">
-                    <p>The </p>
+                    <p>You enter your room. The edge of the floor and walls shine with golden textures. The bed is so absorbant you almost fall asleep on the spot testing it out.</p>
+                    <p>Even better, they serve breakfast in the mornings for free! Although you'll have to get out of bed early to get it, it's likely worth it.</p>
+                    <p>Will you prioritize sleep or health?</p>
                     <img src="#" alt="if we want an image add it here">
                     <div class="btnArrangement">
-                    <button class="pathName1">Option 1</button>
-                    <button class="pathName2">Optoin 2</button>
-                    <button class="pathName3">Option 3</button>
+                    <button class="getSleep">Sleep</button>
+                    <button class="getFood">Health</button>
                     </div>
                 </section>
+
+                <section id="getSleep" class="menuC">
+                <p>You decide to go to bed, hoping to get more rest before your eventual slog to the tournament.</p>
+                <p>As you woke up, you dont know excactly how much time had passed. What you do know, however, was that you feel amazing!</p>
+                <p>(You gained 30 health and 10 energy)</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="tournReception">Head over to the tournament</button>
+                </div>
+            </section>
+
+		        <section id="getFood" class="menuC">
+                    <p>You wake up, feeling anguished over the parting of a couple more hours of rest.</p>
+                    <p>However, all is completley forgotten as you find absolute luxury: An all-you-can-eat buffet!</p>
+                    <p>Seeing all of this food around you makes you feel greed. However, remembering why you came here in the first place, you come to a greater realization:</p>
+                    <p>You could resell this food to peasants to make more money</p>
+                    <p>Although it won't clear you of your debt, it could fund your eventual need to go to a shop. This Inn did cost a pretty penny, after all.</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="foodScalper">Resell food to suckers</button>
+                    <button class="buffetTime">Just eat the food you paid for</button>
+                    </div>
+            	</section>
+
+                <section id="foodScalper" class="menuC">
+                    <p>You are ready to set your new plan in action. You rush over to the best-looking food you could find, and snatched it right away, right out eyeshot of any staff who may cause a conflict with your plans.</p>
+                    <p>The bag is starting to get full, but still has room for more food. Do you dare risk it all for some more free food?</p>
+                    <img src="#" alt="if we want an image add it here">
+                    <div class="btnArrangement">
+                    <button class="pushyScalper">MORE GOODS!</button>
+                    <button class="tournReception">Flee before you get caught</button>
+                    </div>
+                </section>
+
+                <section id="pushyScalper" class="menuC">
+                <p>You gobbled up more and more food into your food whole (backpack). Unfortanately for you, the staff has caught on!</p>
+                <p>The Head Chef, furious over your disrespect of the buffet culture, is ready to lunge at you!</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="ITSBATTLETIME" id="headChef">Fight the chef!</button>
+                </div>
+            </section>
+
+            <section id="heafChefWin" class="menuC">
+                <p>You have successfully beat up the "top dawg" of this hotel's buffet. Unfortanately, this does mean you are now banned for life.</p>
+                <p>You leave the hotel, and come across some homeless-looking guys. You are successfully able to pawn off your plundered luxury food for thier entire life savings.</p>
+                <p>(You recieved 600 talons.)</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="tournReception">Head over to the tournament</button>
+                </div>
+            </section>
+                
+            <section id="buffetTime" class="menuC">
+                <p>You gorge yourself on the varying qualities of food they had to offer. For all you know, this might be your last meal, so might as well enjoy yourself.</p>
+                <p>By the time your feeding rampage was over, you felt refreshed beyond compare.</p>
+                <p>(You gained 30 energy and 10 health)</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="tournReception">Head over to the tournament</button>
+                </div>
+            </section>
+
+            <section id="tournReception" class="menuC">
+                <p>You head over to the collosseum. It's very large, and imposes itself at the center of the town.</p>
+                <p>At the front of the entrance is a small table, with a guide sitting there helping others.</p>
+                <p>You go up to the guide, who explains the rules to you:</p>
+                <p><ol>
+                    <li>You will face off against 4 opponents in total</li>
+                    <li>You may plunder the loser's pockets for talons</li>
+                    <li>After a win, you can use one of your limited heals, visit the shop, and wait for your next opponent to finish up.</li>
+                    <li>If you lose a match, you are out!</li>
+                </ol></p>
+                <p>Are you ready for your first battle</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="preBattle1">Go fight your first opponent!</button>
+                <button class="SHOPTIME" id="preBattle1">Make a quick stop at the shop</button>
+                </div>
+            </section>
+
+            <section id="pathName" class="menuC">
+                <p>Example Text</p>
+                <img src="#" alt="if we want an image add it here">
+                <div class="btnArrangement">
+                <button class="pathName1">Option 1</button>
+                <button class="pathName2">Optoin 2</button>
+                <button class="pathName3">Option 3</button>
+                </div>
+            </section>
+
+
+            <section id="SHOPTIME" class="menuC">
+                <h2>Shop</h2>
+                <div id="catalogue"></div> <!--Use JS to add items, which could depend on what kind event triggered the shop-->
+                <div class="btnArrangement">
+                <button class="leaveShop">Leave</button> <!--transfer will depend on the ID of the shop button-->
+                </div>
+            </section>
 
                 <!-- IMPORTANT: WHEN YOU WANT TO TRANSITION FROM A BATTLE TO A SCENE, MAKE THE SCENE NAME (buttonIdWin) -->
                 <section id="ITSBATTLETIME" class="MenuC"> <!--Use JS to add a class using the current battle context. Make sure to remove the class when its done-->
