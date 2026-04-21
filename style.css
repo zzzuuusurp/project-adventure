@@ -10,6 +10,7 @@ body {
     color: var(--amethyst);
     font-style: oblique;
     font-family: Andale Mono, monospace;
+    background-image: url();
 }
 
 .menuC {
