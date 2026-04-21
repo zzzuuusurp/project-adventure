@@ -16,6 +16,7 @@ body {
     width: 80%;
     justify-self: center;
     background-color: #ffffff55;
+    visibility: hidden;
 }
 
 .menuC button {
@@ -35,4 +36,8 @@ body {
 
 .btn-arrangement {
     display: flex;
+}
+
+.active {
+    visibility: visible;
 }
