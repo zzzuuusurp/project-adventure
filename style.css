@@ -20,7 +20,10 @@ body {
     visibility: hidden;
 }
 
-.menuC button {
+.btn-arrangement {
+    display: flex;
+}
+.btnArrangement button {
     background-color: var(--amethyst);
     color: var(--white);
     padding: 3px 5px;
@@ -28,17 +31,18 @@ body {
     border-radius: 20px;
 }
 
-.menuC button:hover {
+.btnArrangement button:hover {
     background-color: var(--white);
     color: var(--amethyst);
     border: 1px solid var(--amethyst);
     cursor: crosshair;
 }
 
-.btn-arrangement {
-    display: flex;
-}
+
 
 .active {
     visibility: visible;
+    width: 80%;
+    justify-self: center;
+    background-color: #ffffff55;
 }
