@@ -10,8 +10,12 @@ function movePaths(choice) {
     console.log(currentPath);
     //saving the text and images for the log
     const newLog = document.createElement('section');
-    const pee = currentPath.querySelectorAll('p') || false;
-    const imgee = currentPath.querySelectorAll('img') || false;
+    if (currentPath.querySelectorAll('p')[0]) {
+        const pee = currentPath.querySelectorAll('p') || false;
+    }
+    if (currentPath.querySelectorAll('img')) {
+        const imgee = currentPath.querySelectorAll('img') || false;
+    }
     if (pee != false) {
         for (p in pee) {
             newLog.appendChild(p);
