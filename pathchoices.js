@@ -70,14 +70,14 @@ const encounterList = [
 ]
 
 
-function updateBars(HP, H, EP, E, T) {
-    healthCount.innerHTML = `${H} / ${HP}`;
-    energyCount.innerHTML = `${E} / ${EP}`;
-    healthBar.max = HP;
-    healthBar.value = H;
-    energyBar.max = EP;
+function updateBars() {
+    healthCount.innerHTML = `${hp} / ${maxhp}`;
+    energyCount.innerHTML = `${E} / ${maxE}`;
+    healthBar.max = maxhp;
+    healthBar.value = hp;
+    energyBar.max = maxE;
     energyBar.value = E;
-    talons.innerHTML = `${T}`;
+    talons.innerHTML = `${talons}`;
 }
 
 

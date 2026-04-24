@@ -11,13 +11,13 @@ body {
     font-style: oblique;
     font-family: Andale Mono, monospace;
     background-image: url(stupidimages/Background.png);
-    background-size: 100vw auto;
+    background-size: auto 100vw;
     background-repeat: no-repeat;
     padding: 0px;
     margin: 0px;
 }
 
-
+#currentSection
 
 #ancientNews {
     height: 0vh;
@@ -38,7 +38,7 @@ body {
 }
 
 nav {
-    height: 10vw;
+    height: 5vh;
     background-color: var(--emerald);
 }
 
@@ -68,7 +68,10 @@ nav {
 
 .active {
     visibility: visible;
-    width: 80%;
+    width: 95%;
+    height: 70%;
     justify-self: center;
-    background-color: #ffffff55;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
 }
