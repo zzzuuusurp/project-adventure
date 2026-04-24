@@ -30,16 +30,18 @@ let name = "Guy";
 let elic = "pizza";
 
 //list of STATS for COOL AND INTIMIDATING ENEMIES
-const currentEnemy = {
+let currentEnemy = {}
 
-}
+
+
 const encounterList = [
     {
         name: 'Robber',
         image: '#',
         alt: 'An enemy robber!',
         maxHp:
-    }
+    }, 
+
 ]
 
 
@@ -115,12 +117,18 @@ function defend(defStatus, status, name) {
     status.innerHTML = `${name} is on guard.`
 }
 
-function heal(energy, status, Hp) {
-
+function heal(energy, healCost, status, Hp, name, luck) {
+    if (energy < healCost) {
+        status.innerHTML = `${name} tried to heal. But it failed!`;
+    }
+    else if (energy >= healCost) {
+        healAmount = (Math.round(Math.random() * 5 * luck));
+        Hp += healAmount;
+        status.innerHTML = `${name} tried to heal. ${healCost} health healed!`;
+    };
 }
 
 
-//do work later
 
 start();
 // event listeners

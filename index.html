@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav>
+        <!-- this dosent really do anything except look cool  -->
+    </nav>
+    <div id="bigArrange">
     <div id="section1">
     <div id="stats">
         <div id="healhCount">
@@ -19,10 +23,6 @@
             <p>Talons: ᛤ<span class="talons"></span></p>
         </div>
     </div>
-        <div id="story">
-            <div id="currentSection">
-                <!-- use js and append the current child here -->
-            </div>
             <!--
             Base HTML Template for every path
             <section id="pathName" class="menuC">
@@ -34,7 +34,59 @@
                 </div>
             </section>
             -->
+        <div id="story">
+            <div id="currentSection">
+                <!-- use js and append the current child here -->
+            </div>
+        </div>
+
+
+
+            <!-- old stuff that dosent matter cause its HIDDEN -->
             <div id="ancientNews">
+
+            
+            <!-- IMPORTANT: WHEN YOU WANT TO TRANSITION FROM A BATTLE TO A SCENE, MAKE THE SCENE NAME (buttonIdWin) -->
+            <section id="ITSBATTLETIME" class="MenuC"> <!--Use JS to add a class using the current battle context. Make sure to remove the class when its done-->
+                <div id="textStuff">
+                    <span class="commentary"></span>
+                    <span class="commentary2"></span>
+                    <p>What will <span class="name">you</span> do?</p>
+                </div> 
+                <div id="actions">
+                    <button class="attack">Attack</button>
+                    <button class="defend">Defend</button>
+                    <button class="heal">Heal (<span id="Ecost"></span> energy)</button>
+                </div>
+            <div id="yu">
+                <span class="name"></span>
+                <img src="stupidimages/THESWORD.png" alt="It's you!"> <!--DO NOT FORGET TO REPLACE THIS IMAGE-->
+                <p>Health: <span class="health"></span><progress class="healthBar"></progress></p>
+                <p>Energy: <span class="health"></span><progress class="energyBar"></progress></p>
+            </div>
+            <div id="theenemy!">
+                <!-- use javascript to fill this section in  -->
+            </div>
+            </section>
+
+
+            <section id="SHOPTIME" class="menuC">
+                <h2>Shop</h2>
+                <div id="catalogue"></div> <!--Use JS to add items, which could depend on what kind event triggered the shop-->
+                <div class="btnArrangement">
+                <button class="leaveShop">Leave</button> <!--transfer will depend on the ID of the shop button-->
+                </div>
+            </section>
+
+
+            <section id="results" class="menuC">
+                <h2>Final Results</h2>
+                <section id="achievements"></section>
+                <!-- use js to fill this out with everything you've done -->
+                <button class="path start">Return to where it all began</button>
+            </section>
+            
+
             <section id="enterName" class="menuC">
             <label for="name">Enter your name, peasant.</label>
             <input type="text" placeholder="Guy" id="nameEnterer" name="name"></input>
@@ -598,46 +650,13 @@
                 <button class="path results">View results</button>
                 </div>
             </section>
-        </div>
+            </div>
+            </div>
+            </div>
+            <div id='inventory'></div>
 
-            <section id="SHOPTIME" class="menuC">
-                <h2>Shop</h2>
-                <div id="catalogue"></div> <!--Use JS to add items, which could depend on what kind event triggered the shop-->
-                <div class="btnArrangement">
-                <button class="leaveShop">Leave</button> <!--transfer will depend on the ID of the shop button-->
-                </div>
-            </section>
-
-                <!-- IMPORTANT: WHEN YOU WANT TO TRANSITION FROM A BATTLE TO A SCENE, MAKE THE SCENE NAME (buttonIdWin) -->
-                <section id="ITSBATTLETIME" class="MenuC"> <!--Use JS to add a class using the current battle context. Make sure to remove the class when its done-->
-                    <div id="textStuff">
-                        <span class="commentary"></span>
-                        <span class="commentary2"></span>
-                        <p>What will <span class="name">you</span> do?</p>
-                    </div> 
-                    <div id="actions">
-                        <button class="attack">Attack</button>
-                        <button class="defend">Defend</button>
-                        <button class="heal">Heal (<span id="Ecost"></span> energy)</button>
-                    </div>
-                <div id="yu">
-                    <span class="name"></span>
-                    <img src="stupidimages/THESWORD.png" alt="It's you!"> <!--DO NOT FORGET TO REPLACE THIS IMAGE-->
-                    <p>Health: <span class="health"></span><progress class="healthBar"></progress></p>
-                    <p>Energy: <span class="health"></span><progress class="energyBar"></progress></p>
-                </div>
-                <div id="theenemy!">
-                    <!-- use javascript to fill this section in  -->
-                </div>
-                </section>
-                <section id="results">
-                    <h2>Final Results</h2>
-                    <!-- use js to fill this out with everything you've done -->
-                     <button class="path start">Return to where it all began</button>
-                </section>
-            </section>
+            
         <button class="path log">View Log</button>
-        </div>
     </div>
 <script src="pathchoices.js"></script>
 <script src="stats.js"></script>
