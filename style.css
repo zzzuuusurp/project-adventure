@@ -11,6 +11,7 @@ body {
     font-style: oblique;
     font-family: Andale Mono, monospace;
     background-image: url(stupidimages/Background.png);
+    background-size: 100vw auto;
     background-repeat: no-repeat;
 }
 

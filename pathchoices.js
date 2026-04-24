@@ -14,7 +14,33 @@ const enterName = document.getElementsByClassName('path start')[0];
 const atkBtn = document.getElementsByClassName('attack')[0];
 const defBtn = document.getElementsByClassName('defend')[0];
 const healBtn = document.getElementsByClassName('heal')[0];
+const konamiCode = ['arrowUp', 'arrowUp', 'arrowDown', 'arrowDown', 'arrowLeft', 'arrowRight', 'arrowLeft', 'arrowRight', 'b', 'a' ]
 //button structure: button.path.OTHERCLASSNAME
+let konamiPosition = 0
+
+document.addEventListener ('keydown', function(e) {
+
+if (e.key === konamiCode[konamiPosition]) {
+    konamiPosition++;
+}
+if (konamiPosition === konamiCode.length) {
+    activateComicSans();
+    konamiPosition = 0
+}
+else{
+    konamiPosition = 0
+}
+})
+
+function activateComicSans() {
+    const style = document.createElement('style');
+    style.textContent = `
+      * {
+        font-family: "Comic Sans MS", "Comic Sans", cursive !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }  
 
 //EPIC AND AWESOME stats
 let maxhp = 100;
@@ -38,7 +64,7 @@ const encounterList = [
         name: 'Robber',
         image: '#',
         alt: 'An enemy robber!',
-        maxHp:
+        maxHp: 100,
     }
 ]
 
