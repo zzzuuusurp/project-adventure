@@ -11,30 +11,34 @@ body {
     font-style: oblique;
     font-family: Andale Mono, monospace;
     background-image: url(stupidimages/Background.png);
-    background-size: auto 100vw;
+    background-size: auto 100vh;
     background-repeat: no-repeat;
     padding: 0px;
     margin: 0px;
+    overflow-y: hidden;
 }
 
+#bigArrange {
+    display: flex;
+    justify-content: space-between;
+}
 
-
-#ancientNews {
-    height: 0vh;
-    overflow: hidden;
-    /* KILLS OFF the EVIL stuff that hides */
+#story {
+    background-color: #ffffff7c;
+    padding: 7px;
 }
 
 #section1 {
-    width: 80vw;
-    height: 100%;
+    width: 75vw;
+    height: 95vh;
     border: 1px solid var(--red);
     padding: 5px;
 }
 
 #inventory {
     background-color: var(--brown);
-    width: 20%;
+    height: 95vh;
+    width: 15vw;
 }
 
 nav {
@@ -46,6 +50,18 @@ nav {
     background-color: #ffffffad ;
 }
 
+#log {
+    background-color: var(--brown);
+    color: var(--white);
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+    margin-top: 10px;
+    border-radius: 20px;
+    width: 200px;
+    height: 55px;
+    font-size: 25px;
+}
 .btn-arrangement {
     display: flex;
 }
@@ -62,16 +78,4 @@ nav {
     color: var(--amethyst);
     border: 1px solid var(--amethyst);
     cursor: crosshair;
-}
-
-
-
-.active {
-    visibility: visible;
-    width: 95%;
-    height: 70%;
-    justify-self: center;
-    background-color: var(--white);
-    display: flex;
-    flex-direction: column;
 }
