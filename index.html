@@ -33,130 +33,21 @@
                 </div>
             </section>
             -->
-        <div id="story">
-            <div id="currentSection">
-                <!-- use js and append the current child here -->
-            </div>
+        <div id='story'>
+            <section id="enterName" class="menuC">
+                <div>
+                <label for="name">Enter your name, peasant.</label>
+                <input type="text" placeholder="Guy" id="nameEnterer" name="name"></input>
+                </div>
+                <div class="btnArrangement"></div>
+                <button id="enterName">Start your adventure!</button>
+            </section> 
+            <!-- fills with js -->
         </div>
 
 
-
-<!-- old stuff that dosent matter cause its HIDDEN -->
-<div id="ancientNews">
-
-<!-- IMPORTANT: WHEN YOU WANT TO TRANSITION FROM A BATTLE TO A SCENE, MAKE THE SCENE NAME (buttonIdWin) -->
-<section id="ITSBATTLETIME" class="MenuC"> <!--Use JS to add a class using the current battle context. Make sure to remove the class when its done-->
-    <div id="textStuff">
-        <span class="commentary"></span>
-        <span class="commentary2"></span>
-        <p>What will <span class="name">you</span> do?</p>
-    </div> 
-    <div id="actions">
-        <button class="attack">Attack</button>
-        <button class="defend">Defend</button>
-        <button class="heal">Heal (<span id="Ecost"></span> energy)</button>
-    </div>
-<div id="yu">
-    <span class="name"></span>
-    <img src="stupidimages/THESWORD.png" alt="It's you!"> <!--DO NOT FORGET TO REPLACE THIS IMAGE-->
-    <p>Health: <span class="health"></span><progress class="healthBar"></progress></p>
-    <p>Energy: <span class="health"></span><progress class="energyBar"></progress></p>
-</div>
-<div id="theenemy!">
-    <!-- use javascript to fill this section in  -->
-</div>
-</section>
-
-
-<section id="SHOPTIME" class="menuC">
-    <h2>Shop</h2>
-    <div id="catalogue"></div> <!--Use JS to add items, which could depend on what kind event triggered the shop-->
-    <div class="btnArrangement">
-    <button class="leaveShop">Leave</button> <!--transfer will depend on the ID of the shop button-->
-    </div>
-</section>
-
-
-<section id="results" class="menuC">
-    <h2>Final Results</h2>
-    <section id="achievements"></section>
-    <!-- use js to fill this out with everything you've done -->
-    <button class="path start">Return to where it all began</button>
-</section>
-
-
-<section id="enterName" class="menuC">
-    <label for="name">Enter your name, peasant.</label>
-    <input type="text" placeholder="Guy" id="nameEnterer" name="name"></input>
-    <div class="btnArrangement"></div>
-    <button class="path start">Start your adventure!</button>
-</section> 
-
-
-<section id="susMan" class="menuC">
-    <p>Example Text</p>
-    <!--<img src='#' alt='example image'>-->
-    <div class="btnArrangement">
-    <button class="path embarkCrime">Succumb to greed</button>
-    <button class="path prideyMan">talk to the prideful man</button>
-    <button class="path drugAddict">Talk to the passionate man</button>
-    </div>
-    <section id="TIMEFORCRIME" class="MenuD">
-        <p>the suspicous man leads you to an abandoned building here inside rest many of goons who look like they could kill you with a looks</p>
-        <p>You get lead to a room that is dripped out in gold and diamonds making it look glorious and then a desk with a chair that's turned around</p>
-        <p>The boss speaks "Welcome to our crew, I hear you need help paying off your debt" he spins around, the man is dressed luxuriously "I can help you but to do so you have to do some questionable things, i hope you are okay with this"</p>
-        <p>you hesitantly </p>
-    </section>
-
-</section>
-
-<section id="drugAddict" class="menuC">
-    <p>Example Text</p>
-    <!--<img src='#' alt='example image'>-->
-    <div class="btnArrangement">
-    <button class="path emabrkGambling">LETS GO GAMBLING</button>
-    <button class="path susMan">Talk to suspicious man</button>
-    <button class="path prideyMan">Talk to prideful man</button>
-    </div>
-    <section id="LETSGOGAMBLING" class="MenuE">
-        <p>You head off to the casino not knowing what is yet to come</p>
-        <p>when you enter you greeted by the sight of machines and tables, its noisy, and smells like cigarettes but it'll have to do</p>
-        <p>You walk through the building trying to find where to play when you come across a table that looks like god is shining upon it</p>
-        <p>"its so beautiful" you mutter, it sounds like angels are singing and then you sit down</p>
-        <p>and so the game begins</p>
-        <button class="path letsGamble"></button>
-    
-
-        <section id="letsGambleWIN">
-            <p> after being on a hot streak you realize that this is a great way to earn money</p>
-            <p>the question is should you keep gambling or walk away from a hot streak</p>
-            <button class="path letItRide"></button>
-            <button class="path walkAway"></button>
-
-        </section>
-
-        <section id="letsGambleLOSE">
-            <p>You lost your ame of blackjack and lose some money but not all hope is lost</p>
-            <p>You could play again to see if you win but it is risky</p>
-            <button class="path riskItAll"></button>
-            <button class="path walkAway"></button>
-        </section>
-            <section id="walkAway">
-            <p> you notice the passionate man nearby and you decide to walk up to him </p>
-            <p> he tells you to upgrade your stats to gain better luck</p>
-            
-        </section>
-    </section>
-</section>
-</div>
-</div>
-</div>
-<div id='inventory'></div>
-
             
         <button class="path log">View Log</button>
-    </div>
-<script src="pathchoices.js"></script>
-<script src="stats.js"></script>
+<script src="textStuff.js"></script>
 </body>
 </html>

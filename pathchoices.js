@@ -73,30 +73,9 @@ const encounterList = [
 ]
 
 
-function updateBars() {
-    healthCount.innerHTML = `${hp} / ${maxhp}`;
-    energyCount.innerHTML = `${E} / ${maxE}`;
-    healthBar.max = maxhp;
-    healthBar.value = hp;
-    energyBar.max = maxE;
-    energyBar.value = E;
-    talons.innerHTML = `${talons}`;
-}
-
-
 let currentPath = 'start';
 console.log(allChoices);
 console.log(allPaths);
-
-function start() {
-    if (!document.getElementsByClassName('active')[0]) {
-        nameEntry = document.getElementById('enterName');
-        nameEntry.classList.add('active');
-        nameEntry.classList.remove('menuC');
-        textBox.appendChild(nameEntry);
-    }
-    
-}
 
 function savename() {
     box = document.getElementById('nameEnterer').value || 'Guy';
@@ -154,7 +133,7 @@ function heal(energy, healCost, status, Hp, name, luck) {
         Hp += healAmount;
         status.innerHTML = `${name} tried to heal. ${healCost} health healed!`;
     };
-}
+};
 
 
 
