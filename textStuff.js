@@ -383,7 +383,7 @@ story =
 
     },
         blackjack: {
-        type: 'battle',
+        type: 'blackjack',
         win: 'blackjackWin',
         lose: 'blackjackLose'
     },
@@ -405,7 +405,7 @@ story =
         leave: 'embarkGambling'
     },
     blackjack: {
-        type: 'battle',
+        type: 'blackjack',
         win: 'blackjackWin',
         lose: 'blackjackLose'
     },
