@@ -19,7 +19,7 @@ story =
     prideyMan: {
         text: 'The old man gives you some advice: If you want to make some money fast, head over to the Colusseum over at Nexdor, the neighboring town. The reward? Any wish that you want granted. However risky you think it\'ll be, it may be one of your only chances to clear your debt. Should you commit to a path of glory?',
         choice: ['Commit to Glory', 'Talk to the suspicous man', 'Talk to the passionate man'],
-        choiceId: ['embarkTounrament', 'Susman', 'drugAddict']
+        choiceId: ['embarkTournament', 'Susman', 'drugAddict']
     },
     embarkTournament: {
         text: 'You take the sword from the old man, grateful for his assistance. You embark on your journey, eager to fight away your debt.',
@@ -369,16 +369,139 @@ story =
         choiceId: ["results"]
     },
     susMan: {
-        text:df 
+        text:cc
     },
     drugAddict: {
-        text: fd
+        text: 'you talk to the passionate man and ask him if he has any ideas on how to get out of your debt. he then tells you about the casino, the casino might be a good idea if you\'re lucky enough.',
+        choice: ['Let\'s go gambling!', 'Go see if the suspicous guy is more stable'],
+        choiceId: ['embarkGambling', 'susMan', 'prideyMan']
     },
+    embarkGambling: {
+        text: 'You decide to go to the casino, hoping to get lucky and win some money. You eneter the casion greeted by the smell of cigaretttes and the sound of people cheering ad groaning. You look around and everything is taken except for one table that\'s glowing. it is blackjack. You decide to play it, hoping to win some money.',
+        choice: ['Play Blackjack'],
+        choiceId: ['blackjack']
+
+    },
+        blackjack: {
+        type: 'battle',
+        win: 'blackjackWin',
+        lose: 'blackjackLose'
+    },
+    blackjackWin: {
+        text: 'You win at blackjack! You win 500 talons, You decide to keep playing, hoping to win more.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: 500
+    },
+    blackjackLose: {
+        text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: -200
+    },
+    luckUpgrade: {
+        type: 'shop',
+        inventory: 'luck',
+        leave: 'embarkGambling'
+    },
+    blackjack: {
+        type: 'battle',
+        win: 'blackjackWin',
+        lose: 'blackjackLose'
+    },
+    blackjackWin: {
+        text: 'You win at blackjack! You win 500 talons, You decide to keep playing, hoping to win more.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: 500
+    },
+    blackjackLose: {
+        text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: -200
+    },
+    luckUpgrade: {
+        type: 'shop',
+        inventory: 'luck',
+        leave: 'embarkGambling'
+    },
+    blackjack: {
+        type: 'battle',
+        win: 'blackjackWin',
+        lose: 'blackjackLose'
+    },
+    blackjackWin: {
+        text: 'You win at blackjack! You win 500 talons, You decide to keep playing, hoping to win more.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: 500
+    },
+    blackjackLose: {
+        text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: -200
+    },
+    luckUpgrade: {
+        type: 'shop',
+        inventory: 'luck',
+        leave: 'embarkGambling'
+    },
+    keepWinning: {
+        text: 'The casino boss eyes you with a mix of fear and respect. "You\'re on a roll, aren\'t you?" he says, his voice tinged with both admiration and concern. "Keep it up, and you might just clean me out!" You can\'t help but feel a surge of confidence as you continue to win hand after hand. The thrill of victory is intoxicating, and you find yourself unable to stop. The casino is now your playground, and you\'re determined to make the most of it.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: 500
+    },
+    keepWinning2: {
+        type: 'Okay thats enough, you\'re starting to make the casino owner nervous. You should probably stop while you\'re ahead. the casino guards seem to start closing in on you as you keep winning play one more hand and it might be the last one you get.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: 500
+    },
+    blackjackLose: {
+        text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
+        choice: ['Play again', 'go upgrade your luck'],
+        choiceId: ['blackjack', 'luckUpgrade'],
+        talons: -200
+    },
+    blackjackLose2: {
+        text: 'You lose at blackjack. You lose 200 talons, and the casino guards have had enough. They grab you and throw you out of the casino, banning you for life. You have lost your chance at clearing your debt, and now you have to find another way to get out of this mess.',
+        choice: ['Leave the casino'],
+        choiceId: ['embarkTournament']
+    },
+    blackjackWin3: {
+        text: 'The boss had enough and decides to grab you and says to get out but you tell him no strating a fight between him and you.',
+        choice: ['Fight the boss!'],
+        choiceId: ['fightBoss']
+    },
+    fightBossWin: {
+        type: 'battle',
+        win: 'fightBossWin',
+        lose: 'blackjackLose2'
+    },
+    fightBossWin: {
+        text: 'You defeat the casino boss in a fierce battle! The casino guards, seeing their leader defeated, quickly retreat, leaving you standing victorious in the middle of the casino floor. The boss, now at your mercy, offers you a deal. "You win," he says begrudgingly. "I\'ll clear your debt, but you have to leave and never come back."  of triumph. or you can end him and take over the casino, becoming the new boss. The choice is yours.',
+        choice: ['Accept the deal and leave', 'End the boss and take over the casino'],
+        choiceId: ['acceptDeal', 'endBoss']
+    },
+    acceptDeal: {
+        text: 'You accept the deal, and the casino boss clears your debt. You leave the casino, now a free man, but you can\'t help but feel a sense of accomplishment. You may have lost the battle, but you won the war. You now have a new lease on life, and you\'re determined to make the most of it.',
+        choice: ['View your journey'],
+        choiceId: ['results']
+    },
+    endBoss: {
+        text: 'You decide to end the boss, taking over the casino for yourself. With the boss out of the way, you quickly establish yourself as the new leader of the casino. You run it with an iron fist, making sure to keep your patrons in line and your profits high. The casino becomes a thriving business under your leadership, and you\'re able to clear your debt in no time. You now have a new goal in life: to make the casino the best it can be, and to ensure that no one ever crosses you again.',
+        choice: ['View your journey'],
+        choiceId: ['results']
+    },
+
     error: {
         text: "This text is an error, likely due to a forgotten path. Please report this to Jacob/Elic."
     },
     gameOver: {
-        text:
+        text: ff
     },
     dimensionSwordEnd: {
         text: 'From the depths of your Pants Hole, you pull out the Dimension Sword, a sword made from the 7 Dimension Shards. You valiantly take down your greedy and evil opponents, who fall with one strike. You are still in debt, but you have become the Debt Hero. You now have a new goal in life: save your fellow citizens from the evils of capitalism. You live out your days as a warrior who helps out many people, mostly for the better',
