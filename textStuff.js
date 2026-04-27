@@ -410,8 +410,8 @@ const story = {
      },
      mountainMan: {
          type: 'battle',
-         win: 'mountainWinEnd',
-         lose: 'mountainLoserEnd'
+         win: ['mountainWinEnd'],
+         lose: ['mountainLoserEnd']
      },
      mountainWinEnd: {
          text: 'You beat the old man, even with him not holding back. The old man seems shocked at first, but regains his composure.\n "I guess you\'ve beaten me." He says with some remorse. "Even though I technically never put anything on the line like you likely have, it would still feel wrong to not do anything for you as the loser of this duel. I\'ll see what I can do about your debt." You both come back down from the mountain, where you both part your seperate ways. \nTrue to his word, you later recieve a letter from Bill Gatesford III, saying that your debt was fully paid for. You feel satisfaction at your redemption. You now live your life freely, with the journey leaving a big mark. You become a gladiator that dominates tournaments all around, hoping to become someone the Old Man is proud of.',
@@ -425,12 +425,13 @@ const story = {
      },
      //THE CRIME ROUTE
      susMan: {
-         text: 'You approach the suspicous man'
+         text: 'You approach the suspicous man, he tells of a man who can help you out, the big cheese they call him',
+         choice: ['go with him', '']
      },
      //THE GAMBLING ROUTE
      drugAddict: {
          text: 'you talk to the passionate man and ask him if he has any ideas on how to get out of your debt. he then tells you about the casino, the casino might be a good idea if you\'re lucky enough.',
-         choice: ['Let\'s go gambling!', 'Go see if the suspicous guy is more stable'],
+         choice: ['Let\'s go gambling!', 'Go see if the suspicous guy is more stable', 'go see how prideful the prideful man is'],
          choiceId: ['embarkGambling', 'susMan', 'prideyMan']
      },
      embarkGambling: {
