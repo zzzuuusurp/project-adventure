@@ -17,6 +17,7 @@ function transition(t) {
     console.log(branch);
     console.log(branch.text);
     textBox.innerHTML = '';
+    //basic story
     if (branch.text) {
         let p = document.createElement('p');
         p.innerHTML = `${branch.text}`;
@@ -38,21 +39,30 @@ function transition(t) {
         for (let index = 0; index < branch.choice.length; index++) {
             const btnText = branch.choice[index];
             const path = branch.choiceId[index];
-            const button = document.createAttribute('button');
+            console.log(btnText);
+            console.log(path);
+            const button = document.createElement('button');
             button.addEventListener('click', function() {
-                transition(t);
+                transition(path);
             });
             button.innerHTML =  btnText;
+            btnArr.appendChild(button);
             console.log(btnArr);
         }
         textBox.appendChild(btnArr);
+    }
+    //if branch actually does something:
+    if (branch.type) {
+        if (branch.type == 'battle') {
+            
+        }
     }
 };
 
 submitName.addEventListener('click', function() {
     name = nameEntry.value || 'Guy';
-    console.log(name)
-    transition('start')
+    console.log(name);
+    transition('start');
 })
 
 
@@ -68,7 +78,7 @@ const story = {
          choice: ['Accept your fate and start looking for help'],
          choiceId: ['oldEncounter']
      },
-     oldEcounter: {
+     oldEncounter: {
          text: 'You come across three old men, each of which look very different vibes. \n The first man seems to be very prideful, and seems well-built. On his belt is a sword, which seems to be ready to strike at any moment. \n The second man is very sketchy, and is the first to notice you before you even have the opportunity to notice him. \n The third man seems very unruly. He is not very well-dressed, and has a passionate look in his eyes.\n The three men seemed to be talking about something so you decide to approach them. You tell these men about your predicament. They all listen to your tale and say that they can offer a solution.\n Who\'s idea should you consider?',
          choice: ['Talk to the prideful man', 'Talk to the suspicous man', 'Talk to the passionate man'],
          choiceId: ['prideyMan', 'susMan', 'drugAddict']
@@ -569,5 +579,10 @@ const story = {
          text: 'From the depths of your Pants Hole, you pull out the Dimension Sword, a sword made from the 7 Dimension Shards. You valiantly take down your greedy and evil opponents, who fall with one strike. You are still in debt, but you have become the Debt Hero. You now have a new goal in life: save your fellow citizens from the evils of capitalism. You live out your days as a warrior who helps out many people, mostly for the better',
          choice: ['View your journey'],
          choiceId: ['results']
-     }
+     },
+     results: {
+        type: 'results',
+        choice: ['Return to where it all began'],
+        choiceId: ['start'],
+     },
  }
