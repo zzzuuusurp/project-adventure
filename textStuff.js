@@ -76,7 +76,7 @@ function transition(t) {
     }
     if (branch.choice) {
         let btnArr = document.createElement('div');
-        btnArr.classList.add('choices')
+        btnArr.classList.add('choices');
         for (let index = 0; index < branch.choice.length; index++) {
             const btnText = branch.choice[index];
             const path = branch.choiceId[index];
@@ -85,6 +85,7 @@ function transition(t) {
             if (path === 'dimensionSwordEnd') {
                 if (shardCount > 6) {
                     const button = document.createElement('button');
+                    button.classList.add('SWORD')
                     button.addEventListener('click', function() {
                         transition(path);
                     });
@@ -99,6 +100,7 @@ function transition(t) {
                     transition(path);
                 });
                 button.innerHTML =  btnText;
+                button.classList.add('choice')
                 btnArr.appendChild(button);
                 console.log(btnArr);
             };
@@ -108,7 +110,7 @@ function transition(t) {
     //if branch actually does something:
     if (branch.type) {
         if (branch.type == 'battle') {
-
+            createBattle(t)
         }
     }
     if (textBox.innerHTML == '') {
@@ -130,12 +132,17 @@ submitName.addEventListener('click', function() {
 */
 
 
-function createBattle() {
+function createBattle(idName) {
+    //boring
     textBox.innerHTML = '';
+    const commentaryBox = document.createElement('section');
     const commentary = document.createElement('span');
+    commentaryBox.appendChild(commentary)
     const hVe = document.createElement('div');
         const human = document.createElement('div');
-        const enemy = document.createElement('div');
+        const fiend = document.createElement('div');
+            const humanHpContainer = document.createElement('div');
+            const humanEnergyContainer = document.createElement('div');
             const humanHp = document.createElement('span');
             const humanEnergy = document.createElement('span');
             const humanEnergyBar = document.createElement('progress');
@@ -150,7 +157,64 @@ function createBattle() {
         const attackBtn = document.createElement('button');
         const defendBtn = document.createElement('button');
         const healBtn = document.createElement('button');
-    
+        choices.appendChild(attackBtn);
+        choices.appendChild(defendBtn);
+        choices.appendChild(healBtn);
+        attackBtn.id = 'attack';
+        defendBtn.id = 'defend';
+        healBtn.id = 'heal';
+
+        //stats
+        let foe = enemy[`${idName}`];
+        const enAtk = foe.attack;
+        const enDef = foe.defense;
+        const enLuck = foe.luck;
+        const enMaxhp = foe.maxhp;
+        const enHealCost = foe.healCost;
+        const enMaxe = foe.maxenergy;
+        const enWaste = foe.waste;
+        let enDefending = foe.defending;
+        let enhp = enMaxhp;
+        let ene = enMaxe;
+        const actions = foe.actions;
+
+        //attack, defend, heal, and waste turn (enemy only)
+        function defend(d, n) {
+            d = true;
+            commentary.innerHTML = `${n} is on guard.`
+        }
+        function heal(e, c, h, m, l, n, d) {
+            d = false;
+            if (c >= e) {
+                const healt = (Math.round(Math.random() * 10 * l));
+                h =+ healt;
+                e -= c;
+                if (h > m) {
+                    h = m;
+                    commentary.innerHTML = `${n} fully restores thier HP!`
+                }
+                else {
+                    commentary.innerHTML = `${n} heals for ${healt} health!`
+                }
+            }
+            else {
+                commentary.innerHTML = `${n} tries to heal. But it failed!`
+            }
+        }
+        function waste(w) {
+            commentary.innerHTML = `${w}`
+        }
+        //a = attacker stat, b = defender stat
+        function attack(aA, dA, dB, dsA, dsB, lA, lB, nA, nB, hA, hB) {
+            dsA = false;
+            if (dsB) {
+                damage = (math.round(math.random() * lB * dB/2) - dA/2)
+                if (damage < 0) {
+                    damage = 0;
+                }
+                hA 
+            }
+        }
 }
 
 //enemyList
