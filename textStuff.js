@@ -42,6 +42,7 @@ function activateComicSans() {
 }
 
 //functions
+//branch logic
 function transition(t) {
     const branch = story[`${t}`];
     console.log(branch);
@@ -84,10 +85,11 @@ function transition(t) {
     //if branch actually does something:
     if (branch.type) {
         if (branch.type == 'battle') {
-            
+
         }
     }
 };
+//battle logic
 
 submitName.addEventListener('click', function() {
     name = nameEntry.value || 'Guy';
