@@ -10,6 +10,7 @@ let log = [];
 let name = "You";
 let talons = 0;
 let healCount = 2;
+let elic = 'pizza';
 
 
 let konamiPosition = 0;
@@ -94,6 +95,13 @@ submitName.addEventListener('click', function() {
     transition('start');
 })
 
+/* example: {
+    text: 'lorem ipsum'
+    choice ['choice1', 'choice2', 'choice3']
+    choiceId: ['path 1', path 2, 'path 3']
+}
+*/
+
 
 //story
 const story = {
@@ -115,7 +123,7 @@ const story = {
      prideyMan: {
          text: 'The old man gives you some advice: If you want to make some money fast, head over to the Colusseum over at Nexdor, the neighboring town. The reward? Any wish that you want granted. However risky you think it\'ll be, it may be one of your only chances to clear your debt. Should you commit to a path of glory?',
          choice: ['Commit to Glory', 'Talk to the suspicous man', 'Talk to the passionate man'],
-         choiceId: ['embarkTournament', 'Susman', 'drugAddict']
+         choiceId: ['embarkTournament', 'susMan', 'drugAddict']
      },
      embarkTournament: {
          text: 'You take the sword from the old man, grateful for his assistance. You embark on your journey, eager to fight away your debt.',
@@ -468,8 +476,32 @@ const story = {
      susMan: {
          text: 'You approach the suspicous man, he tells of a man who can help you out, the big cheese they call him',
          choice: ['go with him', 'go talk to the passionate man', 'go talk to the prideful man'],
-         choiceId: []
+         choiceId: ['embarkCrime', 'drugAddict', 'prideyMan']
      },
+
+     embarkCrime: {
+        text: 'You meet the big cheese and he turns around in his chair menacingly, I got a job for you, I needs you to go out and collect some money for me, three houses down the road',
+        choice: ['Go do the job', 'Refuse the job'],
+        choiceId: ['house1', 'refuse']
+     },
+
+     refuse: {
+        text: 'You refused the job and the big cheese kick punched you in the gut and kick you out on the street',
+        choice: ['Go Gambling', 'Go to Tournament town'],
+        choiceId: ['embarkGambling', 'embarkTournament'],
+        maxHP: -20
+     },
+
+     house1: {
+        text: 'You knock on the person\'s home and then you ask them about money the borrowed from the big cheese, they tell you to go away but you need the money',
+        choice: ['Negotiate', 'Force them to give you the money', ],
+        choiceId: ['negotiate', 'forcemoney']
+     },
+
+     negotiate: {
+        text: ''
+     },
+    
      //THE GAMBLING ROUTE
      drugAddict: {
          text: 'you talk to the passionate man and ask him if he has any ideas on how to get out of your debt. he then tells you about the casino, the casino might be a good idea if you\'re lucky enough.',
