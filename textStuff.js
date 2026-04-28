@@ -4,12 +4,41 @@
 const nameEntry = document.getElementById('nameEnterer');
 const submitName = document.getElementById('enterName');
 const textBox = document.getElementById('story');
-
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a' ]
 //Variables
 let log = [];
 let name = "You";
 let talons = 0;
 let healCount = 2;
+
+
+let konamiPosition = 0;
+
+document.addEventListener('keyup', function(e) {
+console.log (e.key)
+  if (e.key === konamiCode[konamiPosition]) {
+    konamiPosition++;
+    
+ 
+    if (konamiPosition === konamiCode.length) {
+      activateComicSans();
+      konamiPosition = 0;
+    }
+  } else {
+
+    konamiPosition = 0;
+  }
+});
+
+function activateComicSans() {
+  const style = document.createElement('style');
+  style.textContent = `
+    * {
+      font-family: "Comic Sans MS", "Comic Sans", cursive !important;
+    }
+  `;
+  document.head.appendChild(style);
+}
 
 //functions
 function transition(t) {
@@ -428,7 +457,8 @@ const story = {
      //THE CRIME ROUTE
      susMan: {
          text: 'You approach the suspicous man, he tells of a man who can help you out, the big cheese they call him',
-         choice: ['go with him', '']
+         choice: ['go with him', 'go talk to the passionate man', 'go talk to the prideful man'],
+         choiceId: []
      },
      //THE GAMBLING ROUTE
      drugAddict: {
