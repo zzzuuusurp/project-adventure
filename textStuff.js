@@ -501,7 +501,8 @@ const story = {
      },
 
      negotiate: {
-        text: ''
+        text: 'You negotiate with the person and they finally give in'
+        
      },
     
      //THE GAMBLING ROUTE
