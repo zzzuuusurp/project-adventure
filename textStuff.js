@@ -11,6 +11,64 @@ let name = "You";
 let talons = 0;
 let healCount = 2;
 
+//blackjack
+let playerHand = [];
+let dealerHand = [];
+let playerScore = 0;
+let dealerScore = 0;
+
+function dealCard() {
+    const cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+    return cards[Math.floor(Math.random() * cards.length)];
+}
+
+function calculateScore(hand) {
+    let score = hand.reduce((sum, card) => sum + card, 0);
+    let aces = hand.filter(card => card === 11).length;
+    
+    while (score > 21 && aces > 0) {
+        score -= 10;
+        aces--;
+    }
+    return score;
+}
+
+function playBlackjack() {
+    playerHand = [dealCard(), dealCard()];
+    dealerHand = [dealCard(), dealCard()];
+    
+    playerScore = calculateScore(playerHand);
+    dealerScore = calculateScore(dealerHand);
+    
+    if (playerScore === 21) {
+        return 'win';
+    }
+    if (dealerScore === 21) {
+        return 'lose';
+    }
+    
+    // Player hits until 17 or busts
+    while (playerScore < 17) {
+        playerHand.push(dealCard());
+        playerScore = calculateScore(playerHand);
+    }
+    
+    if (playerScore > 21) return 'lose';
+    
+    // Dealer hits until 17 or busts
+    while (dealerScore < 17) {
+        dealerHand.push(dealCard());
+        dealerScore = calculateScore(dealerHand);
+    }
+    
+    if (dealerScore > 21) return 'win';
+    if (playerScore > dealerScore) return 'win';
+    
+    return 'lose';
+}
+
+
+
 //functions
 function transition(t) {
     const branch = story[`${t}`];
