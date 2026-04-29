@@ -114,10 +114,10 @@ function renderBlackjack(showDealer) {
 
     const hitBtn = document.createElement('button');
     hitBtn.innerText = 'Hit';
-
+    hitBtn.classList.add('Hit');
     const standBtn = document.createElement('button');
     standBtn.innerText = 'Stand';
-
+    standBtn.classList.add('Stand');
     btnWrap.appendChild(hitBtn);
     btnWrap.appendChild(standBtn);
     textBox.appendChild(btnWrap);
