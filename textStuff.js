@@ -18,6 +18,7 @@ let defense = 5;
 let healCost = 20;
 let shardCount = 0;
 let elic = 'pizza';
+let defendingStatus = false;
 
 // konami code 
 let konamiPosition = 0;
@@ -220,7 +221,11 @@ function transition(t) {
         }
         textBox.appendChild(btnArr);
     }
-
+    if (branch.type == 'battle') {
+        const winPath = branch.win;
+        const losePath = branch.lose;
+        createBattle(t, winPath, losePath);
+    }
     if (branch.type == 'blackjack') {
         startBlackjack(branch);
         return;
@@ -243,16 +248,21 @@ submitName.addEventListener('click', function() {
 
 function createShop(idName) {
 textBox.innerHTML = '';
-
 }
 
-function createBattle(idName) {
+function createBattle(idName, winpath, losepath) {
+    console.log(`Battling ${idName}`)
     //boring
-    textBox.innerHTML = `<section id='commentaryContainer'> <span id='commentary'>What will ${name} do?</span> </section>`;
-    textBox.innerHTML += `<div id='MvE'> </div>`;
+    textBox.innerHTML = `<section id="commBox"><span id="comm">What will ${name} do?</span></section>`
+    textBox.innerHTML += '<div id="mve"><div id="human"><div id="hhp"><p>Health: <span class="health"></span><progress class="healthBar"></progress></p></div><div id="he"><p>Energy: <span class="energy"></span><progress class="energyBar"></progress></p></div><img src="stupidimages/THESWORD.png" alt="You"><span class="name"></span></div>'
+    textBox.innerHTML += '<div id="fiend"><div id="ehp"><p>Health: <span class="ehealth"></span><progress class="ehealthBar"></progress></p></div><div id="ee"><p>Energy: <span class="eenergy"></span><progress class="eenergyBar"></progress></p></div><img src="#" alt="The enemy!"><span class="ename"></span></div></div>'
+    textBox.innerHTML += '<div id="buttonlist"></div>'
+
+    const butonDiv = document.getElementById('buttonlist')
 
         //stats
         let foe = enemy[`${idName}`];
+        const enName = foe.name;
         const enAtk = foe.attack;
         const enDef = foe.defense;
         const enLuck = foe.luck;
@@ -318,9 +328,69 @@ function createBattle(idName) {
                 commentary.innerHTML = `${nA} attacks! ${damage} damage dealt to opposing ${nB}!`
             }
         }
-        while (true) {
-            
+        function enemyMove() {
+            const move = actions[(Math.round(Math.random() * actions.length))]
+            if (move == 'attack') {
+                attack(enAtk, attack, defense, enDefending, defendingStatus, enLuck, luck, enName, name, enhp, HP);
+            }
+            else if (move == 'defend') {
+                defend(enDefending, enName);
+            }
+            else if (move == 'heal') {
+                heal(ene, enHealCost, enhp, enMaxhp, enLuck, enName, enDefending);
+            }
+            else {
+                waste(enWaste);
+            }
         }
+        function wipebuttons() {
+            butonDiv.innerHTML = ''
+        }
+        function createTransitionButton() {
+            const stuff = document.createElement('button')
+            stuff.innerHTML = 'Next -->'
+            if (enhp != 0 && HP != 0) {
+                stuff.addEventListener('click', function() {
+                    guyTurn();
+                })
+            }
+            else if (enhp == 0) {
+                commentary.innerHTML = `You beat ${enName}!`
+                stuff.addEventListener('click', function() {
+                    transition(winpath);
+                })
+            }
+            else if (HP == 0) {
+                    commentary.innerHTML = `You lost to ${enName}!`
+                    stuff.addEventListener('click', function() {
+                        transition(losepath);
+                    })
+            }
+        }
+        function guyTurn() {
+            const attackButton = document.createElement('button');
+            attackButton.classList.add('attack');
+            attackButton.innerHTML = 'Attack!';
+            attackButton.addEventListener('click', function() {
+                attack(attack, enAtk, enDef, defendingStatus, enDefending, luck, enLuck, name, enName, HP, enhp);
+                wipebuttons()
+            })
+            const defendButton = document.createElement('button');
+            defendButton.classList.add('defend');
+            defendButton.innerHTML = 'Defende';
+            defendButton.addEventListener('click', function() {
+                defend(defendingStatus, name);
+                wipebuttons()
+            })
+            const healButton = document.createElement('button');
+            healButton.classList.add('Heal');
+            healButton.innerHTML = `Heal (${healCost} Energy)`;
+            healButton.addEventListener('click', function() {
+                heal(energy, healCost, HP, maxHP, luck, name, defendingStatus);
+                wipebuttons()
+            })
+        }
+        
 }
 
 //enemyList
