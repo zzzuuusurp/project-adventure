@@ -130,3 +130,20 @@ nav {
     border: #70B77E solid 1px;
     cursor: crosshair;
 }
+.Hit {
+    background-color: #70B77E;
+    color: var(--white);
+    padding: 3px 5px;
+    margin: 5px 5px;
+    border-radius: 20px;
+}
+.Stand {
+    background-color: #70B77E;
+    color: var(--white);
+    padding: 3px 5px;
+    margin: 5px 5px;
+    border-radius: 20px;
+}
+@media screen {
+    
+}
