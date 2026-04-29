@@ -7,12 +7,21 @@ const textBox = document.getElementById('story');
 const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a' ]
 //Variables
 let log = [];
-let name = "You";
+let name = "Guy";
 let talons = 0;
 let healCount = 2;
+let maxHP = 100;
+let HP = 100;
+let energy = 50;
+let maxEnergy = 50;
+let luck = 3;
+let attack = 5;
+let defense = 5;
+let healCost = 20;
+let shardCount = 0;
 let elic = 'pizza';
 
-
+// konami code 
 let konamiPosition = 0;
 
 document.addEventListener('keyup', function(e) {
@@ -41,6 +50,64 @@ function activateComicSans() {
   document.head.appendChild(style);
 }
 
+//blackjack
+let playerHand = [];
+let dealerHand = [];
+let playerScore = 0;
+let dealerScore = 0;
+
+function dealCard() {
+    const cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+    return cards[Math.floor(Math.random() * cards.length)];
+}
+
+function calculateScore(hand) {
+    let score = hand.reduce((sum, card) => sum + card, 0);
+    let aces = hand.filter(card => card === 11).length;
+    
+    while (score > 21 && aces > 0) {
+        score -= 10;
+        aces--;
+    }
+    return score;
+}
+
+function playBlackjack() {
+    playerHand = [dealCard(), dealCard()];
+    dealerHand = [dealCard(), dealCard()];
+    
+    playerScore = calculateScore(playerHand);
+    dealerScore = calculateScore(dealerHand);
+    
+    if (playerScore === 21) {
+        return 'win';
+    }
+    if (dealerScore === 21) {
+        return 'lose';
+    }
+    
+    // Player hits until 17 or busts
+    while (playerScore < 17) {
+        playerHand.push(dealCard());
+        playerScore = calculateScore(playerHand);
+    }
+    
+    if (playerScore > 21) return 'lose';
+    
+    // Dealer hits until 17 or busts
+    while (dealerScore < 17) {
+        dealerHand.push(dealCard());
+        dealerScore = calculateScore(dealerHand);
+    }
+    
+    if (dealerScore > 21) return 'win';
+    if (playerScore > dealerScore) return 'win';
+    
+    return 'lose';
+}
+
+
+
 //functions
 //branch logic
 function transition(t) {
@@ -54,6 +121,7 @@ function transition(t) {
         p.innerHTML = `${branch.text}`;
         textBox.appendChild(p);
         console.log(p);
+        log.push(branch.text);
     };
     if (branch.img) {
         let img = document.createElement('img');
@@ -66,31 +134,48 @@ function transition(t) {
     }
     if (branch.choice) {
         let btnArr = document.createElement('div');
-        btnArr.classList.add('choices')
+        btnArr.classList.add('choices');
         for (let index = 0; index < branch.choice.length; index++) {
             const btnText = branch.choice[index];
             const path = branch.choiceId[index];
             console.log(btnText);
             console.log(path);
-            const button = document.createElement('button');
-            button.addEventListener('click', function() {
-                transition(path);
-            });
-            button.innerHTML =  btnText;
-            btnArr.appendChild(button);
-            console.log(btnArr);
+            if (path === 'dimensionSwordEnd') {
+                if (shardCount > 6) {
+                    const button = document.createElement('button');
+                    button.classList.add('SWORD')
+                    button.addEventListener('click', function() {
+                        transition(path);
+                    });
+                    button.innerHTML =  btnText;
+                    btnArr.appendChild(button);
+                    console.log(btnArr);
+                };
+            }
+            else {
+                const button = document.createElement('button');
+                button.addEventListener('click', function() {
+                    transition(path);
+                });
+                button.innerHTML =  btnText;
+                button.classList.add('choice')
+                btnArr.appendChild(button);
+                console.log(btnArr);
+            };
         }
         textBox.appendChild(btnArr);
     }
     //if branch actually does something:
     if (branch.type) {
         if (branch.type == 'battle') {
-
+            createBattle(t)
         }
     }
+    if (textBox.innerHTML == '') {
+        transition('error')
+    }
 };
-//battle logic
-
+//same thing but for the name since you only need it once
 submitName.addEventListener('click', function() {
     name = nameEntry.value || 'Guy';
     console.log(name);
@@ -104,6 +189,288 @@ submitName.addEventListener('click', function() {
 }
 */
 
+
+function createBattle(idName) {
+    //boring
+    textBox.innerHTML = '';
+    const commentaryBox = document.createElement('section');
+    const commentary = document.createElement('span');
+    commentaryBox.appendChild(commentary)
+    const hVe = document.createElement('div');
+        const human = document.createElement('div');
+        const fiend = document.createElement('div');
+            const humanHpContainer = document.createElement('div');
+            const humanEnergyContainer = document.createElement('div');
+            const humanHp = document.createElement('span');
+            const humanEnergy = document.createElement('span');
+            const humanEnergyBar = document.createElement('progress');
+            const humanHpBar = document.createElement('progress');
+            const enemyHp = document.createElement('span');
+            const enemyEnergy = document.createElement('span');
+            const enemyEnergyBar = document.createElement('progress');
+            const enemyHpBar = document.createElement('progress');
+            const humanImg = document.createElement('img');
+            const enemyImg = document.createElement('img');
+    const choices = document.createElement('div');
+        const attackBtn = document.createElement('button');
+        const defendBtn = document.createElement('button');
+        const healBtn = document.createElement('button');
+        choices.appendChild(attackBtn);
+        choices.appendChild(defendBtn);
+        choices.appendChild(healBtn);
+        attackBtn.id = 'attack';
+        defendBtn.id = 'defend';
+        healBtn.id = 'heal';
+
+        //stats
+        let foe = enemy[`${idName}`];
+        const enAtk = foe.attack;
+        const enDef = foe.defense;
+        const enLuck = foe.luck;
+        const enMaxhp = foe.maxhp;
+        const enHealCost = foe.healCost;
+        const enMaxe = foe.maxenergy;
+        const enWaste = foe.waste;
+        let enDefending = foe.defending;
+        let enhp = enMaxhp;
+        let ene = enMaxe;
+        const actions = foe.actions;
+
+        //attack, defend, heal, and waste turn (enemy only)
+        function defend(d, n) {
+            d = true;
+            commentary.innerHTML = `${n} is on guard.`
+        }
+        function heal(e, c, h, m, l, n, d) {
+            d = false;
+            if (c >= e) {
+                const healt = (Math.round(Math.random() * 10 * l));
+                h =+ healt;
+                e -= c;
+                if (h > m) {
+                    h = m;
+                    commentary.innerHTML = `${n} fully restores thier HP!`
+                }
+                else {
+                    commentary.innerHTML = `${n} heals for ${healt} health!`
+                }
+            }
+            else {
+                commentary.innerHTML = `${n} tries to heal. But it failed!`
+            }
+        }
+        function waste(w) {
+            commentary.innerHTML = `${w}`
+        }
+        //a = attacker stat, b = defender stat
+        function attack(aA, dA, dB, dsA, dsB, lA, lB, nA, nB, hA, hB) {
+            dsA = false;
+            if (dsB) {
+                damage = (math.round(math.random() * lB * dB/2) - dA/2)
+                if (damage < 0) {
+                    damage = 0;
+                }
+                hA 
+            }
+        }
+}
+
+//enemyList
+const enemy = {
+    banditNexdor: {
+        name: 'Agressive Bandit',
+        attack: 5,
+        defense: 5,
+        luck: 2,
+        defending: false,
+        maxhp: 50,
+        hp: 50,
+        actions: ['attack', 'attack', 'waste'],
+        waste: 'The bandit tries to make you flinch',
+        drop: {
+            attack: 2,
+            defense: 2,
+            hp: 5
+        }
+    },
+    rats: {
+        name: 'One Hundred Rats',
+        attack: 3,
+        defense: 1,
+        luck: 5,
+        defending: false,
+        maxhp: 100,
+        hp: 100,
+        actions: ['attack', 'defend', 'waste'],
+        waste: 'The rats gather in a circle to form a plan.',
+        drop: {
+            attack: 2,
+            hp: 10
+        }
+    },
+    fightChef: {
+        name: 'Head Chef',
+        attack: 5,
+        defense: 5,
+        luck: 2,
+        defending: false,
+        maxhp: 125,
+        hp: 125,
+        maxenergy: 40,
+        energy: 40,
+        healCost: 10,
+        actions: ['attack', 'heal', 'defend', 'waste'],
+        waste: 'Someone calls over the Chef to complain about thier food!',
+        drop: {
+            attack: 2,
+            energy: 5,
+            hp: 5
+        }
+    },
+    sucker1: {
+        name: 'Jerome the cowardly',
+        attack: 1,
+        defense: 8,
+        luck: 1,
+        defending: false,
+        maxhp: 75,
+        hp: 75,
+        maxenergy: 40,
+        energy: 40,
+        healCost: 10,
+        actions: ['heal', 'defend', 'waste'],
+        waste: 'Jerome tries to hide behind you.',
+        drop: {
+            attack: 2,
+            defense: 1,
+            hp: 5,
+            energy: 5,
+        }
+    },
+    fight2: {
+        name: 'Wallice the Great',
+        attack: 8,
+        defense: 5,
+        luck: 3,
+        defending: false,
+        maxhp: 150,
+        hp: 150,
+        maxenergy: 40,
+        energy: 40,
+        healCost: 20,
+        actions: ['attack', 'heal', 'defend', 'waste'],
+        waste: 'Wallice is making snide remarks about the way you hold your sword.',
+        drop: {
+            attack: 2,
+            defense: 1,
+            hp: 5,
+            energy: 5,
+        }
+    },
+    fight3: {
+        name: 'Primo the Brawler',
+        attack: 9,
+        defense: 6,
+        luck: 1,
+        defending: false,
+        maxhp: 200,
+        hp: 200,
+        maxenergy: 0,
+        energy: 0,
+        healCost: 10,
+        actions: ['attack', 'defend', 'waste'],
+        waste: 'Primo looks into your soul.',
+        drop: {
+            attack: 2,
+            defense: 1,
+            hp: 10,
+            energy: 10,
+        }
+    },
+    battle4Tourn: {
+        name: 'Old Man',
+        attack: 10,
+        defense: 7,
+        luck: 4,
+        defending: false,
+        maxhp: 250,
+        hp: 250,
+        maxenergy: 40,
+        energy: 40,
+        healCost: 20,
+        actions: ['attack', 'heal', 'defend', 'waste'],
+        waste: 'The Old Man is taunting you to try him.'
+    },
+    mountainMan: {
+        name: 'Old Man',
+        attack: 11,
+        defense: 10,
+        luck: 4,
+        defending: false,
+        maxhp: 250,
+        hp: 250,
+        maxenergy: 40,
+        energy: 40,
+        healCost: 20,
+        actions: ['attack', 'heal', 'defend', 'waste'],
+        waste: 'The Old Man is taunting you to try him.'
+    },
+    fightBoss: {
+        name: 'Big Cheese, the Boss',
+        attack: 4,
+        defense: 2,
+        luck: 2,
+        defending: false,
+        maxhp: 300,
+        hp: 300,
+        maxenergy: 60,
+        energy: 60,
+        healCost: 20,
+        actions: ['attack', 'heal', 'defend', 'waste'],
+        waste: 'Big Cheese talks about how you don\'t want to mess with him.',
+    },
+    mountainSkelly: {
+        name: 'Old Man',
+        attack: 6,
+        defense: 1,
+        luck: 7,
+        defending: false,
+        maxhp: 50,
+        hp: 50,
+        maxenergy: 0,
+        energy: 0,
+        healCost: 20,
+        actions: ['attack', 'defend', 'waste'],
+        waste: 'The Skeleton forgets why he\'s here.',
+        drop: {
+            attack: 5,
+            luck: 3,
+            hp: 5,
+            energy: 5,
+        }
+    },
+    fallback: {
+        name: 'Jared Fast',
+        img: 'url(stupidimages/fastFallback.png)',
+        attack: 67,
+        defense: 67,
+        luck: 67,
+        defending: false,
+        maxhp: 1000,
+        hp: 1000,
+        maxenergy: 1000,
+        energy: 1000,
+        healCost: 0,
+        actions: ['attack', 'heal', 'defend', 'waste'],
+        waste: 'You have been spared a turn.',
+        drop: {
+            attack: 67,
+            defense: 67,
+            hp: 67,
+            energy: 67,
+        }
+    }
+};
 
 //story
 const story = {
@@ -518,51 +885,7 @@ const story = {
  
      },
          blackjack: {
-         type: 'battle',
-         win: 'blackjackWin',
-         lose: 'blackjackLose'
-     },
-     blackjackWin: {
-         text: 'You win at blackjack! You win 500 talons, You decide to keep playing, hoping to win more.',
-         choice: ['Play again', 'go upgrade your luck'],
-         choiceId: ['blackjack', 'luckUpgrade'],
-         talons: 500
-     },
-     blackjackLose: {
-         text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
-         choice: ['Play again', 'go upgrade your luck'],
-         choiceId: ['blackjack', 'luckUpgrade'],
-         talons: -200
-     },
-     luckUpgrade: {
-         type: 'shop',
-         inventory: 'luck',
-         leave: 'embarkGambling'
-     },
-     blackjack: {
-         type: 'battle',
-         win: 'blackjackWin',
-         lose: 'blackjackLose'
-     },
-     blackjackWin: {
-         text: 'You win at blackjack! You win 500 talons, You decide to keep playing, hoping to win more.',
-         choice: ['Play again', 'go upgrade your luck'],
-         choiceId: ['blackjack', 'luckUpgrade'],
-         talons: 500
-     },
-     blackjackLose: {
-         text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
-         choice: ['Play again', 'go upgrade your luck'],
-         choiceId: ['blackjack', 'luckUpgrade'],
-         talons: -200
-     },
-     luckUpgrade: {
-         type: 'shop',
-         inventory: 'luck',
-         leave: 'embarkGambling'
-     },
-     blackjack: {
-         type: 'battle',
+         type: 'blackjack',
          win: 'blackjackWin',
          lose: 'blackjackLose'
      },
@@ -611,7 +934,7 @@ const story = {
          choice: ['Fight the boss!'],
          choiceId: ['fightBoss']
      },
-     fightBossWin: {
+     fightBoss: {
          type: 'battle',
          win: 'fightBossWin',
          lose: 'blackjackLose2'
