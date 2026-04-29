@@ -192,35 +192,8 @@ submitName.addEventListener('click', function() {
 
 function createBattle(idName) {
     //boring
-    textBox.innerHTML = '';
-    const commentaryBox = document.createElement('section');
-    const commentary = document.createElement('span');
-    commentaryBox.appendChild(commentary)
-    const hVe = document.createElement('div');
-        const human = document.createElement('div');
-        const fiend = document.createElement('div');
-            const humanHpContainer = document.createElement('div');
-            const humanEnergyContainer = document.createElement('div');
-            const humanHp = document.createElement('span');
-            const humanEnergy = document.createElement('span');
-            const humanEnergyBar = document.createElement('progress');
-            const humanHpBar = document.createElement('progress');
-            const enemyHp = document.createElement('span');
-            const enemyEnergy = document.createElement('span');
-            const enemyEnergyBar = document.createElement('progress');
-            const enemyHpBar = document.createElement('progress');
-            const humanImg = document.createElement('img');
-            const enemyImg = document.createElement('img');
-    const choices = document.createElement('div');
-        const attackBtn = document.createElement('button');
-        const defendBtn = document.createElement('button');
-        const healBtn = document.createElement('button');
-        choices.appendChild(attackBtn);
-        choices.appendChild(defendBtn);
-        choices.appendChild(healBtn);
-        attackBtn.id = 'attack';
-        defendBtn.id = 'defend';
-        healBtn.id = 'heal';
+    textBox.innerHTML = `<section id='commentaryContainer'> <span id='commentary'>What will ${name} do?</span> </section>`;
+    textBox.innerHTML += `<div id='MvE'> </div>`;
 
         //stats
         let foe = enemy[`${idName}`];
@@ -270,8 +243,27 @@ function createBattle(idName) {
                 if (damage < 0) {
                     damage = 0;
                 }
-                hA 
+                hA = hA - damage;
+                if (hA < 0) {
+                    hA = 0;
+                };
+                dsB = false;
+                commentary.innerHTML = `${nA} attacks! But ${nB} counters and attacks for ${damage} health!`;
             }
+            else {
+                damage = (math.round(math.random() * lA * aA/2) - dB/2);
+                if (damage < 0) {
+                    damage = 0;
+                }
+                hB -= damage;
+                if (hB < 0) {
+                    hB = 0;
+                };
+                commentary.innerHTML = `${nA} attacks! ${damage} damage dealt to opposing ${nB}!`
+            }
+        }
+        while (true) {
+            
         }
 }
 
