@@ -1,5 +1,3 @@
-
-
 //DOM stuff
 const nameEntry = document.getElementById('nameEnterer');
 const submitName = document.getElementById('enterName');
@@ -50,62 +48,119 @@ function activateComicSans() {
   document.head.appendChild(style);
 }
 
-//blackjack
+
+
+
 let playerHand = [];
 let dealerHand = [];
-let playerScore = 0;
-let dealerScore = 0;
 
+// Deal a random card
 function dealCard() {
-    const cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+    const cards = [2,3,4,5,6,7,8,9,10,10,10,10,11]; // 11 = Ace
     return cards[Math.floor(Math.random() * cards.length)];
 }
 
+// Calculate score (handles Aces)
 function calculateScore(hand) {
     let score = hand.reduce((sum, card) => sum + card, 0);
-    let aces = hand.filter(card => card === 11).length;
-    
-    while (score > 21 && aces > 0) {
+
+    let aceCount = hand.filter(card => card === 11).length;
+    while (score > 21 && aceCount > 0) {
         score -= 10;
-        aces--;
+        aceCount--;
     }
+
     return score;
 }
 
-function playBlackjack() {
+// Start blackjack
+function startBlackjack(branch) {
+    currentBlackjackBranch = branch;
+
     playerHand = [dealCard(), dealCard()];
     dealerHand = [dealCard(), dealCard()];
-    
-    playerScore = calculateScore(playerHand);
-    dealerScore = calculateScore(dealerHand);
-    
-    if (playerScore === 21) {
-        return 'win';
-    }
-    if (dealerScore === 21) {
-        return 'lose';
-    }
-    
-    // Player hits until 17 or busts
-    while (playerScore < 17) {
-        playerHand.push(dealCard());
-        playerScore = calculateScore(playerHand);
-    }
-    
-    if (playerScore > 21) return 'lose';
-    
-    // Dealer hits until 17 or busts
-    while (dealerScore < 17) {
-        dealerHand.push(dealCard());
-        dealerScore = calculateScore(dealerHand);
-    }
-    
-    if (dealerScore > 21) return 'win';
-    if (playerScore > dealerScore) return 'win';
-    
-    return 'lose';
+
+    renderBlackjack(false);
 }
 
+// Render UI
+function renderBlackjack(showDealer) {
+    textBox.innerHTML = '';
+
+    const playerScore = calculateScore(playerHand);
+    const dealerScore = calculateScore(dealerHand);
+
+    const p = document.createElement('p');
+
+    if (showDealer) {
+        p.innerHTML = `
+        <strong>Blackjack</strong><br><br>
+        Your Hand: ${playerHand.join(', ')} (Score: ${playerScore})<br>
+        Dealer Hand: ${dealerHand.join(', ')} (Score: ${dealerScore})
+        `;
+    } else {
+        p.innerHTML = `
+        <strong>Blackjack</strong><br><br>
+        Your Hand: ${playerHand.join(', ')} (Score: ${playerScore})<br>
+        Dealer Hand: ${dealerHand[0]}, ?
+        `;
+    }
+
+    textBox.appendChild(p);
+
+    // Buttons
+    const btnWrap = document.createElement('div');
+
+    const hitBtn = document.createElement('button');
+    hitBtn.innerText = 'Hit';
+
+    const standBtn = document.createElement('button');
+    standBtn.innerText = 'Stand';
+
+    btnWrap.appendChild(hitBtn);
+    btnWrap.appendChild(standBtn);
+    textBox.appendChild(btnWrap);
+
+    hitBtn.onclick = blackjackHit;
+    standBtn.onclick = blackjackStand;
+}
+
+// Hit
+function blackjackHit() {
+    playerHand.push(dealCard());
+
+    const score = calculateScore(playerHand);
+
+    if (score > 21) {
+        renderBlackjack(true);
+        setTimeout(() => {
+            transition(currentBlackjackBranch.lose);
+        }, 1000);
+        return;
+    }
+
+    renderBlackjack(false);
+}
+
+// Stand
+function blackjackStand() {
+    while (calculateScore(dealerHand) < 17) {
+        dealerHand.push(dealCard());
+    }
+
+    const playerScore = calculateScore(playerHand);
+    const dealerScore = calculateScore(dealerHand);
+
+    renderBlackjack(true);
+
+    setTimeout(() => {
+        if (dealerScore > 21 || playerScore > dealerScore) {
+            transition(currentBlackjackBranch.win);
+        } else {
+            transition(currentBlackjackBranch.lose);
+        }
+    }, 1000);
+}
 
 
 //functions
@@ -165,15 +220,12 @@ function transition(t) {
         }
         textBox.appendChild(btnArr);
     }
-    //if branch actually does something:
-    if (branch.type) {
-        if (branch.type == 'battle') {
-            createBattle(t)
-        }
+
+    if (branch.type == 'blackjack') {
+        startBlackjack(branch);
+        return;
     }
-    if (textBox.innerHTML == '') {
-        transition('error')
-    }
+    
 };
 //same thing but for the name since you only need it once
 submitName.addEventListener('click', function() {
@@ -189,6 +241,10 @@ submitName.addEventListener('click', function() {
 }
 */
 
+function createShop(idName) {
+textBox.innerHTML = '';
+
+}
 
 function createBattle(idName) {
     //boring
@@ -868,8 +924,8 @@ const story = {
      },
 
      negotiate: {
-        text: 'You negotiate with the person and they finally give in'
-        
+        text: 'You negotiate with the person and they finally give in',
+        choice: ['Go to the next house', ''],
      },
     
      //THE GAMBLING ROUTE
@@ -884,7 +940,7 @@ const story = {
          choiceId: ['blackjack']
  
      },
-         blackjack: {
+     blackjack: {
          type: 'blackjack',
          win: 'blackjackWin',
          lose: 'blackjackLose'
@@ -893,13 +949,13 @@ const story = {
          text: 'You win at blackjack! You win 500 talons, You decide to keep playing, hoping to win more.',
          choice: ['Play again', 'go upgrade your luck'],
          choiceId: ['blackjack', 'luckUpgrade'],
-         talons: 500
+         talons: 5000
      },
      blackjackLose: {
          text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
          choice: ['Play again', 'go upgrade your luck'],
          choiceId: ['blackjack', 'luckUpgrade'],
-         talons: -200
+         talons: -200000
      },
      luckUpgrade: {
          type: 'shop',
@@ -910,24 +966,12 @@ const story = {
          text: 'The casino boss eyes you with a mix of fear and respect. "You\'re on a roll, aren\'t you?" he says, his voice tinged with both admiration and concern. "Keep it up, and you might just clean me out!" You can\'t help but feel a surge of confidence as you continue to win hand after hand. The thrill of victory is intoxicating, and you find yourself unable to stop. The casino is now your playground, and you\'re determined to make the most of it.',
          choice: ['Play again', 'go upgrade your luck'],
          choiceId: ['blackjack', 'luckUpgrade'],
-         talons: 500
-     },
-     keepWinning2: {
-         type: 'Okay thats enough, you\'re starting to make the casino owner nervous. You should probably stop while you\'re ahead. the casino guards seem to start closing in on you as you keep winning play one more hand and it might be the last one you get.',
-         choice: ['Play again', 'go upgrade your luck'],
-         choiceId: ['blackjack', 'luckUpgrade'],
-         talons: 500
-     },
-     blackjackLose: {
-         text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
-         choice: ['Play again', 'go upgrade your luck'],
-         choiceId: ['blackjack', 'luckUpgrade'],
-         talons: -200
+         talons: 5000
      },
      blackjackLose2: {
          text: 'You lose at blackjack. You lose 200 talons, and the casino guards have had enough. They grab you and throw you out of the casino, banning you for life. You have lost your chance at clearing your debt, and now you have to find another way to get out of this mess.',
          choice: ['Leave the casino'],
-         choiceId: ['embarkTournament']
+         choiceId: ['embarkTournament', 'embarkCrime']
      },
      blackjackWin3: {
          text: 'The boss had enough and decides to grab you and says to get out but you tell him no strating a fight between him and you.',
