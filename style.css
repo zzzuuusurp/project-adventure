@@ -26,6 +26,7 @@ body {
 #story {
     background-color: #ffffff7c;
     padding: 7px;
+    overflow-y: scroll;
 }
 
 #section1 {
@@ -109,6 +110,34 @@ nav {
     color: #FF6663;
     border: #FF6663 solid 1px;
     cursor: crosshair;
+}
+#commBox {
+    height: 15%;
+    width: 100%;
+}
+#mve {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+    height: 75%;
+    width: 100%;
+}
+#human {
+    width: 40%;
+    border: var(--red) 1px green;
+}
+#human > img {
+    width: 50%;
+}
+#fiend {
+    width: 40%;
+}
+#field > img {
+    width: 40;
+}
+#buttonlist {
+    width: 100%;
+    height: 25%;
 }
 #defend {
     background-color: lightblue;

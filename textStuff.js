@@ -1,3 +1,14 @@
+//STUFF THAT YOU HAVE TO DO
+//GET BATTLES TO WORK
+//ADD MORE ITEMS
+//USE CSS TO STYLE BETTER
+//CHANGE BACKGROUNDS USING SOME SORT OF VARIABLE IN CERTAIN OBJECTS
+//ADD A 'MEMORY' THING IN CERTAIN OBJECTS AND THEN STORE THEM IN AN ARRAY TO SHOW IN THE RESULTS SCREEN
+
+
+
+
+
 //DOM stuff
 const nameEntry = document.getElementById('nameEnterer');
 const submitName = document.getElementById('enterName');
@@ -6,7 +17,7 @@ const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft',
 //Variables
 let log = [];
 let name = "Guy";
-let talons = 0;
+let talons = 300;
 let healCount = 2;
 let maxHP = 100;
 let HP = 100;
@@ -19,7 +30,7 @@ let healCost = 20;
 let shardCount = 0;
 let elic = 'pizza';
 let defendingStatus = false;
-
+let agressive = false;
 // konami code 
 let konamiPosition = 0;
 
@@ -52,114 +63,66 @@ function activateComicSans() {
 
 
 
-
-
-const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-const ranks = [
-    { name: '2',  value: 2,  file: '02' },
-    { name: '3',  value: 3,  file: '03' },
-    { name: '4',  value: 4,  file: '04' },
-    { name: '5',  value: 5,  file: '05' },
-    { name: '6',  value: 6,  file: '06' },
-    { name: '7',  value: 7,  file: '07' },
-    { name: '8',  value: 8,  file: '08' },
-    { name: '9',  value: 9,  file: '09' },
-    { name: '10', value: 10, file: '10' },
-    { name: 'jack',  value: 10, file: 'J' },
-    { name: 'queen', value: 10, file: 'Q' },
-    { name: 'king',  value: 10, file: 'K' },
-    { name: 'ace',   value: 11, file: 'A' },
-];
-
-function buildDeck() {
-    let deck = [];
-    for (const suit of suits) {
-        for (const rank of ranks) {
-            deck.push({
-                value: rank.value,
-                img: `stupidimages/card_${suit}_${rank.file}.png`
-            });
-        }
-    }
-    // Shuffle
-    for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
-    return deck;
-}
-
-let deck = [];
 let playerHand = [];
 let dealerHand = [];
 
-// Pops one card off the deck (removes it so it can't be dealt again)
+// Deal a random card
 function dealCard() {
-    if (deck.length === 0) deck = buildDeck(); // reshuffle if somehow empty
-    return deck.pop();
+    const cards = [2,3,4,5,6,7,8,9,10,10,10,10,11]; // 11 = Ace
+    return cards[Math.floor(Math.random() * cards.length)];
 }
 
-
+// Calculate score (handles Aces)
 function calculateScore(hand) {
-    let score = hand.reduce((sum, card) => sum + card.value, 0);
-    let aces = hand.filter(card => card.value === 11).length;
-    while (score > 21 && aces > 0) {
+    let score = hand.reduce((sum, card) => sum + card, 0);
+
+    let aceCount = hand.filter(card => card === 11).length;
+    while (score > 21 && aceCount > 0) {
         score -= 10;
-        aces--;
+        aceCount--;
     }
+
     return score;
 }
 
+// Start blackjack
+function startBlackjack(branch) {
+    currentBlackjackBranch = branch;
 
+    playerHand = [dealCard(), dealCard()];
+    dealerHand = [dealCard(), dealCard()];
+
+    renderBlackjack(false);
+}
+
+// Render UI
 function renderBlackjack(showDealer) {
     textBox.innerHTML = '';
 
     const playerScore = calculateScore(playerHand);
     const dealerScore = calculateScore(dealerHand);
 
-    const container = document.createElement('div');
+    const p = document.createElement('p');
 
-    // Helper: render a row of card images
-    function cardRow(hand, hideSecond = false) {
-        const row = document.createElement('div');
-        row.style.display = 'flex';
-        row.style.gap = '6px';
-        row.style.marginBottom = '8px';
-        hand.forEach((card, i) => {
-            const img = document.createElement('img');
-if (hideSecond && i === 1) {
-                img.src = 'stupidimages/card_back.png'; // your card back image
-            } else {
-                img.src = card.img;
-            }
-            img.style.height = '100px';
-            row.appendChild(img);
-        });
-        return row;
+    if (showDealer) {
+        p.innerHTML = `
+        <strong>Blackjack</strong><br><br>
+        Your Hand: ${playerHand.join(', ')} (Score: ${playerScore})<br>
+        Dealer Hand: ${dealerHand.join(', ')} (Score: ${dealerScore})
+        `;
+    } else {
+        p.innerHTML = `
+        <strong>Blackjack</strong><br><br>
+        Your Hand: ${playerHand.join(', ')} (Score: ${playerScore})<br>
+        Dealer Hand: ${dealerHand[0]}, ?
+        `;
     }
 
-    const title = document.createElement('strong');
-    title.textContent = 'Blackjack';
-    container.appendChild(title);
-    container.appendChild(document.createElement('br'));
-    container.appendChild(document.createElement('br'));
-
-    const yourLabel = document.createElement('p');
-    yourLabel.textContent = `Your Hand (Score: ${playerScore})`;
-    container.appendChild(yourLabel);
-    container.appendChild(cardRow(playerHand));
-
-    const dealerLabel = document.createElement('p');
-    dealerLabel.textContent = showDealer
-        ? `Dealer Hand (Score: ${dealerScore})`
-        : `Dealer Hand`;
-    container.appendChild(dealerLabel);
-    container.appendChild(cardRow(dealerHand, !showDealer)); // hide dealer's second card
-
-    textBox.appendChild(container);
+    textBox.appendChild(p);
 
     // Buttons
     const btnWrap = document.createElement('div');
+
     const hitBtn = document.createElement('button');
     hitBtn.innerText = 'Hit';
     hitBtn.classList.add('Hit');
@@ -174,35 +137,34 @@ if (hideSecond && i === 1) {
     standBtn.onclick = blackjackStand;
 }
 
-// === START ===
-function startBlackjack(branch) {
-    currentBlackjackBranch = branch;
-    deck = buildDeck(); // fresh shuffled deck each game
-    playerHand = [dealCard(), dealCard()];
-    dealerHand = [dealCard(), dealCard()];
-    renderBlackjack(false);
-}
-
-// === HIT ===
+// Hit
 function blackjackHit() {
     playerHand.push(dealCard());
+
     const score = calculateScore(playerHand);
+
     if (score > 21) {
         renderBlackjack(true);
-        setTimeout(() => transition(currentBlackjackBranch.lose), 1000);
+        setTimeout(() => {
+            transition(currentBlackjackBranch.lose);
+        }, 1000);
         return;
     }
+
     renderBlackjack(false);
 }
 
-// === STAND ===
+// Stand
 function blackjackStand() {
     while (calculateScore(dealerHand) < 17) {
         dealerHand.push(dealCard());
     }
+
     const playerScore = calculateScore(playerHand);
     const dealerScore = calculateScore(dealerHand);
+
     renderBlackjack(true);
+
     setTimeout(() => {
         if (dealerScore > 21 || playerScore > dealerScore) {
             transition(currentBlackjackBranch.win);
@@ -213,38 +175,6 @@ function blackjackStand() {
 }
 
 
-function updateTalons() {
-    const talonElements = document.getElementsByClassName('talons');
-    for (let i = 0; i < talonElements.length; i++) {
-        talonElements[i].textContent = talons;
-    }
-}
-
-// === UPDATE STATS DISPLAY (Health and Energy) ===
-function updateStats() {
-    // Update health display and progress bar
-    const healthElements = document.getElementsByClassName('health');
-    const healthBars = document.getElementsByClassName('healthBar');
-    for (let i = 0; i < healthElements.length; i++) {
-        healthElements[i].textContent = HP;
-    }
-    for (let i = 0; i < healthBars.length; i++) {
-        healthBars[i].value = HP;
-        healthBars[i].max = maxHP;
-    }
-    
-    // Update energy display and progress bar
-    const energyElements = document.getElementsByClassName('energy');
-    const energyBars = document.getElementsByClassName('energyBar');
-    for (let i = 0; i < energyElements.length; i++) {
-        energyElements[i].textContent = energy;
-    }
-    for (let i = 0; i < energyBars.length; i++) {
-        energyBars[i].value = energy;
-        energyBars[i].max = maxEnergy;
-    }
-}
-
 //functions
 //branch logic
 function transition(t) {
@@ -252,34 +182,19 @@ function transition(t) {
     console.log(branch);
     console.log(branch.text);
     textBox.innerHTML = '';
-    
-// Update talons if the branch has a talons property
-    if (branch.talons !== undefined) {
-        talons += branch.talons;
-        updateTalons();
-    }
-    
-    // Update maxHP if the branch has a maxHP property
-    if (branch.maxHP !== undefined) {
-        maxHP += branch.maxHP;
-    }
-    
-    // Update maxEnergy if the branch has a maxEnergy property
-    if (branch.maxEnergy !== undefined) {
-        maxEnergy += branch.maxEnergy;
-    }
-    
-    // Update stats display
-    updateStats();
-    
     //basic story
+    if (branch.trait) {
+        if (trait == 'agressive') {
+            agressive = true;
+        }
+    };
     if (branch.text) {
         let p = document.createElement('p');
         p.innerHTML = `${branch.text}`;
         textBox.appendChild(p);
         console.log(p);
         log.push(branch.text);
-    };
+    }
     if (branch.img) {
         let img = document.createElement('img');
         img.src = `url(${branch.img})`;
@@ -297,6 +212,9 @@ function transition(t) {
             const path = branch.choiceId[index];
             console.log(btnText);
             console.log(path);
+            if (path === 'results') {
+                shardCount++;
+            }
             if (path === 'dimensionSwordEnd') {
                 if (shardCount > 6) {
                     const button = document.createElement('button');
@@ -309,40 +227,63 @@ function transition(t) {
                     console.log(btnArr);
                 };
             }
-            else {
+        if (path === 'unquotaAggro') {
+            if (agressive) {
                 const button = document.createElement('button');
                 button.addEventListener('click', function() {
                     transition(path);
                 });
                 button.innerHTML =  btnText;
-                button.classList.add('choice')
                 btnArr.appendChild(button);
                 console.log(btnArr);
-            };
+            }
+        }
+        if (path === 'unquotaNice') {
+            if (!agressive) {
+                const button = document.createElement('button');
+                button.addEventListener('click', function() {
+                    transition(path);
+                });
+                button.innerHTML =  btnText;
+                btnArr.appendChild(button);
+                console.log(btnArr);
+            }
+        }
+        else {
+            const button = document.createElement('button');
+            button.addEventListener('click', function() {
+                transition(path);
+            });
+            button.innerHTML =  btnText;
+            button.classList.add('choice')
+            btnArr.appendChild(button);
+            console.log(btnArr);
+        };
         }
         textBox.appendChild(btnArr);
-    }
+    };
     if (branch.type == 'battle') {
         const winPath = branch.win;
         const losePath = branch.lose;
         createBattle(t, winPath, losePath);
-    }
+    };
     if (branch.type == 'blackjack') {
         startBlackjack(branch);
-        return;
+    };    
+    if (branch.type == 'heal') {
+        HP = maxHP;
+        energy = maxEnergy;
     }
-    
+    if (branch.type == 'shop') {
+        createShop(branch.inventory)
+    }
 };
-
+//same thing but for the name since you only need it once
 submitName.addEventListener('click', function() {
     name = nameEntry.value || 'Guy';
     console.log(name);
     transition('start');
 })
-
-
-updateStats();
-updateTalons();
 
 /* example: {
     text: 'lorem ipsum'
@@ -351,19 +292,22 @@ updateTalons();
 }
 */
 
-function createShop(idName) {
-textBox.innerHTML = '';
+
+function createShop(inventory) {
+    //use the key function to create a shop here.
 }
+
 
 function createBattle(idName, winpath, losepath) {
     console.log(`Battling ${idName}`)
     //boring
-    textBox.innerHTML = `<section id="commBox"><span id="comm">What will ${name} do?</span></section>`
-    textBox.innerHTML += '<div id="mve"><div id="human"><div id="hhp"><p>Health: <span class="health"></span><progress class="healthBar"></progress></p></div><div id="he"><p>Energy: <span class="energy"></span><progress class="energyBar"></progress></p></div><img src="stupidimages/THESWORD.png" alt="You"><span class="name"></span></div>'
-    textBox.innerHTML += '<div id="fiend"><div id="ehp"><p>Health: <span class="ehealth"></span><progress class="ehealthBar"></progress></p></div><div id="ee"><p>Energy: <span class="eenergy"></span><progress class="eenergyBar"></progress></p></div><img src="#" alt="The enemy!"><span class="ename"></span></div></div>'
-    textBox.innerHTML += '<div id="buttonlist"></div>'
+    textBox.innerHTML = `<section id="commBox"><span id="comm">What will ${name} do?</span></section>`;
+    textBox.innerHTML += '<div id="mve"><div id="human"><div id="hhp"><p>Health: <span class="health"></span><progress class="healthBar"></progress></p></div><div id="he"><p>Energy: <span class="energy"></span><progress class="energyBar"></progress></p></div><img src="stupidimages/THESWORD.png" alt="You"><span class="name"></span></div>';
+    textBox.innerHTML += '<div id="fiend"><div id="ehp"><p>Health: <span class="ehealth"></span><progress class="ehealthBar"></progress></p></div><div id="ee"><p>Energy: <span class="eenergy"></span><progress class="eenergyBar"></progress></p></div><img src="#" alt="The enemy!"><span class="ename"></span></div></div>';
+    textBox.innerHTML += '<div id="buttonlist"></div>';
 
-    const butonDiv = document.getElementById('buttonlist')
+    const commentary = document.getElementById('comm');
+    const butonDiv = document.getElementById('buttonlist');
 
         //stats
         let foe = enemy[`${idName}`];
@@ -448,13 +392,15 @@ function createBattle(idName, winpath, losepath) {
                 waste(enWaste);
             }
         }
-        function wipebuttons() {
-            butonDiv.innerHTML = ''
-        }
         function createTransitionButton() {
-            const stuff = document.createElement('button')
-            stuff.innerHTML = 'Next -->'
+            const stuff = document.createElement('button');
+            stuff.classList.add('choice');
+            stuff.innerHTML = 'Next -->';
+            butonDiv.innerHTML = '';
+            butonDiv.appendChild(stuff);
+            
             if (enhp != 0 && HP != 0) {
+                enemyMove();
                 stuff.addEventListener('click', function() {
                     guyTurn();
                 })
@@ -471,32 +417,58 @@ function createBattle(idName, winpath, losepath) {
                         transition(losepath);
                     })
             }
+            else {
+                
+            }
         }
+
+
         function guyTurn() {
+            butonDiv.innerHTML='';
             const attackButton = document.createElement('button');
             attackButton.classList.add('attack');
             attackButton.innerHTML = 'Attack!';
             attackButton.addEventListener('click', function() {
                 attack(attack, enAtk, enDef, defendingStatus, enDefending, luck, enLuck, name, enName, HP, enhp);
-                wipebuttons()
             })
             const defendButton = document.createElement('button');
             defendButton.classList.add('defend');
-            defendButton.innerHTML = 'Defende';
+            defendButton.innerHTML = 'Defend';
             defendButton.addEventListener('click', function() {
                 defend(defendingStatus, name);
-                wipebuttons()
+                createTransitionButton();
             })
             const healButton = document.createElement('button');
             healButton.classList.add('Heal');
             healButton.innerHTML = `Heal (${healCost} Energy)`;
             healButton.addEventListener('click', function() {
                 heal(energy, healCost, HP, maxHP, luck, name, defendingStatus);
-                wipebuttons()
+                createTransitionButton();
             })
+            butonDiv.appendChild(attackButton);
+            butonDiv.appendChild(defendButton);
+            butonDiv.appendChild(healButton);
+
+            //DEBUG ONLY - REMOVE WHEN THE BATTLE FUNCTION IS ACTUALLY FIXED
+            const winbtn = document.createElement('button');
+            const losebtn = document.createElement('button');
+            winbtn.innerHTML = "Win Match (Debug option until battles are fully fleshed out)";
+            losebtn.innerHTML = "Lose Match (Debug option until battles are fully fleshed out)";
+            winbtn.addEventListener('click', function() {
+                transition(winpath);
+            })
+            losebtn.addEventListener('click', function() {
+                transition(losepath);
+            })
+            butonDiv.appendChild(winbtn);
+            butonDiv.appendChild(losebtn);
         }
-        
+        guyTurn();
 }
+
+//shoppingList
+
+
 
 //enemyList
 const enemy = {
@@ -694,6 +666,66 @@ const enemy = {
         }
     }
 };
+
+
+
+//items, to be sold
+const shop = {
+    tournament: {
+        bigSword: {
+            name: 'Big Sword',
+            desc: 'A big sword, which is big enough to raise your attack by 5.',
+            price: 300,
+            atk: 5
+        },
+        heavyPlate: {
+            name: 'Heavy Chestplate',
+            desc: 'This chestplate may take some time to move with, but it grants an amazing 8 Defense.',
+            price: 400,
+            def: 8
+        },
+        miniShield: {
+            name: 'Handheld Shield',
+            desc: 'A small shield that you can attach to your arm for better defensive positioning. Increases your defense by 2',
+            price: 250,
+            def: 8
+        }
+    },
+    luck: {
+        luckyCharm: {
+            text: 'Lucky Charm',
+            desc: 'A very simple lucky charm that simply increases your luck by 1.',
+            price: 50,
+            luck: 1
+        },
+        smallFavor: {
+            name: 'Lucky handheld thing',
+            desc: 'This thing, when pointed at the dealer, will give you vast amounts of luck. Gain 15 luck.',
+            price: 2000,
+            luck: 15
+        },
+        fourLeaf: {
+            name: 'Four leaf clover',
+            desc: 'A clover rumored to make the unluckiest person fortunate. More effective if found naturally, but this one would also do. Gain 5 luck.',
+            price: 300,
+            luck: 5
+        }
+    },
+    mountain: {
+        bigStick: {
+            name: 'Big Stick',
+            desc: 'A very large stick. Do not touch unless you are worthy. +10 attack',
+            price: 550,
+            atk: 10
+        },
+        robes: {
+            name: 'Warm Robe',
+            desc: 'Warm, comftorable, and very defensive. Offers 5 defense.',
+            price: 400,
+            def: 5
+        }
+    }
+}
 
 //story
 const story = {
@@ -1066,33 +1098,198 @@ const story = {
      },
      //THE CRIME ROUTE
      susMan: {
-         text: 'You approach the suspicous man, he tells of a man who can help you out, the big cheese they call him',
-         choice: ['go with him', 'go talk to the passionate man', 'go talk to the prideful man'],
+         text: 'You approach the suspicous man, he tells of a man who can help you out, the Big Cheese they call him',
+         choice: ['Go with him', 'Go talk to the passionate man', 'Go talk to the prideful man'],
          choiceId: ['embarkCrime', 'drugAddict', 'prideyMan']
      },
 
      embarkCrime: {
-        text: 'You meet the big cheese and he turns around in his chair menacingly, I got a job for you, I needs you to go out and collect some money for me, three houses down the road',
+        text: 'You meet the Big Cheese and he turns around in his chair menacingly, he states: "I got a job for you, I need you to go out and collect some money for me, three houses down the road. Don\'t come back until you get all 3 of them. I dont care what you have to do to get them, as long as I get my fair share."',
         choice: ['Go do the job', 'Refuse the job'],
         choiceId: ['house1', 'refuse']
      },
 
      refuse: {
-        text: 'You refused the job and the big cheese kick punched you in the gut and kick you out on the street',
-        choice: ['Go Gambling', 'Go to Tournament town'],
+        text: 'You refused the job, scared of getting a little dirty, and the Big Cheese promptly kicks you in the gut and out onto the street',
+        choice: ['Go gambling at a casino', 'Go to nexdor in order to participate in the tournament'],
         choiceId: ['embarkGambling', 'embarkTournament'],
         maxHP: -20
      },
 
      house1: {
-        text: 'You knock on the person\'s home and then you ask them about money the borrowed from the big cheese, they tell you to go away but you need the money',
+        text: 'You knock on the person\'s home and then you ask them about money the borrowed from the Big Cheese. They tell you to go away, but you can\'t take no for an answer.',
         choice: ['Negotiate', 'Force them to give you the money', ],
         choiceId: ['negotiate', 'forcemoney']
      },
 
+     forcemoney: {
+        type: 'battle',
+        win: 'house1brutal',
+        lose: 'gameOver'
+     },
+
+     house1brutal: {
+        text: 'The person is unconcoius of the floor. You take thier money and leave, not finding the time or effort to get some help for them.',
+        trait: 'agressive',
+        choice: ['Continue onward'],
+        choice: ['moveHouse']
+     },
+
      negotiate: {
-        text: 'You negotiate with the person and they finally give in',
-        choice: ['Go to the next house', ''],
+        text: 'You negotiate with the person, and calm them down. They take a deep breath, and say you aren\'t as scary as you look. They give you the money, since you seem like a nice guy.',
+        choice: ['Go to the next house'],
+        choiceId: ['moveHouse'],
+     },
+
+     moveHouse: {
+        text: 'You leave the house, and start to make your way to the next one. You find your next target, who has already noticed you and is currently on guard. Your current method seems to work, so why not just do it again?',
+        choice: ['Talk him into giving the money', 'Beat him up', 'Ditch this whole side job shtick'],
+        choiceId: ['niceHouse', 'battleHouse2', 'ditchJob']
+     },
+
+     niceHouse: {
+        text: 'Once again, you begin to talk to the man in a gentle manner. He lowers his guard, and listens to your reasoning. He seems genuinely touched, and hands over his money with only a sarcastic complaint about not being let off the hook.',
+        choice: ['Speed over to the final house', 'Ditch this dirty work and do something else'],
+        choiceId: ['niceHouse3', 'ditchJob']
+     },
+
+     niceHouse3: {
+        text: 'You head over to the final house, which isn\'t as far as you originally thought it was. You come face to face with the final guy, who reacts to you with the same amount of skepticism as the previous guys. You talk to him until he opens up. He goes into his house, and after a bit, he comes back out with a bag full of things to pay off his debt.',
+        choice: ['Return to the Big Cheese'],
+        choiceId: ['quotaNice']
+     },
+
+     battleHouse2: {
+        type: 'battle',
+        win: 'beatUpGuy2',
+        lose: 'gameOver'
+     },
+
+     beatUpGuy2: {
+        text: 'You sucessfully managed to beat up the second guy on the Big Cheese\s list. The next house seems to be only a few times over, and surely the final guy wouldn\'t be any stronger than this citizen.',
+        choice: ['Head on over', 'Ditch before you become a menace'],
+        choiceId: ['finalHouseAggro', 'ditchJob']
+     },
+
+     finalHouseAggro: {
+        text: 'You are already prepared for what you must do next. The target has not found you yet, and you can probably get a very good sneak attack in.',
+        choice: ['Charge!'],
+        choice: ['battleFinalHouse']
+     },
+
+     battleFinalHouse: {
+        type: 'battle',
+        win: 'finalHouseBattle',
+        lose: 'gameOver'
+     },
+
+     finalHouseBattle: {
+        text: 'You have sucesfully defeated the third and final guy. You can now return to the Big Cheese with some good news.',
+        choice: ['Return'],
+        choiceId: ['quotaAggro'],
+        type: 'heal'
+     },
+
+     quotaAggro: {
+        text: 'You have made it to the boss, with only a few minor scrapes along the way. \n When you step through the door, you immediately feel His presence.\n "So, you finished the job I gave you. I am grateful for your cooperation. At this rate, you might be cleared out of your debt in only a couple of years!"\nThis isn\'t really what you wanted for your life. However, it seems you\'ll be safe from your debt, at least as safe as an underling could be.',
+        choice: ['Fight the Big Cheese', 'Accept your working conditions.'],
+        choice: ['aggroMob', 'underlingEnd']
+     },
+
+     aggroMob: {
+        text: 'You stare down the boss, ready to charge, when an angry mob of citizens storm into the office. \n"You! Whatever your name is! We are tired of you beating up people, and we... No, the Big Cheese, will strike you down!"\nShockingly, it mattered not that the Big Cheese was the evil that put them in debt. At the very least, he was the lesser evil right now.',
+        choice: ['Fight'],
+        choiceId: ['HeroCheese']
+     },
+
+     heroCheese: {
+        type: 'battle',
+        win: ['overthrowEnding'],
+        lose: ['townChudEnding']
+     },
+
+     overthrowEnding: {
+        text: 'You have failed to overthrow the Big Cheese. Your conciousness fades, and as the crowd cheers at your death, you begin to feel remorse. You wonder if beating up people for thier money was justified, and if you acted a little kinder, if your ending would be different, somehow.',
+        choice: ['View your results'],
+        choiceId: ['results']
+     },
+
+     underlingEnd: {
+        text: 'You have defeated the Big Cheese, who for a moment became a hero, and have now become the newest menace in town. The people all flee for thier lives as you come to realized this ungained potential.\nYou now have unlimited power. No debt collectors can stop you now. As you live out the rest of your days, you become one of the greediest and violent criminals to ever set foot in history.',
+        choice: ['View your results'],
+        choiceId: ['results']
+     },
+
+     quotaNice: {
+        text: 'You have managed to come back unscathed. The Big Cheese admires your work, saying "I\'m impressed with how well you got the hang of this! At this rate you\'ll have your debt cleared in a couple of years!"\nEven though living as an underling might not be as bad as you may think, it would not be pleasant to work here for years. What should you do?',
+        choice: ['Convince him to be more than a henchman', 'Fight your way out of the crime ring'],
+        choiceId: ['persuasionEnd', 'happyMob']
+     },
+
+     happyMob: {
+        text: 'You ready yourself to take on an intimidating foe. Then, something completely unexpected happens:\n A crowd of people are bursting through the door in what seems to be an angry mob. They are sick of the Big Cheese bossing them around, and start to weaken him, all to the point where finishing the job will be easy.',
+        choice: ['Finish the Job!'],
+        choiceId: ['smallCheese']
+     },
+
+     smallCheese: {
+        type:'battle',
+        win: 'heroEnd',
+        lose: 'despairEnd'
+     },
+
+     heroEnd: {
+        text: 'The Big Cheese falls onto the ground, becoming Small Cheese. The crowd erupts in excitement, praising you as a hero of this town. As it turns out, the Big Cheese is the one carrying out your debt, so knocking him out of power also knowed your debt out of your hands.\nRevered as a hero who saves the day, you live out a pleasant life where you are at peace, helping strangers with any trouble they face.',
+        choice: ['See your journey'],
+        choiceId:['results']
+     },
+
+     depsairEnd: {
+        text: 'You fall into deep slubmer. The townsfolk become afraid of what\'s to come and quickly flee the scene. \nThe Big Cheese imposes over you: "Did you really think you could take out THE Big Cheese? Well, you were sorely mistaken, and now I will remain in power while you will rest forever."\nTired from your defeat, you fall into a deep slumber, never to wake back up.',
+        choice: ['See your journey'],
+        choiceId: ['results']
+     },
+
+     persuasionEnd: {
+        text: '"Hold on." You say to the Big Cheese, "I\'m sure there\'s a lot better uses you could use me for than simple henchman work. Why don\'t I come work for you for your more \'difficult\' jobs".\nAlthough the Big Cheese hesitates, he eventually decided on taking you under his wing as a right-hand man. You have sucessfully gotten a more powerful position, and although you have to work under his wing for years to come, you have at the very least become a powerful henchman, able to live out the rest of your days doing skechy work to make a living.',
+        choice: ['See your journey'],
+        choiceId: [results]
+     },
+
+     ditchJob: {
+        text: 'You abandon the mind-numbing duties of being a victim of gang crime. You could see if the Big Cheese would be willing to find oyu another job, or just try to gamble or participate in some kind of tournament.\n What should you do?',
+        choice: ['Go see what\'s up with the boss', 'Go see what\'s up with the boss', 'Go gamble your way out of debt', 'Go to Nexdor, the town where battling tournaments are frequent.'],
+        choiceId: ['unquotaAggro', 'unquotaNice', 'embarkGambling', 'embarkTournament']
+     },
+
+     unquotaAggro: {
+        text: 'You return to the Big Cheese, claiming that the people ran away. However, seeing some bruises from your battles, the Big Cheese becomes furious. He thinks that you got beaten up by the residents, and gives you a choice: \nFight him and prove you aren\'t weak, or leave this establishment and never come back.',
+        choice: ['Fight', 'Never come back'],
+        choiceId: ['angryBoss', 'kickedCrime']
+     },
+
+     angryBoss: {
+        type: 'battle',
+        win: 'takeOverEnd',
+        lose: 'gameOver'
+     },
+
+     takeOverEnd: {
+        text: 'Suprisingly, you defeated the provoked Big Cheese. He falls to the floor, but slowly gets up and leaves without a word. It seems like he has given up his life as a crime boss, which seems good. You decide to become the new boss. You order around henchlings to do good for the community instead of exploiting the townsfolk. Suprisingly, this appears to be the most effective method of town rennovations. You live your life busy, but very important to your city\'s growth.',
+        choice: ['View your results'],
+        choiceId: ['results']
+     },
+
+     unquotaNice: {
+        text: 'You return to the Big Cheese empty handed, saying that you don\'t think you\'re cut out for this kind of work. He gives an understanding, but still frustrated, nod, and says that you can either get out of his establishment nicely or he\'ll have to remove you with force',
+        choice: ['Leave nicely', 'Forcefully, please!'],
+        choiceId: ['kickedCrime', 'angryBoss']
+     },
+
+     kickedCrime: {
+        text: 'You have been kicked out of the Big Cheese\'s gang. There are realistically only two options left for you do do: go gambling, or head over to Nexdor, where tournaments are held for prize money.',
+        choice: ['Gambling! Gambling!', 'Battle for honor, and for money'],
+        choiceId: ['embarkGambling', 'embarkTournament']
      },
     
      //THE GAMBLING ROUTE
@@ -1105,7 +1302,6 @@ const story = {
          text: 'You decide to go to the casino, hoping to get lucky and win some money. You eneter the casion greeted by the smell of cigaretttes and the sound of people cheering ad groaning. You look around and everything is taken except for one table that\'s glowing. it is blackjack. You decide to play it, hoping to win some money.',
          choice: ['Play Blackjack'],
          choiceId: ['blackjack']
- 
      },
      blackjack: {
          type: 'blackjack',
@@ -1119,10 +1315,10 @@ const story = {
          talons: 5000
      },
      blackjackLose: {
-         text: 'You lose at blackjack. You lose 2000 talons, but you decide to keep playing, hoping to win it back.',
+         text: 'You lose at blackjack. You lose 20 talons, but you decide to keep playing, hoping to win it back.',
          choice: ['Play again', 'go upgrade your luck'],
          choiceId: ['blackjack', 'luckUpgrade'],
-         talons: -2000
+         talons: -20
      },
      luckUpgrade: {
          type: 'shop',
