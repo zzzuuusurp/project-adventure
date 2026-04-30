@@ -1113,13 +1113,13 @@ const story = {
          lose: 'blackjackLose'
      },
      blackjackWin: {
-         text: 'You win at blackjack! You win 500 talons, You decide to keep playing, hoping to win more.',
+         text: 'You win at blackjack! You win 5000 talons, You decide to keep playing, hoping to win more.',
          choice: ['Play again', 'go upgrade your luck'],
          choiceId: ['blackjack', 'luckUpgrade'],
          talons: 5000
      },
      blackjackLose: {
-         text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
+         text: 'You lose at blackjack. You lose 2000 talons, but you decide to keep playing, hoping to win it back.',
          choice: ['Play again', 'go upgrade your luck'],
          choiceId: ['blackjack', 'luckUpgrade'],
          talons: -2000
