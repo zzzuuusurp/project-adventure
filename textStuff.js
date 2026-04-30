@@ -1221,6 +1221,7 @@ function createBattle(idName, winpath, losepath) {
 
         //stats
         let foe = enemy[`${idName}`];
+        console.log(foe)
         const enName = foe.name;
         const enAtk = foe.attack;
         const enDef = foe.defense;
@@ -1233,6 +1234,8 @@ function createBattle(idName, winpath, losepath) {
         let enhp = enMaxhp;
         let ene = enMaxe;
         const actions = foe.actions;
+
+    
 
         //attack, defend, heal, and waste turn (enemy only)
         function defend(d, n) {
@@ -1260,7 +1263,7 @@ function createBattle(idName, winpath, losepath) {
         function waste(w) {
             commentary.innerHTML = `${w}`
         }
-        //a = attacker stat, b = defender stat
+        //A = attacker stat, B = defender stat
         function attack(aA, dA, dB, dsA, dsB, lA, lB, nA, nB, hA, hB) {
             dsA = false;
             if (dsB) {
@@ -1377,6 +1380,3 @@ function createBattle(idName, winpath, losepath) {
 }
 
 //shoppingList
-
-
-
