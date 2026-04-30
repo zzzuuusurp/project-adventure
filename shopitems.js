@@ -1,6 +1,6 @@
 
 //items, to be sold
-const shop = {
+export const shop = {
     tournament: {
         bigSword: {
             name: 'Big Sword',

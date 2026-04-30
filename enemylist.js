@@ -1,5 +1,5 @@
 //enemyList
-const enemy = {
+export const enemy = {
     banditNexdor: {
         name: 'Agressive Bandit',
         attack: 5,

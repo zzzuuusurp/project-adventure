@@ -5,9 +5,9 @@
 //CHANGE BACKGROUNDS USING SOME SORT OF VARIABLE IN CERTAIN OBJECTS
 //ADD A 'MEMORY' THING IN CERTAIN OBJECTS AND THEN STORE THEM IN AN ARRAY TO SHOW IN THE RESULTS SCREEN
 
-import { story } from "story.js";
-import { shop } from "shopitems.js";
-import { enemy } from "enemylist.js";
+import { story } from "./story.js";
+import { shop } from "./shopitems.js";
+import { enemy } from "./enemylist.js";
 
 //DOM stuff
 const nameEntry = document.getElementById('nameEnterer');
