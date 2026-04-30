@@ -63,66 +63,112 @@ function activateComicSans() {
 
 
 
+const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+const ranks = [
+    { name: '2',  value: 2,  file: '02' },
+    { name: '3',  value: 3,  file: '03' },
+    { name: '4',  value: 4,  file: '04' },
+    { name: '5',  value: 5,  file: '05' },
+    { name: '6',  value: 6,  file: '06' },
+    { name: '7',  value: 7,  file: '07' },
+    { name: '8',  value: 8,  file: '08' },
+    { name: '9',  value: 9,  file: '09' },
+    { name: '10', value: 10, file: '10' },
+    { name: 'jack',  value: 10, file: 'J' },
+    { name: 'queen', value: 10, file: 'Q' },
+    { name: 'king',  value: 10, file: 'K' },
+    { name: 'ace',   value: 11, file: 'A' },
+];
+
+function buildDeck() {
+    let deck = [];
+    for (const suit of suits) {
+        for (const rank of ranks) {
+            deck.push({
+                value: rank.value,
+                img: `stupidimages/card_${suit}_${rank.file}.png`
+            });
+        }
+    }
+    // Shuffle
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    return deck;
+}
+
+let deck = [];
 let playerHand = [];
 let dealerHand = [];
 
-// Deal a random card
+// Pops one card off the deck (removes it so it can't be dealt again)
 function dealCard() {
-    const cards = [2,3,4,5,6,7,8,9,10,10,10,10,11]; // 11 = Ace
-    return cards[Math.floor(Math.random() * cards.length)];
+    if (deck.length === 0) deck = buildDeck(); // reshuffle if somehow empty
+    return deck.pop();
 }
 
-// Calculate score (handles Aces)
+
 function calculateScore(hand) {
-    let score = hand.reduce((sum, card) => sum + card, 0);
-
-    let aceCount = hand.filter(card => card === 11).length;
-    while (score > 21 && aceCount > 0) {
+    let score = hand.reduce((sum, card) => sum + card.value, 0);
+    let aces = hand.filter(card => card.value === 11).length;
+    while (score > 21 && aces > 0) {
         score -= 10;
-        aceCount--;
+        aces--;
     }
-
     return score;
 }
 
-// Start blackjack
-function startBlackjack(branch) {
-    currentBlackjackBranch = branch;
 
-    playerHand = [dealCard(), dealCard()];
-    dealerHand = [dealCard(), dealCard()];
-
-    renderBlackjack(false);
-}
-
-// Render UI
 function renderBlackjack(showDealer) {
     textBox.innerHTML = '';
 
     const playerScore = calculateScore(playerHand);
     const dealerScore = calculateScore(dealerHand);
 
-    const p = document.createElement('p');
+    const container = document.createElement('div');
 
-    if (showDealer) {
-        p.innerHTML = `
-        <strong>Blackjack</strong><br><br>
-        Your Hand: ${playerHand.join(', ')} (Score: ${playerScore})<br>
-        Dealer Hand: ${dealerHand.join(', ')} (Score: ${dealerScore})
-        `;
-    } else {
-        p.innerHTML = `
-        <strong>Blackjack</strong><br><br>
-        Your Hand: ${playerHand.join(', ')} (Score: ${playerScore})<br>
-        Dealer Hand: ${dealerHand[0]}, ?
-        `;
+    // Helper: render a row of card images
+    function cardRow(hand, hideSecond = false) {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.gap = '6px';
+        row.style.marginBottom = '8px';
+        hand.forEach((card, i) => {
+            const img = document.createElement('img');
+if (hideSecond && i === 1) {
+                img.src = 'stupidimages/card_back.png'; // your card back image
+            } else {
+                img.src = card.img;
+            }
+            img.style.height = '100px';
+            row.appendChild(img);
+        });
+        return row;
     }
 
-    textBox.appendChild(p);
+    const title = document.createElement('strong');
+    title.textContent = 'Blackjack';
+    container.appendChild(title);
+    container.appendChild(document.createElement('br'));
+    container.appendChild(document.createElement('br'));
+
+    const yourLabel = document.createElement('p');
+    yourLabel.textContent = `Your Hand (Score: ${playerScore})`;
+    container.appendChild(yourLabel);
+    container.appendChild(cardRow(playerHand));
+
+    const dealerLabel = document.createElement('p');
+    dealerLabel.textContent = showDealer
+        ? `Dealer Hand (Score: ${dealerScore})`
+        : `Dealer Hand`;
+    container.appendChild(dealerLabel);
+    container.appendChild(cardRow(dealerHand, !showDealer)); // hide dealer's second card
+
+    textBox.appendChild(container);
 
     // Buttons
     const btnWrap = document.createElement('div');
-
     const hitBtn = document.createElement('button');
     hitBtn.innerText = 'Hit';
     hitBtn.classList.add('Hit');
@@ -137,34 +183,35 @@ function renderBlackjack(showDealer) {
     standBtn.onclick = blackjackStand;
 }
 
-// Hit
-function blackjackHit() {
-    playerHand.push(dealCard());
-
-    const score = calculateScore(playerHand);
-
-    if (score > 21) {
-        renderBlackjack(true);
-        setTimeout(() => {
-            transition(currentBlackjackBranch.lose);
-        }, 1000);
-        return;
-    }
-
+// === START ===
+function startBlackjack(branch) {
+    currentBlackjackBranch = branch;
+    deck = buildDeck(); // fresh shuffled deck each game
+    playerHand = [dealCard(), dealCard()];
+    dealerHand = [dealCard(), dealCard()];
     renderBlackjack(false);
 }
 
-// Stand
+// === HIT ===
+function blackjackHit() {
+    playerHand.push(dealCard());
+    const score = calculateScore(playerHand);
+    if (score > 21) {
+        renderBlackjack(true);
+        setTimeout(() => transition(currentBlackjackBranch.lose), 1000);
+        return;
+    }
+    renderBlackjack(false);
+}
+
+// === STAND ===
 function blackjackStand() {
     while (calculateScore(dealerHand) < 17) {
         dealerHand.push(dealCard());
     }
-
     const playerScore = calculateScore(playerHand);
     const dealerScore = calculateScore(dealerHand);
-
     renderBlackjack(true);
-
     setTimeout(() => {
         if (dealerScore > 21 || playerScore > dealerScore) {
             transition(currentBlackjackBranch.win);
@@ -173,6 +220,66 @@ function blackjackStand() {
         }
     }, 1000);
 }
+
+
+function updateTalons() {
+    const talonElements = document.getElementsByClassName('talons');
+    for (let i = 0; i < talonElements.length; i++) {
+        talonElements[i].textContent = talons;
+    }
+}
+
+// === UPDATE STATS DISPLAY (Health and Energy) ===
+function updateStats() {
+    // Update health display and progress bar
+    const healthElements = document.getElementsByClassName('health');
+    const healthBars = document.getElementsByClassName('healthBar');
+    for (let i = 0; i < healthElements.length; i++) {
+        healthElements[i].textContent = HP;
+    }
+    for (let i = 0; i < healthBars.length; i++) {
+        healthBars[i].value = HP;
+        healthBars[i].max = maxHP;
+    }
+    
+    // Update energy display and progress bar
+    const energyElements = document.getElementsByClassName('energy');
+    const energyBars = document.getElementsByClassName('energyBar');
+    for (let i = 0; i < energyElements.length; i++) {
+        energyElements[i].textContent = energy;
+    }
+    for (let i = 0; i < energyBars.length; i++) {
+        energyBars[i].value = energy;
+        energyBars[i].max = maxEnergy;
+    }
+}
+
+//functions
+//branch logic
+function transition(t) {
+    const branch = story[`${t}`];
+    console.log(branch);
+    console.log(branch.text);
+    textBox.innerHTML = '';
+    
+// Update talons if the branch has a talons property
+    if (branch.talons !== undefined) {
+        talons += branch.talons;
+        updateTalons();
+    }
+    
+    // Update maxHP if the branch has a maxHP property
+    if (branch.maxHP !== undefined) {
+        maxHP += branch.maxHP;
+    }
+    
+    // Update maxEnergy if the branch has a maxEnergy property
+    if (branch.maxEnergy !== undefined) {
+        maxEnergy += branch.maxEnergy;
+    }
+    
+    // Update stats display
+    updateStats();
 
 
 //functions
@@ -277,7 +384,7 @@ function transition(t) {
     if (branch.type == 'shop') {
         createShop(branch.inventory)
     }
-};
+}}
 //same thing but for the name since you only need it once
 submitName.addEventListener('click', function() {
     name = nameEntry.value || 'Guy';
