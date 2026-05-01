@@ -1,9 +1,5 @@
-//DOM stuff
-
-
-
 //story
-const story = {
+export const story = {
     start: {
          text: 'You are a peasant, walking around the town square. You live a relatively normal life, with your main focus mainly getting by. However, little do you know, one misstep is about to change that. In the middle of your daily walk to work, you come across a vase. Tired of your boring life, you decide to kick it down. The vase shatters with a loud CLASH, breaking it into an uncountable amount of clay pieces A very furious man sees what you\'ve done and comes to you, shouting. He reveals himself to be Bill Gatesford III, the richest man in the world. He angrily informs you that the vase you had "kicked down like a peasant" was worth one million Talons. The very next day, you are confronted by some shady men. They are the debt collectors, and tell you that you have one week before you have to pay the full million you owe.',
          choice: ['Negotiate with the collectors', 'Accept your fate and head outside to make some money', 'Slay the collectors with your dimension sword'],
@@ -181,7 +177,7 @@ const story = {
      },
      prefight2: {
          text: 'You beat the guy with ease. As per the Epic Collosseum Rules, you are now allowed to rob him. \n (You got 250 talons) \n There is still some time before the next match. What will you do now?',
-         choice: [`Use your heals (${healCount} remaining)`, 'Visit the shop', 'Enter your next battle'],
+         choice: [`Use your heals`, 'Visit the shop', 'Enter your next battle'],
          choiceId: ['restorePoint1', 'shop1', 'battle2'],
          talons: 200
      },
@@ -208,7 +204,7 @@ const story = {
      },
      preBattle3: {
          text: 'You have taken down your second opponent. As per the Epic Collosseum Rules, you can rob him. \n(You borrowed 500 talons.) \nThere is still some time before your next match. What will you do now?',
-         choice: [`Use your heals (${healCount} remaining)`, 'Visit the shop', 'Enter your next battle'],
+         choice: [`Use your heals`, 'Visit the shop', 'Enter your next battle'],
          choiceId: ['restorePoint2', 'shop2', 'battle3'],
          talons: 200
      },
@@ -236,7 +232,7 @@ const story = {
      preBattleFinal: {
          text: "Despite your inital expectations, you have won. You quickly rob him of his goods, as per the Epic Collosseum Rules, before he wakes up. \n(You heasantantly stole 750 talons) \nYou have some time before your final battle. What will you do?",
          talons: 750,
-         choice: [`Use your heals (${healCount} remaining)`, 'Visit the shop', 'Enter your final battle'],
+         choice: [`Use your heals`, 'Visit the shop', 'Enter your final battle'],
          choiceId: ['restorePoint3', 'shop4', 'battle4'],
      },
      restorePoint3: {
@@ -271,7 +267,7 @@ const story = {
          choiceId: ['results']
      },
      organizerEnd: {
-         text: `The organizers aren\'t entirely shocked by your request. They gather around in a short circle of discussion, and come to thier conclusion after a couple of minutes of debate.\n"You seem to have what it takes. Welcome to the team, ${name}. \nYou have now become a man of power. No debt can hold you back, and you live your life organizing tournaments that you join to show who's boss.`,
+         text: `The organizers aren\'t entirely shocked by your request. They gather around in a short circle of discussion, and come to thier conclusion after a couple of minutes of debate.\n"You seem to have what it takes. Welcome to the team. \nYou have now become a man of power. No debt can hold you back, and you live your life organizing tournaments that you join to show who's boss.`,
          choice: ['View your journey'],
          choiceId: ['results']
      },
@@ -373,33 +369,198 @@ const story = {
      },
      //THE CRIME ROUTE
      susMan: {
-         text: 'You approach the suspicous man, he tells of a man who can help you out, the big cheese they call him',
-         choice: ['go with him', 'go talk to the passionate man', 'go talk to the prideful man'],
+         text: 'You approach the suspicous man, he tells of a man who can help you out, the Big Cheese they call him',
+         choice: ['Go with him', 'Go talk to the passionate man', 'Go talk to the prideful man'],
          choiceId: ['embarkCrime', 'drugAddict', 'prideyMan']
      },
 
      embarkCrime: {
-        text: 'You meet the big cheese and he turns around in his chair menacingly, I got a job for you, I needs you to go out and collect some money for me, three houses down the road',
+        text: 'You meet the Big Cheese and he turns around in his chair menacingly, he states: "I got a job for you, I need you to go out and collect some money for me, three houses down the road. Don\'t come back until you get all 3 of them. I dont care what you have to do to get them, as long as I get my fair share."',
         choice: ['Go do the job', 'Refuse the job'],
         choiceId: ['house1', 'refuse']
      },
 
      refuse: {
-        text: 'You refused the job and the big cheese kick punched you in the gut and kick you out on the street',
-        choice: ['Go Gambling', 'Go to Tournament town'],
+        text: 'You refused the job, scared of getting a little dirty, and the Big Cheese promptly kicks you in the gut and out onto the street',
+        choice: ['Go gambling at a casino', 'Go to nexdor in order to participate in the tournament'],
         choiceId: ['embarkGambling', 'embarkTournament'],
         maxHP: -20
      },
 
      house1: {
-        text: 'You knock on the person\'s home and then you ask them about money the borrowed from the big cheese, they tell you to go away but you need the money',
+        text: 'You knock on the person\'s home and then you ask them about money the borrowed from the Big Cheese. They tell you to go away, but you can\'t take no for an answer.',
         choice: ['Negotiate', 'Force them to give you the money', ],
         choiceId: ['negotiate', 'forcemoney']
      },
 
+     forcemoney: {
+        type: 'battle',
+        win: 'house1brutal',
+        lose: 'gameOver'
+     },
+
+     house1brutal: {
+        text: 'The person is unconcoius of the floor. You take thier money and leave, not finding the time or effort to get some help for them.',
+        trait: 'agressive',
+        choice: ['Continue onward'],
+        choice: ['moveHouse']
+     },
+
      negotiate: {
-        text: 'You negotiate with the person and they finally give in',
-        choice: ['Go to the next house', ''],
+        text: 'You negotiate with the person, and calm them down. They take a deep breath, and say you aren\'t as scary as you look. They give you the money, since you seem like a nice guy.',
+        choice: ['Go to the next house'],
+        choiceId: ['moveHouse'],
+     },
+
+     moveHouse: {
+        text: 'You leave the house, and start to make your way to the next one. You find your next target, who has already noticed you and is currently on guard. Your current method seems to work, so why not just do it again?',
+        choice: ['Talk him into giving the money', 'Beat him up', 'Ditch this whole side job shtick'],
+        choiceId: ['niceHouse', 'battleHouse2', 'ditchJob']
+     },
+
+     niceHouse: {
+        text: 'Once again, you begin to talk to the man in a gentle manner. He lowers his guard, and listens to your reasoning. He seems genuinely touched, and hands over his money with only a sarcastic complaint about not being let off the hook.',
+        choice: ['Speed over to the final house', 'Ditch this dirty work and do something else'],
+        choiceId: ['niceHouse3', 'ditchJob']
+     },
+
+     niceHouse3: {
+        text: 'You head over to the final house, which isn\'t as far as you originally thought it was. You come face to face with the final guy, who reacts to you with the same amount of skepticism as the previous guys. You talk to him until he opens up. He goes into his house, and after a bit, he comes back out with a bag full of things to pay off his debt.',
+        choice: ['Return to the Big Cheese'],
+        choiceId: ['quotaNice']
+     },
+
+     battleHouse2: {
+        type: 'battle',
+        win: 'beatUpGuy2',
+        lose: 'gameOver'
+     },
+
+     beatUpGuy2: {
+        text: 'You sucessfully managed to beat up the second guy on the Big Cheese\s list. The next house seems to be only a few times over, and surely the final guy wouldn\'t be any stronger than this citizen.',
+        choice: ['Head on over', 'Ditch before you become a menace'],
+        choiceId: ['finalHouseAggro', 'ditchJob']
+     },
+
+     finalHouseAggro: {
+        text: 'You are already prepared for what you must do next. The target has not found you yet, and you can probably get a very good sneak attack in.',
+        choice: ['Charge!'],
+        choice: ['battleFinalHouse']
+     },
+
+     battleFinalHouse: {
+        type: 'battle',
+        win: 'finalHouseBattle',
+        lose: 'gameOver'
+     },
+
+     finalHouseBattle: {
+        text: 'You have sucesfully defeated the third and final guy. You can now return to the Big Cheese with some good news.',
+        choice: ['Return'],
+        choiceId: ['quotaAggro'],
+        type: 'heal'
+     },
+
+     quotaAggro: {
+        text: 'You have made it to the boss, with only a few minor scrapes along the way. \n When you step through the door, you immediately feel His presence.\n "So, you finished the job I gave you. I am grateful for your cooperation. At this rate, you might be cleared out of your debt in only a couple of years!"\nThis isn\'t really what you wanted for your life. However, it seems you\'ll be safe from your debt, at least as safe as an underling could be.',
+        choice: ['Fight the Big Cheese', 'Accept your working conditions.'],
+        choice: ['aggroMob', 'underlingEnd']
+     },
+
+     aggroMob: {
+        text: 'You stare down the boss, ready to charge, when an angry mob of citizens storm into the office. \n"You! Whatever your name is! We are tired of you beating up people, and we... No, the Big Cheese, will strike you down!"\nShockingly, it mattered not that the Big Cheese was the evil that put them in debt. At the very least, he was the lesser evil right now.',
+        choice: ['Fight'],
+        choiceId: ['HeroCheese']
+     },
+
+     heroCheese: {
+        type: 'battle',
+        win: ['overthrowEnding'],
+        lose: ['townChudEnding']
+     },
+
+     overthrowEnding: {
+        text: 'You have failed to overthrow the Big Cheese. Your conciousness fades, and as the crowd cheers at your death, you begin to feel remorse. You wonder if beating up people for thier money was justified, and if you acted a little kinder, if your ending would be different, somehow.',
+        choice: ['View your results'],
+        choiceId: ['results']
+     },
+
+     underlingEnd: {
+        text: 'You have defeated the Big Cheese, who for a moment became a hero, and have now become the newest menace in town. The people all flee for thier lives as you come to realized this ungained potential.\nYou now have unlimited power. No debt collectors can stop you now. As you live out the rest of your days, you become one of the greediest and violent criminals to ever set foot in history.',
+        choice: ['View your results'],
+        choiceId: ['results']
+     },
+
+     quotaNice: {
+        text: 'You have managed to come back unscathed. The Big Cheese admires your work, saying "I\'m impressed with how well you got the hang of this! At this rate you\'ll have your debt cleared in a couple of years!"\nEven though living as an underling might not be as bad as you may think, it would not be pleasant to work here for years. What should you do?',
+        choice: ['Convince him to be more than a henchman', 'Fight your way out of the crime ring'],
+        choiceId: ['persuasionEnd', 'happyMob']
+     },
+
+     happyMob: {
+        text: 'You ready yourself to take on an intimidating foe. Then, something completely unexpected happens:\n A crowd of people are bursting through the door in what seems to be an angry mob. They are sick of the Big Cheese bossing them around, and start to weaken him, all to the point where finishing the job will be easy.',
+        choice: ['Finish the Job!'],
+        choiceId: ['smallCheese']
+     },
+
+     smallCheese: {
+        type:'battle',
+        win: 'heroEnd',
+        lose: 'despairEnd'
+     },
+
+     heroEnd: {
+        text: 'The Big Cheese falls onto the ground, becoming Small Cheese. The crowd erupts in excitement, praising you as a hero of this town. As it turns out, the Big Cheese is the one carrying out your debt, so knocking him out of power also knowed your debt out of your hands.\nRevered as a hero who saves the day, you live out a pleasant life where you are at peace, helping strangers with any trouble they face.',
+        choice: ['See your journey'],
+        choiceId:['results']
+     },
+
+     depsairEnd: {
+        text: 'You fall into deep slubmer. The townsfolk become afraid of what\'s to come and quickly flee the scene. \nThe Big Cheese imposes over you: "Did you really think you could take out THE Big Cheese? Well, you were sorely mistaken, and now I will remain in power while you will rest forever."\nTired from your defeat, you fall into a deep slumber, never to wake back up.',
+        choice: ['See your journey'],
+        choiceId: ['results']
+     },
+
+     persuasionEnd: {
+        text: '"Hold on." You say to the Big Cheese, "I\'m sure there\'s a lot better uses you could use me for than simple henchman work. Why don\'t I come work for you for your more \'difficult\' jobs".\nAlthough the Big Cheese hesitates, he eventually decided on taking you under his wing as a right-hand man. You have sucessfully gotten a more powerful position, and although you have to work under his wing for years to come, you have at the very least become a powerful henchman, able to live out the rest of your days doing skechy work to make a living.',
+        choice: ['See your journey'],
+        choiceId: ['results']
+     },
+
+     ditchJob: {
+        text: 'You abandon the mind-numbing duties of being a victim of gang crime. You could see if the Big Cheese would be willing to find oyu another job, or just try to gamble or participate in some kind of tournament.\n What should you do?',
+        choice: ['Go see what\'s up with the boss', 'Go see what\'s up with the boss', 'Go gamble your way out of debt', 'Go to Nexdor, the town where battling tournaments are frequent.'],
+        choiceId: ['unquotaAggro', 'unquotaNice', 'embarkGambling', 'embarkTournament']
+     },
+
+     unquotaAggro: {
+        text: 'You return to the Big Cheese, claiming that the people ran away. However, seeing some bruises from your battles, the Big Cheese becomes furious. He thinks that you got beaten up by the residents, and gives you a choice: \nFight him and prove you aren\'t weak, or leave this establishment and never come back.',
+        choice: ['Fight', 'Never come back'],
+        choiceId: ['angryBoss', 'kickedCrime']
+     },
+
+     angryBoss: {
+        type: 'battle',
+        win: 'takeOverEnd',
+        lose: 'gameOver'
+     },
+
+     takeOverEnd: {
+        text: 'Suprisingly, you defeated the provoked Big Cheese. He falls to the floor, but slowly gets up and leaves without a word. It seems like he has given up his life as a crime boss, which seems good. You decide to become the new boss. You order around henchlings to do good for the community instead of exploiting the townsfolk. Suprisingly, this appears to be the most effective method of town rennovations. You live your life busy, but very important to your city\'s growth.',
+        choice: ['View your results'],
+        choiceId: ['results']
+     },
+
+     unquotaNice: {
+        text: 'You return to the Big Cheese empty handed, saying that you don\'t think you\'re cut out for this kind of work. He gives an understanding, but still frustrated, nod, and says that you can either get out of his establishment nicely or he\'ll have to remove you with force',
+        choice: ['Leave nicely', 'Forcefully, please!'],
+        choiceId: ['kickedCrime', 'angryBoss']
+     },
+
+     kickedCrime: {
+        text: 'You have been kicked out of the Big Cheese\'s gang. There are realistically only two options left for you do do: go gambling, or head over to Nexdor, where tournaments are held for prize money.',
+        choice: ['Gambling! Gambling!', 'Battle for honor, and for money'],
+        choiceId: ['embarkGambling', 'embarkTournament']
      },
     
      //THE GAMBLING ROUTE
@@ -412,7 +573,6 @@ const story = {
          text: 'You decide to go to the casino, hoping to get lucky and win some money. You eneter the casion greeted by the smell of cigaretttes and the sound of people cheering ad groaning. You look around and everything is taken except for one table that\'s glowing. it is blackjack. You decide to play it, hoping to win some money.',
          choice: ['Play Blackjack'],
          choiceId: ['blackjack']
- 
      },
      blackjack: {
          type: 'blackjack',
@@ -420,16 +580,16 @@ const story = {
          lose: 'blackjackLose'
      },
      blackjackWin: {
-         text: 'You win at blackjack! You win 500 talons, You decide to keep playing, hoping to win more.',
+         text: 'You win at blackjack! You win 5000 talons, You decide to keep playing, hoping to win more.',
          choice: ['Play again', 'go upgrade your luck'],
          choiceId: ['blackjack', 'luckUpgrade'],
          talons: 5000
      },
      blackjackLose: {
-         text: 'You lose at blackjack. You lose 200 talons, but you decide to keep playing, hoping to win it back.',
+         text: 'You lose at blackjack. You lose 20 talons, but you decide to keep playing, hoping to win it back.',
          choice: ['Play again', 'go upgrade your luck'],
          choiceId: ['blackjack', 'luckUpgrade'],
-         talons: -2000
+         talons: -20
      },
      luckUpgrade: {
          type: 'shop',
@@ -492,10 +652,3 @@ const story = {
         choiceId: ['start'],
      },
  }
-
-
-
-//shoppingList
-
-
-
