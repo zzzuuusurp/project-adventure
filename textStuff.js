@@ -255,36 +255,15 @@ function updateStats() {
 }
 
 //functions
-//branch logic
-function transition(t) {
-    const branch = story[`${t}`];
-    console.log(branch);
-    console.log(branch.text);
-    textBox.innerHTML = '';
-    
-// Update talons if the branch has a talons property
-    if (branch.talons !== undefined) {
-        talons += branch.talons;
-        updateTalons();
-    }
-    
-    // Update maxHP if the branch has a maxHP property
-    if (branch.maxHP !== undefined) {
-        maxHP += branch.maxHP;
-    }
-    
-    // Update maxEnergy if the branch has a maxEnergy property
-    if (branch.maxEnergy !== undefined) {
-        maxEnergy += branch.maxEnergy;
-    }
-    
-    // Update stats display
-    updateStats();
+
 
 
 //functions
 //branch logic
 function transition(t) {
+    
+    // Update stats display
+    updateStats();
     const branch = story[`${t}`];
     console.log(branch);
     console.log(branch.text);
@@ -369,6 +348,21 @@ function transition(t) {
         }
         textBox.appendChild(btnArr);
     };
+    // Update talons if the branch has a talons property
+    if (branch.talons !== undefined) {
+        talons += branch.talons;
+        updateTalons();
+    }
+    
+    // Update maxHP if the branch has a maxHP property
+    if (branch.maxHP !== undefined) {
+        maxHP += branch.maxHP;
+    }
+    
+    // Update maxEnergy if the branch has a maxEnergy property
+    if (branch.maxEnergy !== undefined) {
+        maxEnergy += branch.maxEnergy;
+    }
     if (branch.type == 'battle') {
         const winPath = branch.win;
         const losePath = branch.lose;
@@ -384,7 +378,7 @@ function transition(t) {
     if (branch.type == 'shop') {
         createShop(branch.inventory, branch.leave)
     }
-}}
+}
 //same thing but for the name since you only need it once
 submitName.addEventListener('click', function() {
     name = nameEntry.value || 'Guy';
