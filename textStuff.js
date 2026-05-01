@@ -33,7 +33,7 @@ let defendingStatus = false;
 let agressive = false;
 let bjCount = 0;
 let textLog = document.getElementById('textLog');
-let currentBlackjackBranch = 'dunno';
+let currentBlackjackBranch = null;
 // konami code 
 let konamiPosition = 0;
 
@@ -182,8 +182,8 @@ function renderBlackjack(showDealer, bjBranch) {
     btnWrap.appendChild(standBtn);
     textBox.appendChild(btnWrap);
 
-    hitBtn.onclick = blackjackHit(bjBranch);
-    standBtn.onclick = blackjackStand(bjBranch);
+    hitBtn.onclick = blackjackHit();
+    standBtn.onclick = blackjackStand();
 }
 
 // === START ===
