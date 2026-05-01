@@ -24,7 +24,7 @@ let HP = 100;
 let energy = 50;
 let maxEnergy = 50;
 let luck = 3;
-let attack = 5;
+let atk = 5;
 let defense = 5;
 let healCost = 20;
 let shardCount = 0;
@@ -370,12 +370,7 @@ function transition(t) {
         createBattle(t, winPath, losePath);
     };
     if (branch.type == 'blackjack') {
-        if (bjCount <= 5) {
             startBlackjack(branch);
-        }
-        else {
-            transition('blackjackWin3');
-        }
     };    
     if (branch.type == 'heal') {
         HP = maxHP;
@@ -581,7 +576,7 @@ function createBattle(idName, winpath, losepath) {
             attackButton.classList.add('attack');
             attackButton.innerHTML = 'Attack!';
             attackButton.addEventListener('click', function() {
-                attack(attack, enAtk, enDef, defendingStatus, enDefending, luck, enLuck, name, enName, HP, enhp);
+                attack(atk, enAtk, enDef, defendingStatus, enDefending, luck, enLuck, name, enName, HP, enhp);
             })
             const defendButton = document.createElement('button');
             defendButton.classList.add('defend');
