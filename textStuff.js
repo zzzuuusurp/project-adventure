@@ -192,6 +192,7 @@ function startBlackjack(branch) {
     playerHand = [dealCard(), dealCard()];
     dealerHand = [dealCard(), dealCard()];
     renderBlackjack(false, currentBlackjackBranch);
+    console.log (currentBlackjackBranch)
 }
 
 // === HIT ===
