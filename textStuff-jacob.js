@@ -79,7 +79,7 @@ const ranks = [
     { name: 'king',  value: 10, file: 'K' },
     { name: 'ace',   value: 11, file: 'A' },
 ];
-
+let currentBlackjackBranch = 'none';
 function buildDeck() {
     let deck = [];
     for (const suit of suits) {

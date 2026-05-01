@@ -32,7 +32,8 @@ let elic = 'pizza';
 let defendingStatus = false;
 let agressive = false;
 let bjCount = 0;
-let textLog = document.getElementById('textLog')
+let textLog = document.getElementById('textLog');
+let currentBlackjackBranch = 'dunno';
 // konami code 
 let konamiPosition = 0;
 
@@ -187,7 +188,7 @@ function renderBlackjack(showDealer, bjBranch) {
 
 // === START ===
 function startBlackjack(branch) {
-    let currentBlackjackBranch = branch;
+    currentBlackjackBranch = branch;
     deck = buildDeck(); // fresh shuffled deck each game
     playerHand = [dealCard(), dealCard()];
     dealerHand = [dealCard(), dealCard()];
@@ -195,7 +196,7 @@ function startBlackjack(branch) {
 }
 
 // === HIT ===
-function blackjackHit(currentBlackjackBranch) {
+function blackjackHit() {
     playerHand.push(dealCard());
     const score = calculateScore(playerHand);
     if (score > 21) {
@@ -207,7 +208,7 @@ function blackjackHit(currentBlackjackBranch) {
 }
 
 // === STAND ===
-function blackjackStand(currentBlackjackBranch) {
+function blackjackStand() {
     while (calculateScore(dealerHand) < 17) {
         dealerHand.push(dealCard());
     }

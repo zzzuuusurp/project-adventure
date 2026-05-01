@@ -403,7 +403,7 @@ export const story = {
         text: 'The person is unconcoius of the floor. You take thier money and leave, not finding the time or effort to get some help for them.',
         trait: 'agressive',
         choice: ['Continue onward'],
-        choice: ['moveHouse']
+        choiceId: ['moveHouse']
      },
 
      negotiate: {
@@ -445,7 +445,7 @@ export const story = {
      finalHouseAggro: {
         text: 'You are already prepared for what you must do next. The target has not found you yet, and you can probably get a very good sneak attack in.',
         choice: ['Charge!'],
-        choice: ['battleFinalHouse']
+        choiceId: ['battleFinalHouse']
      },
 
      battleFinalHouse: {
@@ -464,7 +464,7 @@ export const story = {
      quotaAggro: {
         text: 'You have made it to the boss, with only a few minor scrapes along the way. \n When you step through the door, you immediately feel His presence.\n "So, you finished the job I gave you. I am grateful for your cooperation. At this rate, you might be cleared out of your debt in only a couple of years!"\nThis isn\'t really what you wanted for your life. However, it seems you\'ll be safe from your debt, at least as safe as an underling could be.',
         choice: ['Fight the Big Cheese', 'Accept your working conditions.'],
-        choice: ['aggroMob', 'underlingEnd']
+        choiceId: ['aggroMob', 'underlingEnd']
      },
 
      aggroMob: {
