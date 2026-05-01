@@ -25,24 +25,25 @@ body {
 
 #story {
     background-color: #ffffff7c;
-    padding: 7px;
+    padding: clamp(4px, 1vw, 7px);
+    font-size: clamp(12px, 2vw, 16px);
 }
 
 #section1 {
-    width: 75vw;
-    height: 95vh;
+    width: clamp(280px, 75vw, 100%);
+    height: clamp(300px, 90vh, 100%);
     border: 1px solid var(--red);
-    padding: 5px;
+    padding: clamp(3px, 1vw, 5px);
 }
 
 #inventory {
     background-color: var(--brown);
-    height: 95vh;
-    width: 100px;
+    height: clamp(300px, 90vh, 100%);
+    width: clamp(70px, 15vw, 120px);
 }
 
 nav {
-    height: 5vh;
+    height: clamp(40px, 6vh, 60px);
     background-color: var(--emerald);
 }
 
@@ -62,9 +63,9 @@ nav {
     align-self: center;
     margin-top: 10px;
     border-radius: 20px;
-    width: 200px;
-    height: 55px;
-    font-size: 25px;
+    width: clamp(120px, 30vw, 200px);
+    height: clamp(40px, 8vh, 55px);
+    font-size: clamp(14px, 3vw, 25px);
 }
 .choices {
     display: flex;
@@ -73,9 +74,10 @@ nav {
 .SWORD {
     background-color: purple;
     color: var(--white);
-    padding: 3px 5px;
-    margin: 5px 5px;
+    padding: clamp(2px, 0.5vw, 3px) clamp(3px, 0.8vw, 5px);
+    margin: clamp(3px, 0.8vw, 5px);
     border-radius: 20px;
+    font-size: clamp(11px, 1.8vw, 15px);
 }
 
 .SWORD {
@@ -88,9 +90,10 @@ nav {
 .choice {
     background-color: var(--amethyst);
     color: var(--white);
-    padding: 3px 5px;
-    margin: 5px 5px;
+    padding: clamp(2px, 0.5vw, 3px) clamp(3px, 0.8vw, 5px);
+    margin: clamp(3px, 0.8vw, 5px);
     border-radius: 20px;
+    font-size: clamp(11px, 1.8vw, 15px);
 }
 
 .choice:hover {
@@ -133,17 +136,16 @@ nav {
 .Hit {
     background-color: #70B77E;
     color: var(--white);
-    padding: 3px 5px;
-    margin: 5px 5px;
+    padding: clamp(2px, 0.5vw, 3px) clamp(3px, 0.8vw, 5px);
+    margin: clamp(3px, 0.8vw, 5px);
     border-radius: 20px;
+    font-size: clamp(11px, 1.8vw, 15px);
 }
 .Stand {
     background-color: #70B77E;
     color: var(--white);
-    padding: 3px 5px;
-    margin: 5px 5px;
+    padding: clamp(2px, 0.5vw, 3px) clamp(3px, 0.8vw, 5px);
+    margin: clamp(3px, 0.8vw, 5px);
     border-radius: 20px;
-}
-@media screen {
-    
+    font-size: clamp(11px, 1.8vw, 15px);
 }
