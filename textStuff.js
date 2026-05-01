@@ -221,6 +221,9 @@ function blackjackStand() {
     }, 1000);
 }
 
+// === START ===
+
+
 
 function updateTalons() {
     const talonElements = document.getElementsByClassName('talons');
