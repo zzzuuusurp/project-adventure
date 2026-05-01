@@ -32,6 +32,7 @@ let elic = 'pizza';
 let defendingStatus = false;
 let agressive = false;
 let bjCount = 0;
+let textLog = document.getElementById('textLog')
 // konami code 
 let konamiPosition = 0;
 

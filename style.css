@@ -18,6 +18,10 @@ body {
     overflow-y: hidden;
 }
 
+#textLog {
+    display: none;
+}
+
 #bigArrange {
     display: flex;
     justify-content: space-between;
