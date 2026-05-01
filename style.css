@@ -34,7 +34,6 @@ body {
 #section1 {
     width: clamp(280px, 75vw, 100%);
     height: clamp(300px, 90vh, 100%);
-    border: 1px solid var(--red);
     padding: clamp(3px, 1vw, 5px);
 }
 

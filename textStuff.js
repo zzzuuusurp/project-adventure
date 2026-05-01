@@ -31,6 +31,7 @@ let shardCount = 0;
 let elic = 'pizza';
 let defendingStatus = false;
 let agressive = false;
+let bjCount = 0;
 // konami code 
 let konamiPosition = 0;
 
@@ -261,7 +262,6 @@ function updateStats() {
 //functions
 //branch logic
 function transition(t) {
-    
     // Update stats display
     updateStats();
     const branch = story[`${t}`];
@@ -369,14 +369,20 @@ function transition(t) {
         createBattle(t, winPath, losePath);
     };
     if (branch.type == 'blackjack') {
-        startBlackjack(branch);
+        if (bjCount <= 5) {
+            startBlackjack(branch);
+        }
+        else if(bjCount <= 10) {
+            transition('blackjackWin3');
+        }
+        
     };    
     if (branch.type == 'heal') {
         HP = maxHP;
         energy = maxEnergy;
     }
     if (branch.type == 'shop') {
-        createShop(branch.inventory, branch.leave)
+        createShop(branch.inventory, branch.leave);
     }
 }
 //same thing but for the name since you only need it once
@@ -390,7 +396,9 @@ function createShop(i, leaving) {
     //use the key function to create a shop here.
     textBox.innerHTML = '<h2>Shop</h2>';
     const things = shop[i];
-    const stock = things.keys(shop);
+    const stock = Object.keys(things);
+    console.log(things);
+    console.log(stock);
     const shopItems = document.createElement('div');
     shopItems.classList.add('itemList');
     for (const item of stock) {
@@ -405,7 +413,7 @@ function createShop(i, leaving) {
         textStuff.appendChild(itemTitle);
         textStuff.appendChild(itemDesc);
         textStuff.classList.add('itemText');
-        for (const thingy of inventory) {
+        for (const thingy of stock) {
             if (thingy === item) {
                 itemBox.classList.add('bought');
                 buyButton.innerHTML = 'Bought!';
@@ -418,7 +426,7 @@ function createShop(i, leaving) {
             itemBox.addEventListener('click', function() {
                 if (talons >= item.price) {
                     buyItem(item);
-                    createShop(i);
+                    createShop(i, leaving);
                 };
             })
         }
@@ -426,10 +434,12 @@ function createShop(i, leaving) {
         itemBox.appendChild(buyButton);
         shopItems.appendChild(itemBox);
         shopItems.appendChild(buyButton);
+        console.log(shopItems)
     }
     const leavebutton = document.createElement('button');
     leavebutton.innerHTML = 'Leave';
     leavebutton.classList.add = 'leavebtn';
+    textBox.appendChild(shopItems);
     leavebutton.addEventListener('click', function() {
         transition(leaving);
     });
