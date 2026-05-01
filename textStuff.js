@@ -24,13 +24,15 @@ let HP = 100;
 let energy = 50;
 let maxEnergy = 50;
 let luck = 3;
-let attack = 5;
+let atk = 5;
 let defense = 5;
 let healCost = 20;
 let shardCount = 0;
 let elic = 'pizza';
 let defendingStatus = false;
 let agressive = false;
+let bjCount = 0;
+let textLog = document.getElementById('textLog')
 // konami code 
 let konamiPosition = 0;
 
@@ -120,7 +122,7 @@ function calculateScore(hand) {
 }
 
 
-function renderBlackjack(showDealer) {
+function renderBlackjack(showDealer, bjBranch) {
     textBox.innerHTML = '';
 
     const playerScore = calculateScore(playerHand);
@@ -136,7 +138,7 @@ function renderBlackjack(showDealer) {
         row.style.marginBottom = '8px';
         hand.forEach((card, i) => {
             const img = document.createElement('img');
-if (hideSecond && i === 1) {
+        if (hideSecond && i === 1) {
                 img.src = 'stupidimages/card_back.png'; // your card back image
             } else {
                 img.src = card.img;
@@ -145,7 +147,7 @@ if (hideSecond && i === 1) {
             row.appendChild(img);
         });
         return row;
-    }
+        }
 
     const title = document.createElement('strong');
     title.textContent = 'Blackjack';
@@ -179,21 +181,21 @@ if (hideSecond && i === 1) {
     btnWrap.appendChild(standBtn);
     textBox.appendChild(btnWrap);
 
-    hitBtn.onclick = blackjackHit;
-    standBtn.onclick = blackjackStand;
+    hitBtn.onclick = blackjackHit(bjBranch);
+    standBtn.onclick = blackjackStand(bjBranch);
 }
 
 // === START ===
 function startBlackjack(branch) {
-    currentBlackjackBranch = branch;
+    let currentBlackjackBranch = branch;
     deck = buildDeck(); // fresh shuffled deck each game
     playerHand = [dealCard(), dealCard()];
     dealerHand = [dealCard(), dealCard()];
-    renderBlackjack(false);
+    renderBlackjack(false, currentBlackjackBranch);
 }
 
 // === HIT ===
-function blackjackHit() {
+function blackjackHit(currentBlackjackBranch) {
     playerHand.push(dealCard());
     const score = calculateScore(playerHand);
     if (score > 21) {
@@ -205,7 +207,7 @@ function blackjackHit() {
 }
 
 // === STAND ===
-function blackjackStand() {
+function blackjackStand(currentBlackjackBranch) {
     while (calculateScore(dealerHand) < 17) {
         dealerHand.push(dealCard());
     }
@@ -264,7 +266,6 @@ function updateStats() {
 //functions
 //branch logic
 function transition(t) {
-    
     // Update stats display
     updateStats();
     const branch = story[`${t}`];
@@ -372,14 +373,14 @@ function transition(t) {
         createBattle(t, winPath, losePath);
     };
     if (branch.type == 'blackjack') {
-        startBlackjack(branch);
+            startBlackjack(branch);
     };    
     if (branch.type == 'heal') {
         HP = maxHP;
         energy = maxEnergy;
     }
     if (branch.type == 'shop') {
-        createShop(branch.inventory, branch.leave)
+        createShop(branch.inventory, branch.leave);
     }
 }
 //same thing but for the name since you only need it once
@@ -393,7 +394,9 @@ function createShop(i, leaving) {
     //use the key function to create a shop here.
     textBox.innerHTML = '<h2>Shop</h2>';
     const things = shop[i];
-    const stock = things.keys(shop);
+    const stock = Object.keys(things);
+    console.log(things);
+    console.log(stock);
     const shopItems = document.createElement('div');
     shopItems.classList.add('itemList');
     for (const item of stock) {
@@ -408,7 +411,7 @@ function createShop(i, leaving) {
         textStuff.appendChild(itemTitle);
         textStuff.appendChild(itemDesc);
         textStuff.classList.add('itemText');
-        for (const thingy of inventory) {
+        for (const thingy of stock) {
             if (thingy === item) {
                 itemBox.classList.add('bought');
                 buyButton.innerHTML = 'Bought!';
@@ -421,7 +424,7 @@ function createShop(i, leaving) {
             itemBox.addEventListener('click', function() {
                 if (talons >= item.price) {
                     buyItem(item);
-                    createShop(i);
+                    createShop(i, leaving);
                 };
             })
         }
@@ -429,10 +432,12 @@ function createShop(i, leaving) {
         itemBox.appendChild(buyButton);
         shopItems.appendChild(itemBox);
         shopItems.appendChild(buyButton);
+        console.log(shopItems)
     }
     const leavebutton = document.createElement('button');
     leavebutton.innerHTML = 'Leave';
     leavebutton.classList.add = 'leavebtn';
+    textBox.appendChild(shopItems);
     leavebutton.addEventListener('click', function() {
         transition(leaving);
     });
@@ -574,7 +579,7 @@ function createBattle(idName, winpath, losepath) {
             attackButton.classList.add('attack');
             attackButton.innerHTML = 'Attack!';
             attackButton.addEventListener('click', function() {
-                attack(attack, enAtk, enDef, defendingStatus, enDefending, luck, enLuck, name, enName, HP, enhp);
+                attack(atk, enAtk, enDef, defendingStatus, enDefending, luck, enLuck, name, enName, HP, enhp);
             })
             const defendButton = document.createElement('button');
             defendButton.classList.add('defend');
