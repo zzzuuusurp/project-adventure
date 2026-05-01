@@ -122,7 +122,7 @@ function calculateScore(hand) {
 }
 
 
-function renderBlackjack(showDealer) {
+function renderBlackjack(showDealer, bjBranch) {
     textBox.innerHTML = '';
 
     const playerScore = calculateScore(playerHand);
@@ -138,7 +138,7 @@ function renderBlackjack(showDealer) {
         row.style.marginBottom = '8px';
         hand.forEach((card, i) => {
             const img = document.createElement('img');
-if (hideSecond && i === 1) {
+        if (hideSecond && i === 1) {
                 img.src = 'stupidimages/card_back.png'; // your card back image
             } else {
                 img.src = card.img;
@@ -147,7 +147,7 @@ if (hideSecond && i === 1) {
             row.appendChild(img);
         });
         return row;
-    }
+        }
 
     const title = document.createElement('strong');
     title.textContent = 'Blackjack';
@@ -181,21 +181,21 @@ if (hideSecond && i === 1) {
     btnWrap.appendChild(standBtn);
     textBox.appendChild(btnWrap);
 
-    hitBtn.onclick = blackjackHit;
-    standBtn.onclick = blackjackStand;
+    hitBtn.onclick = blackjackHit(bjBranch);
+    standBtn.onclick = blackjackStand(bjBranch);
 }
 
 // === START ===
 function startBlackjack(branch) {
-    currentBlackjackBranch = branch;
+    let currentBlackjackBranch = branch;
     deck = buildDeck(); // fresh shuffled deck each game
     playerHand = [dealCard(), dealCard()];
     dealerHand = [dealCard(), dealCard()];
-    renderBlackjack(false);
+    renderBlackjack(false, currentBlackjackBranch);
 }
 
 // === HIT ===
-function blackjackHit() {
+function blackjackHit(currentBlackjackBranch) {
     playerHand.push(dealCard());
     const score = calculateScore(playerHand);
     if (score > 21) {
@@ -207,7 +207,7 @@ function blackjackHit() {
 }
 
 // === STAND ===
-function blackjackStand() {
+function blackjackStand(currentBlackjackBranch) {
     while (calculateScore(dealerHand) < 17) {
         dealerHand.push(dealCard());
     }
@@ -373,10 +373,9 @@ function transition(t) {
         if (bjCount <= 5) {
             startBlackjack(branch);
         }
-        else if(bjCount <= 10) {
+        else {
             transition('blackjackWin3');
         }
-        
     };    
     if (branch.type == 'heal') {
         HP = maxHP;
