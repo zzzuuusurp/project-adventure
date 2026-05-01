@@ -27,6 +27,8 @@ body {
     background-color: #ffffff7c;
     padding: clamp(4px, 1vw, 7px);
     font-size: clamp(12px, 2vw, 16px);
+    padding: 7px;
+    overflow-y: scroll;
 }
 
 #section1 {
@@ -112,6 +114,34 @@ nav {
     color: #FF6663;
     border: #FF6663 solid 1px;
     cursor: crosshair;
+}
+#commBox {
+    height: 15%;
+    width: 100%;
+}
+#mve {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+    height: 75%;
+    width: 100%;
+}
+#human {
+    width: 40%;
+    border: var(--red) 1px green;
+}
+#human > img {
+    width: 50%;
+}
+#fiend {
+    width: 40%;
+}
+#field > img {
+    width: 40;
+}
+#buttonlist {
+    width: 100%;
+    height: 25%;
 }
 #defend {
     background-color: lightblue;
