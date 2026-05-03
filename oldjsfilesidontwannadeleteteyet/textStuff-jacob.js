@@ -5,9 +5,9 @@
 //CHANGE BACKGROUNDS USING SOME SORT OF VARIABLE IN CERTAIN OBJECTS
 //ADD A 'MEMORY' THING IN CERTAIN OBJECTS AND THEN STORE THEM IN AN ARRAY TO SHOW IN THE RESULTS SCREEN
 
-import { story } from "./story.js";
-import { shop } from "./shopitems.js";
-import { enemy } from "./enemylist.js";
+import { story } from "../story.js";
+import { shop } from "../shopitems.js";
+import { enemy } from "../enemylist.js";
 
 //DOM stuff
 const nameEntry = document.getElementById('nameEnterer');
@@ -24,16 +24,18 @@ let HP = 100;
 let energy = 50;
 let maxEnergy = 50;
 let luck = 3;
-let attack = 5;
+let atk = 5;
 let defense = 5;
 let healCost = 20;
 let shardCount = 0;
 let elic = 'pizza';
 let defendingStatus = false;
 let agressive = false;
+let currentBlackjackBranch = null;
+
+
 // konami code 
 let konamiPosition = 0;
-
 document.addEventListener('keyup', function(e) {
 console.log (e.key)
   if (e.key === konamiCode[konamiPosition]) {
@@ -49,7 +51,6 @@ console.log (e.key)
     konamiPosition = 0;
   }
 });
-
 function activateComicSans() {
   const style = document.createElement('style');
   style.textContent = `
@@ -60,9 +61,134 @@ function activateComicSans() {
   document.head.appendChild(style);
 }
 
+//Update bars
 
+//branch logic
+function transition(t) {
+    const branch = story[`${t}`];
+    console.log(branch);
+    console.log(branch.text);
+    textBox.innerHTML = '';
+// Update talons if the branch has a talons property
+    if (branch.talons !== undefined) {
+        talons += branch.talons;
+        updateTalons();
+    } 
+    // Update maxHP if the branch has a maxHP property
+    if (branch.maxHP !== undefined) {
+        maxHP += branch.maxHP;
+    }
+    // Update maxEnergy if the branch has a maxEnergy property
+    if (branch.maxEnergy !== undefined) {
+        maxEnergy += branch.maxEnergy;
+    }
+    // Update stats display
+    updateStats();
+    
+    //basic story
+    if (branch.trait) {
+        if (trait == 'agressive') {
+            agressive = true;
+        }
+    };
+    if (branch.text) {
+        let p = document.createElement('p');
+        p.innerHTML = `${branch.text}`;
+        textBox.appendChild(p);
+        console.log(p);
+        log.push(branch.text);
+    }
+    if (branch.img) {
+        let img = document.createElement('img');
+        img.src = `url(${branch.img})`;
+        if (branch.alt) {
+            img.alt = `${branch.alt}`
+        }
+        textBox.appendChild(img);
+        console.log(p);
+    }
+    if (branch.choice) {
+        let btnArr = document.createElement('div');
+        btnArr.classList.add('choices');
+        for (let index = 0; index < branch.choice.length; index++) {
+            const btnText = branch.choice[index];
+            const path = branch.choiceId[index];
+            console.log(btnText);
+            console.log(path);
+            if (path === 'results') {
+                shardCount++;
+            }
+            if (path === 'dimensionSwordEnd') {
+                if (shardCount > 6) {
+                    const button = document.createElement('button');
+                    button.classList.add('SWORD')
+                    button.addEventListener('click', function() {
+                        transition(path);
+                    });
+                    button.innerHTML =  btnText;
+                    btnArr.appendChild(button);
+                    console.log(btnArr);
+                };
+            }
+        if (path === 'unquotaAggro') {
+            if (agressive) {
+                const button = document.createElement('button');
+                button.addEventListener('click', function() {
+                    transition(path);
+                });
+                button.innerHTML =  btnText;
+                btnArr.appendChild(button);
+                console.log(btnArr);
+            }
+        }
+        if (path === 'unquotaNice') {
+            if (!agressive) {
+                const button = document.createElement('button');
+                button.addEventListener('click', function() {
+                    transition(path);
+                });
+                button.innerHTML =  btnText;
+                btnArr.appendChild(button);
+                console.log(btnArr);
+            }
+        }
+        else {
+            const button = document.createElement('button');
+            button.addEventListener('click', function() {
+                transition(path);
+            });
+            button.innerHTML =  btnText;
+            button.classList.add('choice')
+            btnArr.appendChild(button);
+            console.log(btnArr);
+        };
+        }
+        textBox.appendChild(btnArr);
+    };
+    if (branch.type == 'battle') {
+        const winPath = branch.win;
+        const losePath = branch.lose;
+        createBattle(t, winPath, losePath);
+    };
+    if (branch.type == 'blackjack') {
+        startBlackjack(branch);
+    };    
+    if (branch.type == 'heal') {
+        HP = maxHP;
+        energy = maxEnergy;
+    }
+    if (branch.type == 'shop') {
+        createShop(branch.inventory)
+    }
+}
+//same thing but for the name since you only need it once
+submitName.addEventListener('click', function() {
+    name = nameEntry.value || 'Guy';
+    console.log(name);
+    transition('start');
+})
 
-
+//Blackjack
 const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
 const ranks = [
     { name: '2',  value: 2,  file: '02' },
@@ -79,9 +205,13 @@ const ranks = [
     { name: 'king',  value: 10, file: 'K' },
     { name: 'ace',   value: 11, file: 'A' },
 ];
-let currentBlackjackBranch = 'none';
+
+let deck = [];
+let playerHand = [];
+let dealerHand = [];
+
 function buildDeck() {
-    let deck = [];
+    deck = [];
     for (const suit of suits) {
         for (const rank of ranks) {
             deck.push({
@@ -98,13 +228,13 @@ function buildDeck() {
     return deck;
 }
 
-let deck = [];
-let playerHand = [];
-let dealerHand = [];
+
 
 // Pops one card off the deck (removes it so it can't be dealt again)
 function dealCard() {
-    if (deck.length === 0) deck = buildDeck(); // reshuffle if somehow empty
+    if (deck.length === 0) {
+        deck = buildDeck();
+    } // reshuffle if somehow empty
     return deck.pop();
 }
 
@@ -254,154 +384,10 @@ function updateStats() {
     }
 }
 
-//functions
-//branch logic
-function transition(t) {
-    const branch = story[`${t}`];
-    console.log(branch);
-    console.log(branch.text);
-    textBox.innerHTML = '';
-    
-// Update talons if the branch has a talons property
-    if (branch.talons !== undefined) {
-        talons += branch.talons;
-        updateTalons();
-    }
-    
-    // Update maxHP if the branch has a maxHP property
-    if (branch.maxHP !== undefined) {
-        maxHP += branch.maxHP;
-    }
-    
-    // Update maxEnergy if the branch has a maxEnergy property
-    if (branch.maxEnergy !== undefined) {
-        maxEnergy += branch.maxEnergy;
-    }
-    
-    // Update stats display
-    updateStats();
-
-
-//functions
-//branch logic
-function transition(t) {
-    const branch = story[`${t}`];
-    console.log(branch);
-    console.log(branch.text);
-    textBox.innerHTML = '';
-    //basic story
-    if (branch.trait) {
-        if (trait == 'agressive') {
-            agressive = true;
-        }
-    };
-    if (branch.text) {
-        let p = document.createElement('p');
-        p.innerHTML = `${branch.text}`;
-        textBox.appendChild(p);
-        console.log(p);
-        log.push(branch.text);
-    }
-    if (branch.img) {
-        let img = document.createElement('img');
-        img.src = `url(${branch.img})`;
-        if (branch.alt) {
-            img.alt = `${branch.alt}`
-        }
-        textBox.appendChild(img);
-        console.log(p);
-    }
-    if (branch.choice) {
-        let btnArr = document.createElement('div');
-        btnArr.classList.add('choices');
-        for (let index = 0; index < branch.choice.length; index++) {
-            const btnText = branch.choice[index];
-            const path = branch.choiceId[index];
-            console.log(btnText);
-            console.log(path);
-            if (path === 'results') {
-                shardCount++;
-            }
-            if (path === 'dimensionSwordEnd') {
-                if (shardCount > 6) {
-                    const button = document.createElement('button');
-                    button.classList.add('SWORD')
-                    button.addEventListener('click', function() {
-                        transition(path);
-                    });
-                    button.innerHTML =  btnText;
-                    btnArr.appendChild(button);
-                    console.log(btnArr);
-                };
-            }
-        if (path === 'unquotaAggro') {
-            if (agressive) {
-                const button = document.createElement('button');
-                button.addEventListener('click', function() {
-                    transition(path);
-                });
-                button.innerHTML =  btnText;
-                btnArr.appendChild(button);
-                console.log(btnArr);
-            }
-        }
-        if (path === 'unquotaNice') {
-            if (!agressive) {
-                const button = document.createElement('button');
-                button.addEventListener('click', function() {
-                    transition(path);
-                });
-                button.innerHTML =  btnText;
-                btnArr.appendChild(button);
-                console.log(btnArr);
-            }
-        }
-        else {
-            const button = document.createElement('button');
-            button.addEventListener('click', function() {
-                transition(path);
-            });
-            button.innerHTML =  btnText;
-            button.classList.add('choice')
-            btnArr.appendChild(button);
-            console.log(btnArr);
-        };
-        }
-        textBox.appendChild(btnArr);
-    };
-    if (branch.type == 'battle') {
-        const winPath = branch.win;
-        const losePath = branch.lose;
-        createBattle(t, winPath, losePath);
-    };
-    if (branch.type == 'blackjack') {
-        startBlackjack(branch);
-    };    
-    if (branch.type == 'heal') {
-        HP = maxHP;
-        energy = maxEnergy;
-    }
-    if (branch.type == 'shop') {
-        createShop(branch.inventory)
-    }
-}}
-//same thing but for the name since you only need it once
-submitName.addEventListener('click', function() {
-    name = nameEntry.value || 'Guy';
-    console.log(name);
-    transition('start');
-})
-
-/* example: {
-    text: 'lorem ipsum'
-    choice ['choice1', 'choice2', 'choice3']
-    choiceId: ['path 1', path 2, 'path 3']
-}
-*/
-
-
 function createShop(inventory) {
-    //use the key function to create a shop here.
+    const items = shop[inventory];
+    const itemList = Object.keys(items);
+    console.log(itemList);
 }
 
 
@@ -510,18 +496,21 @@ function createBattle(idName, winpath, losepath) {
             butonDiv.appendChild(stuff);
             
             if (enhp != 0 && HP != 0) {
+                console.log('battle still ongoing');
                 enemyMove();
                 stuff.addEventListener('click', function() {
                     guyTurn();
                 })
             }
             else if (enhp == 0) {
+                console.log('Winning detected');
                 commentary.innerHTML = `You beat ${enName}!`
                 stuff.addEventListener('click', function() {
                     transition(winpath);
                 })
             }
             else if (HP == 0) {
+                    console.log('Losing detected');
                     commentary.innerHTML = `You lost to ${enName}!`
                     stuff.addEventListener('click', function() {
                         transition(losepath);
@@ -576,4 +565,4 @@ function createBattle(idName, winpath, losepath) {
         guyTurn();
 }
 
-//shoppingList
+updateStats();

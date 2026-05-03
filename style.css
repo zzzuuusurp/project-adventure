@@ -101,6 +101,14 @@ nav {
     font-size: clamp(11px, 1.8vw, 15px);
 }
 
+.hidden {
+    display: none;
+}
+
+.health, .energy, .enHealth, .enEnergy {
+    padding-right: 10px;
+}
+
 .choice:hover {
     background-color: var(--white);
     color: var(--amethyst);
@@ -181,4 +189,18 @@ nav {
     margin: clamp(3px, 0.8vw, 5px);
     border-radius: 20px;
     font-size: clamp(11px, 1.8vw, 15px);
+}
+#combatants {
+    display: flex;
+    justify-content: space-between;
+}
+#buttonList {
+    display: flex;
+    justify-content: space-around;
+}
+#commentary {
+    border: 1px solid white;
+    background-color: var(--amethyst);
+    color: white;
+    border-radius: 20px;
 }

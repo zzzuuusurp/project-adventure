@@ -13,6 +13,8 @@ import { enemy } from "./enemylist.js";
 const nameEntry = document.getElementById('nameEnterer');
 const submitName = document.getElementById('enterName');
 const textBox = document.getElementById('story');
+const battleScreen = document.getElementById('battle');
+const shopScreen = document.getElementById('shop')
 const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a' ]
 //Variables
 let log = [];
@@ -34,9 +36,10 @@ let agressive = false;
 let bjCount = 0;
 let textLog = document.getElementById('textLog');
 let currentBlackjackBranch = null;
+
+
 // konami code 
 let konamiPosition = 0;
-
 document.addEventListener('keyup', function(e) {
 console.log (e.key)
   if (e.key === konamiCode[konamiPosition]) {
@@ -52,7 +55,6 @@ console.log (e.key)
     konamiPosition = 0;
   }
 });
-
 function activateComicSans() {
   const style = document.createElement('style');
   style.textContent = `
@@ -63,9 +65,7 @@ function activateComicSans() {
   document.head.appendChild(style);
 }
 
-
-
-
+//BlackJack
 const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
 const ranks = [
     { name: '2',  value: 2,  file: '02' },
@@ -82,9 +82,11 @@ const ranks = [
     { name: 'king',  value: 10, file: 'K' },
     { name: 'ace',   value: 11, file: 'A' },
 ];
-
+let deck = [];
+let playerHand = [];
+let dealerHand = [];
 function buildDeck() {
-    let deck = [];
+    deck = [];
     for (const suit of suits) {
         for (const rank of ranks) {
             deck.push({
@@ -100,10 +102,6 @@ function buildDeck() {
     }
     return deck;
 }
-
-let deck = [];
-let playerHand = [];
-let dealerHand = [];
 
 // Pops one card off the deck (removes it so it can't be dealt again)
 function dealCard() {
@@ -121,7 +119,6 @@ function calculateScore(hand) {
     }
     return score;
 }
-
 
 function renderBlackjack(showDealer, bjBranch) {
     textBox.innerHTML = '';
@@ -227,15 +224,6 @@ function blackjackStand() {
 
 // === START ===
 
-
-
-function updateTalons() {
-    const talonElements = document.getElementsByClassName('talons');
-    for (let i = 0; i < talonElements.length; i++) {
-        talonElements[i].textContent = talons;
-    }
-}
-
 // === UPDATE STATS DISPLAY (Health and Energy) ===
 function updateStats() {
     // Update health display and progress bar
@@ -259,17 +247,52 @@ function updateStats() {
         energyBars[i].value = energy;
         energyBars[i].max = maxEnergy;
     }
+    //update any names
+    const nameElements = document.getElementsByClassName('name');
+    for (let i = 0; i < nameElements.length; i++) {
+        const element = nameElements[i];
+        element.innerHTML = name;
+    }
+    const talonElements = document.getElementsByClassName('talons');
+    for (let i = 0; i < talonElements.length; i++) {
+        talonElements[i].textContent = talons;
+    }
 }
 
-//functions
-
-
+function updateEnemyStats(enHP, enMaxHP, enEnergy, enMaxEnergy, enNaam) {
+    // Update health display and progress bar
+    const healthElements = document.getElementsByClassName('enHealth');
+    const healthBars = document.getElementsByClassName('enHealthBar');
+    for (let i = 0; i < healthElements.length; i++) {
+        healthElements[i].textContent = enHP;
+    }
+    for (let i = 0; i < healthBars.length; i++) {
+        healthBars[i].value = enHP;
+        healthBars[i].max = enMaxHP;
+    }
+    
+    // Update energy display and progress bar
+    const energyElements = document.getElementsByClassName('energy');
+    const energyBars = document.getElementsByClassName('energyBar');
+    for (let i = 0; i < energyElements.length; i++) {
+        energyElements[i].textContent = enEnergy;
+    }
+    for (let i = 0; i < energyBars.length; i++) {
+        energyBars[i].value = enEnergy;
+        energyBars[i].max = enMaxEnergy;
+    }
+    //update any names
+    const nameElements = document/getElementsByClassName('name');
+    for (let i = 0; i < nameElements.length; i++) {
+        const element = nameElements[i];
+        element.innerHTML = enNaam
+    }
+}
 
 //functions
 //branch logic
 function transition(t) {
     // Update stats display
-    updateStats();
     const branch = story[`${t}`];
     console.log(branch);
     console.log(branch.text);
@@ -359,12 +382,10 @@ function transition(t) {
         talons += branch.talons;
         updateTalons();
     }
-    
     // Update maxHP if the branch has a maxHP property
     if (branch.maxHP !== undefined) {
         maxHP += branch.maxHP;
     }
-    
     // Update maxEnergy if the branch has a maxEnergy property
     if (branch.maxEnergy !== undefined) {
         maxEnergy += branch.maxEnergy;
@@ -380,10 +401,12 @@ function transition(t) {
     if (branch.type == 'heal') {
         HP = maxHP;
         energy = maxEnergy;
+        console.log('Full heal!')
     }
     if (branch.type == 'shop') {
         createShop(branch.inventory, branch.leave);
     }
+    updateStats();
 }
 //same thing but for the name since you only need it once
 submitName.addEventListener('click', function() {
@@ -448,14 +471,11 @@ function createShop(i, leaving) {
 
 function createBattle(idName, winpath, losepath) {
     console.log(`Battling ${idName}`)
-    //boring
-    textBox.innerHTML = `<section id="commBox"><span id="comm">What will ${name} do?</span></section>`;
-    textBox.innerHTML += '<div id="mve"><div id="human"><div id="hhp"><p>Health: <span class="health"></span><progress class="healthBar"></progress></p></div><div id="he"><p>Energy: <span class="energy"></span><progress class="energyBar"></progress></p></div><img src="stupidimages/THESWORD.png" alt="You"><span class="name"></span></div>';
-    textBox.innerHTML += '<div id="fiend"><div id="ehp"><p>Health: <span class="ehealth"></span><progress class="ehealthBar"></progress></p></div><div id="ee"><p>Energy: <span class="eenergy"></span><progress class="eenergyBar"></progress></p></div><img src="#" alt="The enemy!"><span class="ename"></span></div></div>';
-    textBox.innerHTML += '<div id="buttonlist"></div>';
-
-    const commentary = document.getElementById('comm');
-    const butonDiv = document.getElementById('buttonlist');
+    //boring dom stuff
+    const commentary = document.getElementById('commentary');
+    const butonDiv = document.getElementById('buttonList');
+    const humanImg = document.getElementById('humanPic');
+    const enemyImg = document.getElementById('enemyPic');
 
         //stats
         let foe = enemy[`${idName}`];
@@ -469,11 +489,19 @@ function createBattle(idName, winpath, losepath) {
         const enMaxe = foe.maxenergy;
         const enWaste = foe.waste;
         let enDefending = foe.defending;
-        let enhp = enMaxhp;
-        let ene = enMaxe;
+        let enhp = foe.HP;
+        let ene = foe.energy;
         const actions = foe.actions;
+        let enemyIcon = foe.img;
+        if (enemyIcon) {
+            enemyImg.src = enemyIcon;
+        }
+        else {
+            enemyImg.src = enemy.fallback.img;
+        } //fallback image 
 
-    
+        battleScreen.innerHTML
+        updateEnemyStats(enhp, enMaxhp, ene, enMaxe, enName);
 
         //attack, defend, heal, and waste turn (enemy only)
         function defend(d, n) {
@@ -552,18 +580,21 @@ function createBattle(idName, winpath, losepath) {
             butonDiv.appendChild(stuff);
             
             if (enhp != 0 && HP != 0) {
+                console.log('battle continuing')
                 enemyMove();
                 stuff.addEventListener('click', function() {
                     guyTurn();
                 })
             }
             else if (enhp == 0) {
+                console.log('battle won!');
                 commentary.innerHTML = `You beat ${enName}!`
                 stuff.addEventListener('click', function() {
                     transition(winpath);
                 })
             }
             else if (HP == 0) {
+                console.log('battle won!');
                     commentary.innerHTML = `You lost to ${enName}!`
                     stuff.addEventListener('click', function() {
                         transition(losepath);
@@ -573,8 +604,6 @@ function createBattle(idName, winpath, losepath) {
                 
             }
         }
-
-
         function guyTurn() {
             butonDiv.innerHTML='';
             const attackButton = document.createElement('button');
@@ -619,3 +648,4 @@ function createBattle(idName, winpath, losepath) {
 }
 
 //shoppingList
+updateStats()
