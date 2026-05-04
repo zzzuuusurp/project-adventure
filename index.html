@@ -50,13 +50,11 @@
                 <div id="combatants">
                     <div id="human">
                         <span class="name"></span>
-                        <img id="humanPic" alt="You, the player">
-                        <div>Health: <span class="health"></span><progress class="healthBar"></progress></div>
-                        <div>Energy: <span class="energy"></span><progress class="energyBar"></progress></div>
+                        <img id="humanPic" src='#'alt="You, the player">
                     </div>
                     <div id="enemy">
                         <span class="enName"></span>
-                        <img id="enemyPic" alt="The enemy!">
+                        <img id="enemyPic" alt="The enemy!" src="#">
                         <div>Health: <span class="enHealth"></span><progress class="enHealthBar"></progress></div>
                         <div>Energy: <span class="enEnergy"></span><progress class="enEnergyBar"></progress></div>
                     </div>
@@ -69,10 +67,12 @@
         </div>
         <div id="inventory"></div>
         </div>
-            
-        <article id="textLog">
-            <button id="closeBtn"></button>
-        </article>
+        <dialog id="textLog">
+            <section id="textLogContent"></section>
+            <form method="dialog">
+                <button>Close</button>
+            </form>
+        </dialog>
 <script src="textStuff.js" type="module"></script>
 </body>
 </html>

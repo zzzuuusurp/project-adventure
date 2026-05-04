@@ -19,7 +19,11 @@ body {
 }
 
 #textLog {
-    display: none;
+    z-index: 1000;
+    width: 70vw;
+    height: 70vh;
+    justify-self: center;
+    align-self: center;
 }
 
 #bigArrange {
@@ -92,6 +96,12 @@ nav {
     cursor: crosshair;
 }
 
+progress {
+    height: 40px;
+    width: 20%;
+    margin-left: 10px;
+}
+
 .choice {
     background-color: var(--amethyst);
     color: var(--white);
@@ -99,6 +109,14 @@ nav {
     margin: clamp(3px, 0.8vw, 5px);
     border-radius: 20px;
     font-size: clamp(11px, 1.8vw, 15px);
+}
+
+#enemyPic {
+    width: 200px;
+}
+
+#humanPic {
+    width: 200px;
 }
 
 .hidden {

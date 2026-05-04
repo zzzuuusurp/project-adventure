@@ -18,6 +18,9 @@ const shopScreen = document.getElementById('shop')
 const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a' ]
 //Variables
 let log = [];
+let logDiv = document.getElementById('textLog');
+let logButton = document.getElementById('log');
+let closeLogButton = logDiv.querySelector('button');
 let name = "Guy";
 let talons = 300;
 let healCount = 2;
@@ -34,7 +37,6 @@ let elic = 'pizza';
 let defendingStatus = false;
 let agressive = false;
 let bjCount = 0;
-let textLog = document.getElementById('textLog');
 let currentBlackjackBranch = null;
 
 
@@ -105,7 +107,9 @@ function buildDeck() {
 
 // Pops one card off the deck (removes it so it can't be dealt again)
 function dealCard() {
-    if (deck.length === 0) deck = buildDeck(); // reshuffle if somehow empty
+    if (deck.length === 0) {
+        deck = buildDeck();
+    } // reshuffle if somehow empty
     return deck.pop();
 }
 
@@ -120,7 +124,7 @@ function calculateScore(hand) {
     return score;
 }
 
-function renderBlackjack(showDealer, bjBranch) {
+function renderBlackjack(showDealer) {
     textBox.innerHTML = '';
 
     const playerScore = calculateScore(playerHand);
@@ -164,7 +168,6 @@ function renderBlackjack(showDealer, bjBranch) {
         : `Dealer Hand`;
     container.appendChild(dealerLabel);
     container.appendChild(cardRow(dealerHand, !showDealer)); // hide dealer's second card
-
     textBox.appendChild(container);
 
     // Buttons
@@ -222,8 +225,6 @@ function blackjackStand() {
     }, 1000);
 }
 
-// === START ===
-
 // === UPDATE STATS DISPLAY (Health and Energy) ===
 function updateStats() {
     // Update health display and progress bar
@@ -259,7 +260,7 @@ function updateStats() {
     }
 }
 
-function updateEnemyStats(enHP, enMaxHP, enEnergy, enMaxEnergy, enNaam) {
+function updateEnemyStats(enHP, enMaxHP, enemyEnergy, enMaxEnergy, enNaam) {
     // Update health display and progress bar
     const healthElements = document.getElementsByClassName('enHealth');
     const healthBars = document.getElementsByClassName('enHealthBar');
@@ -275,14 +276,14 @@ function updateEnemyStats(enHP, enMaxHP, enEnergy, enMaxEnergy, enNaam) {
     const energyElements = document.getElementsByClassName('energy');
     const energyBars = document.getElementsByClassName('energyBar');
     for (let i = 0; i < energyElements.length; i++) {
-        energyElements[i].textContent = enEnergy;
+        energyElements[i].textContent = enemyEnergy;
     }
     for (let i = 0; i < energyBars.length; i++) {
-        energyBars[i].value = enEnergy;
+        energyBars[i].value = enemyEnergy;
         energyBars[i].max = enMaxEnergy;
     }
     //update any names
-    const nameElements = document/getElementsByClassName('name');
+    const nameElements = document.getElementsByClassName('name');
     for (let i = 0; i < nameElements.length; i++) {
         const element = nameElements[i];
         element.innerHTML = enNaam
@@ -484,14 +485,14 @@ function createBattle(idName, winpath, losepath) {
         //stats 
         let foe = enemy[`${idName}`];
         console.log(foe);
-        const enName = foe.name;
-        const enAtk = foe.attack;
-        const enDef = foe.defense;
-        const enLuck = foe.luck;
-        const enMaxhp = foe.maxhp;
-        const enHealCost = foe.healCost;
-        const enMaxe = foe.maxenergy;
-        const enWaste = foe.waste;
+        let enName = foe.name;
+        let enAtk = foe.attack;
+        let enDef = foe.defense;
+        let enLuck = foe.luck;
+        let enMaxhp = foe.maxhp;
+        let enHealCost = foe.healCost;
+        let enMaxe = foe.maxenergy;
+        let enWaste = foe.waste;
         let enDefending = foe.defending;
         let enhp = foe.hp;
         let ene = foe.energy;
@@ -501,8 +502,9 @@ function createBattle(idName, winpath, losepath) {
             enemyImg.src = enemyIcon;
         }
         else {
-            enemyImg.src = enemy.fallback.img;
+            enemyImg.src = enemy['fallback'].img;
         } //fallback image 
+        humanImg.src = '/enemyFiles/THESWORD.png'
         updateEnemyStats(enhp, enMaxhp, ene, enMaxe, enName);
 
         textBox.appendChild(battleScreen);
@@ -538,7 +540,7 @@ function createBattle(idName, winpath, losepath) {
         function attack(aA, dA, dB, dsA, dsB, lA, lB, nA, nB, hA, hB) {
             dsA = false;
             if (dsB) {
-                damage = (math.round(math.random() * lB * dB/2) - dA/2)
+                const damage = (math.round(math.random() * lB * dB/2) - dA/2)
                 if (damage < 0) {
                     damage = 0;
                 }
@@ -550,7 +552,7 @@ function createBattle(idName, winpath, losepath) {
                 commentary.innerHTML = `${nA} attacks! But ${nB} counters and attacks for ${damage} health!`;
             }
             else {
-                damage = (math.round(math.random() * lA * aA/2) - dB/2);
+                let damage = (Math.round(Math.random() * lA * aA/2) - dB/2);
                 if (damage < 0) {
                     damage = 0;
                 }

@@ -8,6 +8,9 @@ export const enemy = {
         defending: false,
         maxhp: 50,
         hp: 50,
+        energy: 20,
+        maxenergy: 20,
+        healCost: 20,
         actions: ['attack', 'attack', 'waste'],
         waste: 'The bandit tries to make you flinch',
         drop: {
@@ -286,7 +289,7 @@ export const enemy = {
     },
     fallback: {
         name: 'Jared Fast',
-        img: 'url(enemyFiles/fastFallback.png)',
+        img: 'enemyFiles/fastFallback.png',
         attack: 67,
         defense: 67,
         luck: 67,
