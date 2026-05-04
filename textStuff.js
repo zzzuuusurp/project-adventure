@@ -38,7 +38,7 @@ let defendingStatus = false;
 let agressive = false;
 let bjCount = 0;
 let currentBlackjackBranch = null;
-
+let isItMyTurnYet = false;
 
 // konami code 
 let konamiPosition = 0;
@@ -260,35 +260,6 @@ function updateStats() {
     }
 }
 
-function updateEnemyStats(enHP, enMaxHP, enemyEnergy, enMaxEnergy, enNaam) {
-    // Update health display and progress bar
-    const healthElements = document.getElementsByClassName('enHealth');
-    const healthBars = document.getElementsByClassName('enHealthBar');
-    for (let i = 0; i < healthElements.length; i++) {
-        healthElements[i].textContent = enHP;
-    }
-    for (let i = 0; i < healthBars.length; i++) {
-        healthBars[i].value = enHP;
-        healthBars[i].max = enMaxHP;
-    }
-    
-    // Update energy display and progress bar
-    const energyElements = document.getElementsByClassName('energy');
-    const energyBars = document.getElementsByClassName('energyBar');
-    for (let i = 0; i < energyElements.length; i++) {
-        energyElements[i].textContent = enemyEnergy;
-    }
-    for (let i = 0; i < energyBars.length; i++) {
-        energyBars[i].value = enemyEnergy;
-        energyBars[i].max = enMaxEnergy;
-    }
-    //update any names
-    const nameElements = document.getElementsByClassName('name');
-    for (let i = 0; i < nameElements.length; i++) {
-        const element = nameElements[i];
-        element.innerHTML = enNaam
-    }
-}
 
 //functions
 //branch logic
@@ -505,13 +476,43 @@ function createBattle(idName, winpath, losepath) {
             enemyImg.src = enemy['fallback'].img;
         } //fallback image 
         humanImg.src = '/enemyFiles/THESWORD.png'
-        updateEnemyStats(enhp, enMaxhp, ene, enMaxe, enName);
+        updateEnemyStats();
 
         textBox.appendChild(battleScreen);
         battleScreen.classList.remove('hidden');
+        //update stats
+        function updateEnemyStats() {
+            // Update health display and progress bar
+            const healthElements = document.getElementsByClassName('enHealth');
+            const healthBars = document.getElementsByClassName('enHealthBar');
+            for (let i = 0; i < healthElements.length; i++) {
+                healthElements[i].textContent = enhp;
+            }
+            for (let i = 0; i < healthBars.length; i++) {
+                healthBars[i].value = enhp;
+                healthBars[i].max = enMaxhp;
+            }
+            
+            // Update energy display and progress bar
+            const energyElements = document.getElementsByClassName('enEnergy');
+            const energyBars = document.getElementsByClassName('enEnergyBar');
+            for (let i = 0; i < energyElements.length; i++) {
+                energyElements[i].textContent = ene;
+            }
+            for (let i = 0; i < energyBars.length; i++) {
+                energyBars[i].max = enMaxe;
+                energyBars[i].value = ene;
+            }
+            //update any names
+            const nameElements = document.getElementsByClassName('name');
+            for (let i = 0; i < nameElements.length; i++) {
+                const element = nameElements[i];
+                element.innerHTML = enName;
+            }
+        }
         //attack, defend, heal, and waste turn (enemy only)
-        function defend(d, n) {
-            d = true;
+        function defend(de, n) {
+            de = true;
             commentary.innerHTML = `${n} is on guard.`
         }
         function heal(e, c, h, m, l, n, d) {
@@ -552,7 +553,7 @@ function createBattle(idName, winpath, losepath) {
                 commentary.innerHTML = `${nA} attacks! But ${nB} counters and attacks for ${damage} health!`;
             }
             else {
-                let damage = (Math.round(Math.random() * lA * aA/2) - dB/2);
+                let damage = (Math.round(Math.random() * lA * aA/2));
                 if (damage < 0) {
                     damage = 0;
                 }
@@ -566,15 +567,19 @@ function createBattle(idName, winpath, losepath) {
         function enemyMove() {
             const move = actions[(Math.round(Math.random() * actions.length))]
             if (move == 'attack') {
+                console.log('enemy attacking');
                 attack(enAtk, attack, defense, enDefending, defendingStatus, enLuck, luck, enName, name, enhp, HP);
             }
             else if (move == 'defend') {
+                console.log('enemy defending');
                 defend(enDefending, enName);
             }
             else if (move == 'heal') {
+                console.log('enemy healing');
                 heal(ene, enHealCost, enhp, enMaxhp, enLuck, enName, enDefending);
             }
             else {
+                console.log('enemy wasting time');
                 waste(enWaste);
             }
         }
@@ -584,7 +589,6 @@ function createBattle(idName, winpath, losepath) {
             stuff.innerHTML = 'Next -->';
             butonDiv.innerHTML = '';
             butonDiv.appendChild(stuff);
-            
             if (enhp != 0 && HP != 0) {
                 console.log('battle continuing')
                 enemyMove();
@@ -611,12 +615,14 @@ function createBattle(idName, winpath, losepath) {
             }
         }
         function guyTurn() {
+            updateEnemyStats();
             butonDiv.innerHTML='';
             const attackButton = document.createElement('button');
             attackButton.classList.add('attack');
             attackButton.innerHTML = 'Attack!';
             attackButton.addEventListener('click', function() {
                 attack(atk, enAtk, enDef, defendingStatus, enDefending, luck, enLuck, name, enName, HP, enhp);
+                createTransitionButton();
             })
             const defendButton = document.createElement('button');
             defendButton.classList.add('defend');
