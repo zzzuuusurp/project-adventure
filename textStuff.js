@@ -293,6 +293,10 @@ function updateEnemyStats(enHP, enMaxHP, enEnergy, enMaxEnergy, enNaam) {
 //branch logic
 function transition(t) {
     // Update stats display
+    battleScreen.classList.add('hidden');
+    if (textBox.contains(battleScreen)) {
+        textBox.removeChild(battleScreen);
+    }
     const branch = story[`${t}`];
     console.log(branch);
     console.log(branch.text);
@@ -477,7 +481,7 @@ function createBattle(idName, winpath, losepath) {
     const humanImg = document.getElementById('humanPic');
     const enemyImg = document.getElementById('enemyPic');
 
-        //stats
+        //stats 
         let foe = enemy[`${idName}`];
         console.log(foe);
         const enName = foe.name;
@@ -489,7 +493,7 @@ function createBattle(idName, winpath, losepath) {
         const enMaxe = foe.maxenergy;
         const enWaste = foe.waste;
         let enDefending = foe.defending;
-        let enhp = foe.HP;
+        let enhp = foe.hp;
         let ene = foe.energy;
         const actions = foe.actions;
         let enemyIcon = foe.img;
@@ -499,10 +503,10 @@ function createBattle(idName, winpath, losepath) {
         else {
             enemyImg.src = enemy.fallback.img;
         } //fallback image 
-
-        battleScreen.innerHTML
         updateEnemyStats(enhp, enMaxhp, ene, enMaxe, enName);
 
+        textBox.appendChild(battleScreen);
+        battleScreen.classList.remove('hidden');
         //attack, defend, heal, and waste turn (enemy only)
         function defend(d, n) {
             d = true;
