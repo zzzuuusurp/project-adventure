@@ -2,6 +2,7 @@
 export const enemy = {
     banditNexdor: {
         name: 'Agressive Bandit',
+        img: 'enemyFiles/bandit.png',
         attack: 5,
         defense: 5,
         luck: 2,
@@ -21,6 +22,7 @@ export const enemy = {
     },
     rats: {
         name: 'One Hundred Rats',
+        img: 'enemyFiles/rats.png',
         attack: 3,
         defense: 1,
         luck: 5,
@@ -36,6 +38,7 @@ export const enemy = {
     },
     fightChef: {
         name: 'Head Chef',
+        img: 'enemyFiles/chef.png',
         attack: 5,
         defense: 5,
         luck: 2,

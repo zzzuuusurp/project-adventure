@@ -17,6 +17,10 @@ body {
     margin: 0px;
     overflow-y: hidden;
 }
+button {
+    border-radius: 20px;
+    padding: 5px;
+}
 
 #textLog {
     z-index: 1000;
@@ -111,12 +115,19 @@ progress {
     font-size: clamp(11px, 1.8vw, 15px);
 }
 
-#enemyPic {
-    width: 200px;
+.statArrangement {
+    border: #0D0630 1px solid;
 }
 
-#humanPic {
-    width: 200px;
+#enemy, #human {
+    display: flex;
+    flex-direction: column;
+}
+
+#humanPic, #enemyPic {
+    height: 200px;
+    display: block;
+    margin: auto;
 }
 
 .hidden {
