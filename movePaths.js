@@ -17,6 +17,7 @@ export function transition(t) {
         textBox.removeChild(battleScreen);
     }
     const branch = story[`${t}`];
+    addToLog(branch);
     console.log(branch);
     console.log(branch.text);
     textBox.innerHTML = '';
@@ -75,6 +76,15 @@ export function transition(t) {
                 btnArr.appendChild(button);
                 console.log(btnArr);
             }
+            else {
+                const button = document.createElement('button');
+                button.addEventListener('click', function() {
+                    transition('unquotaNice');
+                });
+                button.innerHTML =  btnText;
+                btnArr.appendChild(button);
+                console.log(btnArr);
+            }
         }
         if (path === 'unquotaNice') {
             if (!agressive) {
@@ -119,8 +129,8 @@ export function transition(t) {
         createBattle(t, winPath, losePath);
     };
     if (branch.type == 'blackjack') {
-            startBlackjack(branch);
-    };    
+        startBlackjack(branch);
+    };   
     if (branch.type == 'heal') {
         HP = maxHP;
         energy = maxEnergy;
@@ -141,3 +151,30 @@ submitName.addEventListener('click', function() {
     console.log(name);
     transition('start');
 });
+
+function addToLog(branch) {
+    if (branch.text) {
+        log.push(branch.text);
+    }
+    else if (branch.type == 'battle') {
+        log.push(`Entered a battle.`);
+    }
+    else if (branch.type == 'shop') {
+        log.push('Entered a shop');
+    }
+    else if (branch.type == 'blackjack') {
+        log.push('Started a game of blackjack');
+    }
+    console.log(log);
+}
+
+
+const logDiv = document.getElementById('textLog')
+function displayLog() {
+    if (logDiv.classList.contains('hidden')) {
+        logDiv.classList.remove('hidden')
+    }
+    else {
+        logDiv.classList.add('hidden')
+    }
+}

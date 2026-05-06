@@ -529,8 +529,8 @@ export const story = {
 
      ditchJob: {
         text: 'You abandon the mind-numbing duties of being a victim of gang crime. You could see if the Big Cheese would be willing to find oyu another job, or just try to gamble or participate in some kind of tournament.\n What should you do?',
-        choice: ['Go see what\'s up with the boss', 'Go see what\'s up with the boss', 'Go gamble your way out of debt', 'Go to Nexdor, the town where battling tournaments are frequent.'],
-        choiceId: ['unquotaAggro', 'unquotaNice', 'embarkGambling', 'embarkTournament']
+        choice: ['Go see what\'s up with the boss', 'Go gamble your way out of debt', 'Go to Nexdor, the town where battling tournaments are frequent.'],
+        choiceId: ['unquotaAggro', 'embarkGambling', 'embarkTournament']
      },
 
      unquotaAggro: {
