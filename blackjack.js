@@ -52,12 +52,14 @@ function dealCard() {
 function calculateScore(hand) {
     console.log('calculating score');
     let score = hand.reduce((sum, card) => sum + card.value, 0);
-    let aces = hand.filter(card => card.value === 11).length;
-    while (score > 21 && aces > 0) {
-        score -= 10;
-        aces--;
-        console.log('adjusting ace value')
-    }
+    let aces = hand.filter(card => card.value === 11);
+    console.log(score, aces)
+    if (score > 21 && aces > 0) {
+        aces.forEach( () => {
+            console.log('adjusting ace value')
+            score -= 10;
+        }// aces--;
+    )};
     return score;
 }
 
@@ -144,11 +146,11 @@ function blackjackHit() {
     const score = calculateScore(playerHand);
     if (score > 21) {
         console.log('bust');
-        renderBlackjack(true);
+        // renderBlackjack(false);
         setTimeout(() => transition(currentBlackjackBranch.lose), 1000);
         return;
     }
-    renderBlackjack(false);
+    renderBlackjack(true);
 }
 
 // === STAND ===
