@@ -134,6 +134,10 @@ progress {
     display: none;
 }
 
+#textLog {
+    
+}
+
 .health, .energy, .enHealth, .enEnergy {
     padding-right: 10px;
 }
